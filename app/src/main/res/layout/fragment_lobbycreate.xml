@@ -1,0 +1,27 @@
+<LinearLayout   xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.AppCompatEditText
+        android:id="@+id/CreateLobbyNameEditText"
+        android:hint="Add a name to the lobby"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <android.support.v7.widget.AppCompatEditText
+        android:id="@+id/CreateLobbyPasswordEditText"
+        android:hint="Lobby password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="numberPassword"/>
+    <EditText
+        android:id="@+id/CreateLobbyPlayerNumber"
+        android:inputType="number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="PlayerNumber"
+        />
+
+
+</LinearLayout>
