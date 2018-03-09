@@ -31,6 +31,11 @@ public interface LobbyApi {
     @DELETE("lobbies/{id}")
     Call<DeleteResponse>deleteLobby(@Path("id") Integer lobbyId);
 
+    @GET("lobbies/{id}")
+    Call<LobbyRestItem> getLobbyById(@Path("id") Integer lobbyId);
+
+
+
 
 
 }
