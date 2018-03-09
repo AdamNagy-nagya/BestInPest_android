@@ -106,16 +106,19 @@ public class LobbyListFragment extends DialogFragment{
 
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
-            if(mValues.get(position).getPlayer() != null)
+            if(mValues.get(position).getLeader() != null)
                 {
-                holder.LobbyLeaderTV.setText(mValues.get(position).getPlayer().getName());
+                holder.LobbyLeaderTV.setText(mValues.get(position).getLeader().getName());
                 }
 
             holder.LobbyNameTV.setText(mValues.get(position).getName());
             if(mValues.get(position).getMaxPlayerNumber() != null){
-              //  holder.
+              holder.LobbyMaxPlayer.setText(mValues.get(position).getMaxPlayerNumber().toString());
             }
-
+            if(mValues.get(position).getPlayers() != null) {
+                //TODO aktív játékosok számának kiírása
+           //     holder.LobbyPlayers.setText(mValues.get(position).getPlayers().size());
+            }
 
             holder.itemView.setTag(mValues.get(position));
             holder.itemView.setOnClickListener(ChooseOnClickListener);
@@ -131,6 +134,8 @@ public class LobbyListFragment extends DialogFragment{
 
             final TextView LobbyNameTV;
             final TextView LobbyLeaderTV;
+            final TextView LobbyMaxPlayer;
+            final TextView LobbyPlayers;
 
 
 
@@ -138,6 +143,8 @@ public class LobbyListFragment extends DialogFragment{
                 super(view);
                 LobbyNameTV = view.findViewById(R.id.item_lobbylistLobbyNameText);
                 LobbyLeaderTV = view.findViewById(R.id.item_lobbylistLobbyLeaderText);
+                LobbyMaxPlayer = view.findViewById(R.id.item_lobbylistMaxPlayer);
+                LobbyPlayers = view.findViewById(R.id.item_lobbylistPlayersinLobby);
 
 
             }

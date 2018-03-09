@@ -14,8 +14,8 @@ public class LobbyItem {
     public LobbyItem(LobbyRestItem lobbyRestItem){
         this.lobbyName= lobbyRestItem.getName();
         this.ID= lobbyRestItem.getId();
-        this.password= lobbyRestItem.getPassword();
-        this.lobbyPlayer = lobbyRestItem.getPlayer();
+      //  this.password= lobbyRestItem.getPassword();
+       // this.lobbyPlayer = lobbyRestItem.getPlayer();
     }
 
     public Player getLobbyPlayer() {

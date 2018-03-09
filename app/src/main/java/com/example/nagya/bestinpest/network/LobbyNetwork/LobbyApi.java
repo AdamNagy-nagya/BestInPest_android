@@ -2,15 +2,16 @@ package com.example.nagya.bestinpest.network.LobbyNetwork;
 
 import com.example.nagya.bestinpest.Lobby.item.LobbyCreatingPOST;
 import com.example.nagya.bestinpest.Lobby.item.LobbyRestItem;
-
-import org.json.JSONObject;
+import com.example.nagya.bestinpest.network.LobbyNetwork.item.DeleteResponse;
 
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 
 /**
  * Created by nagya on 04/03/2018.
@@ -26,6 +27,9 @@ public interface LobbyApi {
 
     @POST("lobbies")
     Call<LobbyCreatingPOST> createLobby(@Body LobbyCreatingPOST post);
+
+    @DELETE("lobbies/{id}")
+    Call<DeleteResponse>deleteLobby(@Path("id") Integer lobbyId);
 
 
 

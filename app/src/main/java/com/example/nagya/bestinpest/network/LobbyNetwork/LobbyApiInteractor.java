@@ -7,9 +7,9 @@ import android.util.Log;
 import com.example.nagya.bestinpest.Lobby.item.Lobbies;
 import com.example.nagya.bestinpest.Lobby.item.LobbyCreatingPOST;
 import com.example.nagya.bestinpest.Lobby.item.LobbyRestItem;
+import com.example.nagya.bestinpest.network.LobbyNetwork.item.DeleteResponse;
 
 import org.greenrobot.eventbus.EventBus;
-import org.json.JSONObject;
 
 import java.util.List;
 
@@ -47,6 +47,11 @@ public class LobbyApiInteractor {
         Call<LobbyCreatingPOST> createLobbyReq = lobbyApi.createLobby(creatingPOST);
 
         runCallOnBackgroundThread(createLobbyReq);
+    }
+
+    public void deleteLobby(Integer lobbyId) {
+        Call<DeleteResponse> deleteLobbyReq= lobbyApi.deleteLobby(lobbyId);
+        runCallOnBackgroundThread(deleteLobbyReq);
     }
 
 

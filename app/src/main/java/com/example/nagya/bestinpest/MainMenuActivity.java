@@ -44,7 +44,9 @@ public class MainMenuActivity extends AppCompatActivity implements LobbyCreateDi
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.MainMenuFindLobby:
+                lobbyApiInteractor.deleteLobby(205);
                 lobbyApiInteractor.findLobbies();
+
                 break;
             case R.id.MainMenuCreateLobby:
 
@@ -66,19 +68,13 @@ public class MainMenuActivity extends AppCompatActivity implements LobbyCreateDi
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onLobbies(Lobbies lobbyRestItem) {
-
         new LobbyListFragment().showDialog(this,lobbyRestItem);
         TestTV.setText( lobbyRestItem.lobbies.get(0).getName());
-
     }
 
     @Override
     public void createThisLobby(LobbyCreatingPOST lobbyCreatingPOST) {
         lobbyApiInteractor.createLobby(lobbyCreatingPOST);
-
-        
-        //TODO
-
         TestTV.setText(lobbyCreatingPOST.getName());
     }
 }

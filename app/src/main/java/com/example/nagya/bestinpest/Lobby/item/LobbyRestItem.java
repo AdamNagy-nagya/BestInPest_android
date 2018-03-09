@@ -3,40 +3,33 @@ package com.example.nagya.bestinpest.Lobby.item;
 /**
  * Created by nagya on 04/03/2018.
  */
-
-import android.util.Log;
-
 import java.util.List;
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class LobbyRestItem {
 
-    public LobbyRestItem(){
-        Log.e("RESTITEM", "CREATE");
-    };
     @SerializedName("id")
     @Expose
     private Integer id;
     @SerializedName("name")
     @Expose
     private String name;
-    @SerializedName("player")
+    @SerializedName("leader")
     @Expose
-    private Player player;
+    private Leader leader;
     @SerializedName("maxPlayerNumber")
     @Expose
     private Integer maxPlayerNumber;
-    @SerializedName("password")
-    @Expose
-    private String password;
     @SerializedName("criminal")
     @Expose
-    private Player criminal;
+    private Object criminal;
     @SerializedName("players")
     @Expose
-    private List<Player> players = null;
+    private List<Integer> players = null;
+    @SerializedName("passwordSet")
+    @Expose
+    private Boolean passwordSet;
 
     public Integer getId() {
         return id;
@@ -54,12 +47,12 @@ public class LobbyRestItem {
         this.name = name;
     }
 
-    public Player getPlayer() {
-        return player;
+    public Leader getLeader() {
+        return leader;
     }
 
-    public void setPlayer(Player player) {
-        this.player = player;
+    public void setLeader(Leader leader) {
+        this.leader = leader;
     }
 
     public Integer getMaxPlayerNumber() {
@@ -70,27 +63,28 @@ public class LobbyRestItem {
         this.maxPlayerNumber = maxPlayerNumber;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Player getCriminal() {
+    public Object getCriminal() {
         return criminal;
     }
 
-    public void setCriminal(Player criminal) {
+    public void setCriminal(Object criminal) {
         this.criminal = criminal;
     }
 
-    public List<Player> getPlayers() {
+    public List<Integer> getPlayers() {
         return players;
     }
 
-    public void setPlayers(List<Player> players) {
+    public void setPlayers(List<Integer> players) {
         this.players = players;
     }
+
+    public Boolean getPasswordSet() {
+        return passwordSet;
+    }
+
+    public void setPasswordSet(Boolean passwordSet) {
+        this.passwordSet = passwordSet;
+    }
+
 }

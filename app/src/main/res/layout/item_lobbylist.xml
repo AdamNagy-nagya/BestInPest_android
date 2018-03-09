@@ -17,11 +17,29 @@
         android:layout_height="wrap_content"
         android:text="LobbyLeader"/>
 
-    <TextView
-        android:id="@+id/item_lobbylistPlayersInLobby"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="0/5"/>
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/item_lobbylistPlayersinLobby"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"/>
+
+        <TextView
+           android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="/"/>
+
+        <TextView
+            android:id="@+id/item_lobbylistMaxPlayer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="5"/>
+    </LinearLayout>
+
+
     <Button
         android:id="@+id/item_lobbylistJoinBtn"
         android:layout_width="wrap_content"
