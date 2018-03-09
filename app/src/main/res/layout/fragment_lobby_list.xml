@@ -4,12 +4,6 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Active lobbies"
-        android:gravity="center_horizontal"/>
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/LobbyListRV"
         android:layout_width="match_parent"

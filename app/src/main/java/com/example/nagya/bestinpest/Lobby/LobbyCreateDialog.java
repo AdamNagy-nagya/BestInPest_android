@@ -1,6 +1,5 @@
 package com.example.nagya.bestinpest.Lobby;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -8,9 +7,8 @@ import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
 
-import com.example.nagya.bestinpest.Lobby.item.Leader;
+import com.example.nagya.bestinpest.Lobby.item.Player;
 import com.example.nagya.bestinpest.Lobby.item.LobbyCreatingPOST;
 import com.example.nagya.bestinpest.MainMenuActivity;
 import com.example.nagya.bestinpest.R;
@@ -45,7 +43,7 @@ public class LobbyCreateDialog  extends DialogFragment {
                 .setView(view)
                 .setPositiveButton("Create", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                            parent.createThisLobby(new LobbyCreatingPOST(1,"Test lobby create","",new Leader("Adam")));
+                            parent.createThisLobby(new LobbyCreatingPOST(Integer.parseInt(lobbyPlayerNumber.getText().toString()),lobbyName.getText().toString(),lobbyPassword.getText().toString(),new Player("Adam")));
                        }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

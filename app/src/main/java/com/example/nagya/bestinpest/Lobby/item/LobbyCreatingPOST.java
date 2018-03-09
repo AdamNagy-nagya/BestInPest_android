@@ -1,6 +1,5 @@
 package com.example.nagya.bestinpest.Lobby.item;
 
-import com.example.nagya.bestinpest.Lobby.item.Leader;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -15,17 +14,17 @@ private String name;
 @SerializedName("password")
 @Expose
 private String password;
-@SerializedName("leader")
+@SerializedName("player")
 @Expose
-private Leader leader;
+private Player player;
 
 public LobbyCreatingPOST(){}
 
-public LobbyCreatingPOST(Integer maxPlayerNumber,String name, String password, Leader leader){
+public LobbyCreatingPOST(Integer maxPlayerNumber,String name, String password, Player player){
     this.maxPlayerNumber= maxPlayerNumber;
     this.name= name;
     this.password= password;
-    this.leader= leader;
+    this.player = player;
 }
 
 public Integer getMaxPlayerNumber() {
@@ -52,12 +51,12 @@ public void setPassword(String password) {
 this.password = password;
 }
 
-public Leader getLeader() {
-return leader;
+public Player getPlayer() {
+return player;
 }
 
-public void setLeader(Leader leader) {
-this.leader = leader;
+public void setPlayer(Player player) {
+this.player = player;
 }
 
 }

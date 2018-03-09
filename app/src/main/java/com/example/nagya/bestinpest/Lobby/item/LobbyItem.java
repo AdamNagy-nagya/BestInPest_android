@@ -9,21 +9,21 @@ public class LobbyItem {
     private int ID;
     private String lobbyName;
     private String password;
-    private Leader lobbyLeader;
+    private Player lobbyPlayer;
 
     public LobbyItem(LobbyRestItem lobbyRestItem){
         this.lobbyName= lobbyRestItem.getName();
         this.ID= lobbyRestItem.getId();
         this.password= lobbyRestItem.getPassword();
-        this.lobbyLeader = lobbyRestItem.getLeader();
+        this.lobbyPlayer = lobbyRestItem.getPlayer();
     }
 
-    public Leader getLobbyLeader() {
-        return lobbyLeader;
+    public Player getLobbyPlayer() {
+        return lobbyPlayer;
     }
 
-    public void setLobbyLeader(Leader lobbyLeader) {
-        this.lobbyLeader = lobbyLeader;
+    public void setLobbyPlayer(Player lobbyPlayer) {
+        this.lobbyPlayer = lobbyPlayer;
     }
 
     public int getID() {

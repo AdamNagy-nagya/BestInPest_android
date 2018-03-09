@@ -1,17 +1,12 @@
 package com.example.nagya.bestinpest.Lobby;
 
 import android.app.Dialog;
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -62,7 +57,7 @@ public class LobbyListFragment extends DialogFragment{
         recyclerView.setAdapter(recyclerAdapter);
         registerForContextMenu(recyclerView);
 
-        builder.setView(view).setTitle("Add a new serie");
+        builder.setView(view).setTitle("Active lobbies");
 
 
         return builder.create();
@@ -111,8 +106,15 @@ public class LobbyListFragment extends DialogFragment{
 
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
-//            holder.LobbyLeaderTV.setText(mValues.get(position).getLeader().getName());
+            if(mValues.get(position).getPlayer() != null)
+                {
+                holder.LobbyLeaderTV.setText(mValues.get(position).getPlayer().getName());
+                }
+
             holder.LobbyNameTV.setText(mValues.get(position).getName());
+            if(mValues.get(position).getMaxPlayerNumber() != null){
+              //  holder.
+            }
 
 
             holder.itemView.setTag(mValues.get(position));

@@ -5,9 +5,11 @@ import android.os.Handler;
 import android.util.Log;
 
 import com.example.nagya.bestinpest.Lobby.item.Lobbies;
+import com.example.nagya.bestinpest.Lobby.item.LobbyCreatingPOST;
 import com.example.nagya.bestinpest.Lobby.item.LobbyRestItem;
 
 import org.greenrobot.eventbus.EventBus;
+import org.json.JSONObject;
 
 import java.util.List;
 
@@ -41,8 +43,9 @@ public class LobbyApiInteractor {
         runListLobbyTask(findLobbiesRequest);
     }
 
-    public void createLobby(){
-        Call<> createLobbyReq = lobbyApi.createLobby();
+    public void createLobby(LobbyCreatingPOST creatingPOST){
+        Call<LobbyCreatingPOST> createLobbyReq = lobbyApi.createLobby(creatingPOST);
+
         runCallOnBackgroundThread(createLobbyReq);
     }
 

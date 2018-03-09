@@ -3,9 +3,12 @@ package com.example.nagya.bestinpest.network.LobbyNetwork;
 import com.example.nagya.bestinpest.Lobby.item.LobbyCreatingPOST;
 import com.example.nagya.bestinpest.Lobby.item.LobbyRestItem;
 
+import org.json.JSONObject;
+
 import java.util.List;
 
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 
@@ -22,7 +25,7 @@ public interface LobbyApi {
     Call<List<LobbyRestItem>> getLobbies();
 
     @POST("lobbies")
-    Call<LobbyCreatingPOST> createLobby();
+    Call<LobbyCreatingPOST> createLobby(@Body LobbyCreatingPOST post);
 
 
 

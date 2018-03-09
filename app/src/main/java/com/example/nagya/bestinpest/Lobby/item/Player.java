@@ -3,14 +3,14 @@ package com.example.nagya.bestinpest.Lobby.item;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Leader {
+public class Player {
 
 @SerializedName("name")
 @Expose
 private String name;
 
-public Leader(){}
-public Leader(String name){
+public Player(){}
+public Player(String name){
     this.name= name;
 }
 

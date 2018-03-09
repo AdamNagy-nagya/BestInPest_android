@@ -8,7 +8,6 @@ import android.util.Log;
 
 import java.util.List;
 
-import com.example.nagya.bestinpest.Lobby.item.Leader;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -23,9 +22,9 @@ public class LobbyRestItem {
     @SerializedName("name")
     @Expose
     private String name;
-    @SerializedName("leader")
+    @SerializedName("player")
     @Expose
-    private Leader leader;
+    private Player player;
     @SerializedName("maxPlayerNumber")
     @Expose
     private Integer maxPlayerNumber;
@@ -34,10 +33,10 @@ public class LobbyRestItem {
     private String password;
     @SerializedName("criminal")
     @Expose
-    private Object criminal;
+    private Player criminal;
     @SerializedName("players")
     @Expose
-    private List<Object> players = null;
+    private List<Player> players = null;
 
     public Integer getId() {
         return id;
@@ -55,12 +54,12 @@ public class LobbyRestItem {
         this.name = name;
     }
 
-    public Leader getLeader() {
-        return leader;
+    public Player getPlayer() {
+        return player;
     }
 
-    public void setLeader(Leader leader) {
-        this.leader = leader;
+    public void setPlayer(Player player) {
+        this.player = player;
     }
 
     public Integer getMaxPlayerNumber() {
@@ -79,19 +78,19 @@ public class LobbyRestItem {
         this.password = password;
     }
 
-    public Object getCriminal() {
+    public Player getCriminal() {
         return criminal;
     }
 
-    public void setCriminal(Object criminal) {
+    public void setCriminal(Player criminal) {
         this.criminal = criminal;
     }
 
-    public List<Object> getPlayers() {
+    public List<Player> getPlayers() {
         return players;
     }
 
-    public void setPlayers(List<Object> players) {
+    public void setPlayers(List<Player> players) {
         this.players = players;
     }
 }

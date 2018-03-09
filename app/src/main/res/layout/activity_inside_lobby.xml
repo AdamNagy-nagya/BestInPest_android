@@ -1,11 +1,19 @@
-<?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+<LinearLayout
+    android:orientation="vertical"
     android:layout_height="match_parent"
-    tools:context="com.example.nagya.bestinpest.InsideLobbyActivity">
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <TextView
+        android:id="@+id/InsideLobby_lobbyname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="LobbyName"/>
 
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:id="@+id/InsideLobby_lobbyleader"
+        android:text="LobbyLeader"/>
 
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>

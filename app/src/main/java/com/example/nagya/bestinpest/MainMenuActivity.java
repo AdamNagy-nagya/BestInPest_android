@@ -74,7 +74,7 @@ public class MainMenuActivity extends AppCompatActivity implements LobbyCreateDi
 
     @Override
     public void createThisLobby(LobbyCreatingPOST lobbyCreatingPOST) {
-        lobbyApiInteractor.createLobby();
+        lobbyApiInteractor.createLobby(lobbyCreatingPOST);
 
         
         //TODO
