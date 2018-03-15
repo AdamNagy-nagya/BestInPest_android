@@ -9,6 +9,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.nagya.bestinpest.Lobby.item.Lobbies;
@@ -40,6 +42,10 @@ public class LobbyListFragment extends DialogFragment{
 
         resultSerieList = list;
         show(parent.getSupportFragmentManager(), "dialog");
+    }
+
+    private void JoinLobby(int lobbyId){
+        parent.joinToThisLobby(lobbyId);
     }
 
     @Override
@@ -85,16 +91,7 @@ public class LobbyListFragment extends DialogFragment{
 
         }
 
-        private final View.OnClickListener ChooseOnClickListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-
-
-               /* parent.theChoosenOne((ResultSerie) view.getTag());
-                parent.dismiss();*/
-            }
-        };
 
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -105,7 +102,7 @@ public class LobbyListFragment extends DialogFragment{
         }
 
         @Override
-        public void onBindViewHolder(final ViewHolder holder, int position) {
+        public void onBindViewHolder(final ViewHolder holder, final int position) {
             if(mValues.get(position).getLeader() != null)
                 {
                 holder.LobbyLeaderTV.setText(mValues.get(position).getLeader().getName());
@@ -115,13 +112,29 @@ public class LobbyListFragment extends DialogFragment{
             if(mValues.get(position).getMaxPlayerNumber() != null){
               holder.LobbyMaxPlayer.setText(mValues.get(position).getMaxPlayerNumber().toString());
             }
-            if(mValues.get(position).getPlayers() != null) {
+            if(mValues.get(position).getPlayers() != null ) {
+                if( mValues.get(position).getPlayers().size()!=0){
                 //TODO aktív játékosok számának kiírása
-           //     holder.LobbyPlayers.setText(mValues.get(position).getPlayers().size());
+             //   holder.LobbyPlayers.setText(
+                    //                   mValues.get(position)
+                    //                    .getPlayers()
+                    //            .size());
+                }
             }
 
             holder.itemView.setTag(mValues.get(position));
-            holder.itemView.setOnClickListener(ChooseOnClickListener);
+            if(mValues.get(position).getPasswordSet()) {
+                holder.LockImg.setImageResource(R.drawable.ic_lock_black_24dp);
+
+            }
+
+            holder.JoinBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    parent.JoinLobby(mValues.get(position).getId());
+                    parent.dismiss();
+                }
+            });
 
         }
 
@@ -136,6 +149,8 @@ public class LobbyListFragment extends DialogFragment{
             final TextView LobbyLeaderTV;
             final TextView LobbyMaxPlayer;
             final TextView LobbyPlayers;
+            final Button JoinBtn;
+            final ImageView LockImg;
 
 
 
@@ -145,11 +160,16 @@ public class LobbyListFragment extends DialogFragment{
                 LobbyLeaderTV = view.findViewById(R.id.item_lobbylistLobbyLeaderText);
                 LobbyMaxPlayer = view.findViewById(R.id.item_lobbylistMaxPlayer);
                 LobbyPlayers = view.findViewById(R.id.item_lobbylistPlayersinLobby);
+                JoinBtn = view.findViewById(R.id.item_lobbylistJoinBtn);
+                LockImg = view.findViewById(R.id.item_lobbylistLockImage);
 
 
             }
         }
 
+    }
+    public interface joinLobbyInterface{
+        public void joinToThisLobby(int lobbyId);
     }
 
 }

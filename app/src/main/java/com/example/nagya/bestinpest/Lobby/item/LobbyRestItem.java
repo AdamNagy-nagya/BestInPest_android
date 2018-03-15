@@ -21,12 +21,12 @@ public class LobbyRestItem {
     @SerializedName("maxPlayerNumber")
     @Expose
     private Integer maxPlayerNumber;
-    @SerializedName("criminal")
+    @SerializedName("criminalId")
     @Expose
-    private Object criminal;
+    private Integer criminal;
     @SerializedName("players")
     @Expose
-    private List<Integer> players = null;
+    private List<Player> players = null;
     @SerializedName("passwordSet")
     @Expose
     private Boolean passwordSet;
@@ -63,19 +63,19 @@ public class LobbyRestItem {
         this.maxPlayerNumber = maxPlayerNumber;
     }
 
-    public Object getCriminal() {
+    public Integer getCriminal() {
         return criminal;
     }
 
-    public void setCriminal(Object criminal) {
+    public void setCriminal(Integer criminal) {
         this.criminal = criminal;
     }
 
-    public List<Integer> getPlayers() {
+    public List<Player> getPlayers() {
         return players;
     }
 
-    public void setPlayers(List<Integer> players) {
+    public void setPlayers(List<Player> players) {
         this.players = players;
     }
 

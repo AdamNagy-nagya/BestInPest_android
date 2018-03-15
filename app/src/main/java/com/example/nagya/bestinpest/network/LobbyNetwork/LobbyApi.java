@@ -1,5 +1,6 @@
 package com.example.nagya.bestinpest.network.LobbyNetwork;
 
+import com.example.nagya.bestinpest.Junction.item.JunctionRestItem;
 import com.example.nagya.bestinpest.Lobby.item.LobbyCreatingPOST;
 import com.example.nagya.bestinpest.Lobby.item.LobbyRestItem;
 import com.example.nagya.bestinpest.network.LobbyNetwork.item.DeleteResponse;
@@ -12,6 +13,7 @@ import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 /**
  * Created by nagya on 04/03/2018.
@@ -34,7 +36,8 @@ public interface LobbyApi {
     @GET("lobbies/{id}")
     Call<LobbyRestItem> getLobbyById(@Path("id") Integer lobbyId);
 
-
+    @GET("lobbies/{id}/avaible-junctions")
+    Call<List<JunctionRestItem>> getFreeJunctionsNearby(@Path("id") Integer lobbyId, @Query("lat") Double lat, @Query("lon") Double lon);
 
 
 

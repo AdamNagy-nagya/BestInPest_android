@@ -5,21 +5,38 @@ import com.google.gson.annotations.SerializedName;
 
 public class Player {
 
-@SerializedName("name")
-@Expose
-private String name;
+    @SerializedName("id")
+    @Expose
+    private Integer id;
+    @SerializedName("junctionId")
+    @Expose
+    private String junctionId;
+    @SerializedName("name")
+    @Expose
+    private String name;
 
-public Player(){}
-public Player(String name){
-    this.name= name;
-}
+    public Integer getId() {
+        return id;
+    }
 
-public String getName() {
-return name;
-}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-public void setName(String name) {
-this.name = name;
-}
+    public String getJunctionId() {
+        return junctionId;
+    }
+
+    public void setJunctionId(String junctionId) {
+        this.junctionId = junctionId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
 }

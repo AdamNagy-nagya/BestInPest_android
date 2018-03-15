@@ -8,12 +8,16 @@ public class Leader {
 @SerializedName("id")
 @Expose
 private Integer id;
-@SerializedName("junction")
+@SerializedName("junctionId")
 @Expose
 private Object junction;
 @SerializedName("name")
 @Expose
 private String name;
+
+public Leader(String name){this.name= name;}
+
+public Leader(String junction, String name){this.name= name; this.junction= junction;}
 
 public Integer getId() {
 return id;

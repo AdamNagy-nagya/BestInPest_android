@@ -1,15 +1,17 @@
 package com.example.nagya.bestinpest;
 
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.nagya.bestinpest.Lobby.LobbyCreateDialog;
 import com.example.nagya.bestinpest.Lobby.LobbyListFragment;
 import com.example.nagya.bestinpest.Lobby.item.Lobbies;
-import com.example.nagya.bestinpest.Lobby.LobbyCreateDialog;
 import com.example.nagya.bestinpest.Lobby.item.LobbyCreatingPOST;
 import com.example.nagya.bestinpest.network.LobbyNetwork.LobbyApiInteractor;
 
@@ -21,14 +23,14 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MainMenuActivity extends AppCompatActivity implements LobbyCreateDialog.createLobby {
+public class MainMenuActivity extends AppCompatActivity implements LobbyCreateDialog.createLobby, LobbyListFragment.joinLobbyInterface {
 
     @BindView(R.id.MainMenuFindLobby)
     Button MainMenuFindLobby;
     @BindView(R.id.MainMenuCreateLobby)
     Button MainMenuCreateLobby;
-    @BindView(R.id.TestTV)
-    TextView TestTV;
+    @BindView(R.id.MainMenuIconImage)
+    ImageView MainMenuIconImage;
 
     private LobbyApiInteractor lobbyApiInteractor;
 
@@ -38,13 +40,13 @@ public class MainMenuActivity extends AppCompatActivity implements LobbyCreateDi
         setContentView(R.layout.activity_main_menu);
         ButterKnife.bind(this);
         lobbyApiInteractor = new LobbyApiInteractor(this);
+        MainMenuIconImage.setImageResource(R.drawable.ic_timeline_black_48dp);
     }
 
     @OnClick({R.id.MainMenuFindLobby, R.id.MainMenuCreateLobby})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.MainMenuFindLobby:
-                lobbyApiInteractor.deleteLobby(205);
                 lobbyApiInteractor.findLobbies();
 
                 break;
@@ -54,6 +56,7 @@ public class MainMenuActivity extends AppCompatActivity implements LobbyCreateDi
                 break;
         }
     }
+
     @Override
     public void onStart() {
         super.onStart();
@@ -68,13 +71,27 @@ public class MainMenuActivity extends AppCompatActivity implements LobbyCreateDi
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onLobbies(Lobbies lobbyRestItem) {
-        new LobbyListFragment().showDialog(this,lobbyRestItem);
-        TestTV.setText( lobbyRestItem.lobbies.get(0).getName());
+        new LobbyListFragment().showDialog(this, lobbyRestItem);
+
     }
 
     @Override
     public void createThisLobby(LobbyCreatingPOST lobbyCreatingPOST) {
         lobbyApiInteractor.createLobby(lobbyCreatingPOST);
-        TestTV.setText(lobbyCreatingPOST.getName());
+
+    }
+
+    @Override
+    public void joinToThisLobby(int lobbyId) {
+
+        Toast.makeText(this, "Joining lobby " + lobbyId, Toast.LENGTH_LONG).show();
+
+        InsideLobbyFragment insideLobbyfrag = new InsideLobbyFragment();
+
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.add(R.id.MainMenuContainer, insideLobbyfrag);
+        transaction.addToBackStack(null);
+        transaction.commit();
+
     }
 }

@@ -16,11 +16,11 @@ private String name;
 private String password;
 @SerializedName("player")
 @Expose
-private Player player;
+private Leader player;
 
 public LobbyCreatingPOST(){}
 
-public LobbyCreatingPOST(Integer maxPlayerNumber,String name, String password, Player player){
+public LobbyCreatingPOST(Integer maxPlayerNumber,String name, String password, Leader player){
     this.maxPlayerNumber= maxPlayerNumber;
     this.name= name;
     this.password= password;
@@ -51,11 +51,11 @@ public void setPassword(String password) {
 this.password = password;
 }
 
-public Player getPlayer() {
+public Leader getPlayer() {
 return player;
 }
 
-public void setPlayer(Player player) {
+public void setPlayer(Leader player) {
 this.player = player;
 }
 

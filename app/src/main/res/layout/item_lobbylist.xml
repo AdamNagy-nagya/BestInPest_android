@@ -5,6 +5,11 @@
     android:orientation="horizontal"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/item_lobbylistLockImage"/>
+
     <TextView
         android:id="@+id/item_lobbylistLobbyNameText"
         android:layout_width="wrap_content"
