@@ -14,7 +14,7 @@ private String name;
 @SerializedName("password")
 @Expose
 private String password;
-@SerializedName("player")
+@SerializedName("leader")
 @Expose
 private Leader player;
 

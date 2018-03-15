@@ -44,8 +44,8 @@ public class LobbyListFragment extends DialogFragment{
         show(parent.getSupportFragmentManager(), "dialog");
     }
 
-    private void JoinLobby(int lobbyId){
-        parent.joinToThisLobby(lobbyId);
+    private void JoinLobby(LobbyRestItem lobbyRestItem){
+        parent.joinToThisLobby(lobbyRestItem);
     }
 
     @Override
@@ -110,17 +110,9 @@ public class LobbyListFragment extends DialogFragment{
 
             holder.LobbyNameTV.setText(mValues.get(position).getName());
             if(mValues.get(position).getMaxPlayerNumber() != null){
-              holder.LobbyMaxPlayer.setText(mValues.get(position).getMaxPlayerNumber().toString());
+              holder.LobbyMaxPlayer.setText(mValues.get(position).getPlayers().size()+"/"+mValues.get(position).getMaxPlayerNumber().toString());
             }
-            if(mValues.get(position).getPlayers() != null ) {
-                if( mValues.get(position).getPlayers().size()!=0){
-                //TODO aktív játékosok számának kiírása
-             //   holder.LobbyPlayers.setText(
-                    //                   mValues.get(position)
-                    //                    .getPlayers()
-                    //            .size());
-                }
-            }
+
 
             holder.itemView.setTag(mValues.get(position));
             if(mValues.get(position).getPasswordSet()) {
@@ -131,7 +123,7 @@ public class LobbyListFragment extends DialogFragment{
             holder.JoinBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    parent.JoinLobby(mValues.get(position).getId());
+                    parent.JoinLobby(mValues.get(position));
                     parent.dismiss();
                 }
             });
@@ -148,7 +140,7 @@ public class LobbyListFragment extends DialogFragment{
             final TextView LobbyNameTV;
             final TextView LobbyLeaderTV;
             final TextView LobbyMaxPlayer;
-            final TextView LobbyPlayers;
+
             final Button JoinBtn;
             final ImageView LockImg;
 
@@ -159,7 +151,9 @@ public class LobbyListFragment extends DialogFragment{
                 LobbyNameTV = view.findViewById(R.id.item_lobbylistLobbyNameText);
                 LobbyLeaderTV = view.findViewById(R.id.item_lobbylistLobbyLeaderText);
                 LobbyMaxPlayer = view.findViewById(R.id.item_lobbylistMaxPlayer);
-                LobbyPlayers = view.findViewById(R.id.item_lobbylistPlayersinLobby);
+
+
+
                 JoinBtn = view.findViewById(R.id.item_lobbylistJoinBtn);
                 LockImg = view.findViewById(R.id.item_lobbylistLockImage);
 
@@ -169,7 +163,7 @@ public class LobbyListFragment extends DialogFragment{
 
     }
     public interface joinLobbyInterface{
-        public void joinToThisLobby(int lobbyId);
+        public void joinToThisLobby(LobbyRestItem lobby);
     }
 
 }

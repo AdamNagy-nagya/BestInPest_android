@@ -13,6 +13,7 @@ import com.example.nagya.bestinpest.Lobby.LobbyCreateDialog;
 import com.example.nagya.bestinpest.Lobby.LobbyListFragment;
 import com.example.nagya.bestinpest.Lobby.item.Lobbies;
 import com.example.nagya.bestinpest.Lobby.item.LobbyCreatingPOST;
+import com.example.nagya.bestinpest.Lobby.item.LobbyRestItem;
 import com.example.nagya.bestinpest.network.LobbyNetwork.LobbyApiInteractor;
 
 import org.greenrobot.eventbus.EventBus;
@@ -78,18 +79,18 @@ public class MainMenuActivity extends AppCompatActivity implements LobbyCreateDi
     @Override
     public void createThisLobby(LobbyCreatingPOST lobbyCreatingPOST) {
         lobbyApiInteractor.createLobby(lobbyCreatingPOST);
-
+        Toast.makeText(this,"Lobby created",Toast.LENGTH_LONG).show();
     }
 
     @Override
-    public void joinToThisLobby(int lobbyId) {
+    public void joinToThisLobby(LobbyRestItem lobbyRestItem) {
 
-        Toast.makeText(this, "Joining lobby " + lobbyId, Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Joining lobby " + lobbyRestItem.getId(), Toast.LENGTH_LONG).show();
 
         InsideLobbyFragment insideLobbyfrag = new InsideLobbyFragment();
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.add(R.id.MainMenuContainer, insideLobbyfrag);
+        transaction.replace(R.id.MainMenuContainer, insideLobbyfrag.newInstance(lobbyRestItem));
         transaction.addToBackStack(null);
         transaction.commit();
 
