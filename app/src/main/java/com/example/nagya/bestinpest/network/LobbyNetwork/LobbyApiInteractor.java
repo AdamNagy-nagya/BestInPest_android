@@ -44,7 +44,7 @@ public class LobbyApiInteractor {
     }
 
     public void createLobby(LobbyCreatingPOST creatingPOST){
-        Call<LobbyCreatingPOST> createLobbyReq = lobbyApi.createLobby(creatingPOST);
+        Call<LobbyRestItem> createLobbyReq = lobbyApi.createLobby(creatingPOST);
 
         runCallOnBackgroundThread(createLobbyReq);
     }

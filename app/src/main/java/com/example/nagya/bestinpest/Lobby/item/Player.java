@@ -14,6 +14,9 @@ public class Player {
     @SerializedName("name")
     @Expose
     private String name;
+    @SerializedName("ready")
+    @Expose
+    private Boolean ready;
 
     public Integer getId() {
         return id;
@@ -38,5 +41,9 @@ public class Player {
     public void setName(String name) {
         this.name = name;
     }
+
+    public Boolean getReady() {        return ready;    }
+
+    public void setReady(Boolean ready) {        this.ready = ready;    }
 
 }

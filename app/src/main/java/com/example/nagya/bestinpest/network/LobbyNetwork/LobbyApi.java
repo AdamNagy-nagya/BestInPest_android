@@ -28,7 +28,7 @@ public interface LobbyApi {
     Call<List<LobbyRestItem>> getLobbies();
 
     @POST("lobbies")
-    Call<LobbyCreatingPOST> createLobby(@Body LobbyCreatingPOST post);
+    Call<LobbyRestItem> createLobby(@Body LobbyCreatingPOST post);
 
     @DELETE("lobbies/{id}")
     Call<DeleteResponse>deleteLobby(@Path("id") Integer lobbyId);

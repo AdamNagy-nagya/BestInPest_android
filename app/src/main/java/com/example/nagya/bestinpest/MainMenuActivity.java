@@ -86,13 +86,7 @@ public class MainMenuActivity extends AppCompatActivity implements LobbyCreateDi
     public void joinToThisLobby(LobbyRestItem lobbyRestItem) {
 
         Toast.makeText(this, "Joining lobby " + lobbyRestItem.getId(), Toast.LENGTH_LONG).show();
-
-        InsideLobbyFragment insideLobbyfrag = new InsideLobbyFragment();
-
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.MainMenuContainer, insideLobbyfrag.newInstance(lobbyRestItem));
-        transaction.addToBackStack(null);
-        transaction.commit();
+        new InsideLobbyFragment().setLobby(this,lobbyRestItem).show(this.getSupportFragmentManager(),"LobbyDialog");
 
     }
 }
