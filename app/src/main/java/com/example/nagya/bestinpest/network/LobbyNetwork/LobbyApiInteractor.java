@@ -4,10 +4,13 @@ import android.content.Context;
 import android.os.Handler;
 import android.util.Log;
 
+import com.example.nagya.bestinpest.Junction.item.JunctionRestItem;
+import com.example.nagya.bestinpest.Junction.item.JunctionsWrapper;
 import com.example.nagya.bestinpest.Lobby.item.Lobbies;
 import com.example.nagya.bestinpest.Lobby.item.LobbyCreatingPOST;
 import com.example.nagya.bestinpest.Lobby.item.LobbyRestItem;
 import com.example.nagya.bestinpest.network.LobbyNetwork.item.DeleteResponse;
+import com.example.nagya.bestinpest.network.LobbyNetwork.item.PasswordResponse;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -54,6 +57,52 @@ public class LobbyApiInteractor {
         runCallOnBackgroundThread(deleteLobbyReq);
     }
 
+    public void getAvailableJunctions(Integer lobbyId, Double lat,Double lon){
+        Call<List<JunctionRestItem>> getAvaReq = lobbyApi.getFreeJunctionsNearby(lobbyId,lat,lon);
+        runListtAvailableJunctions(getAvaReq);
+    }
+
+    public void authToLobby(Integer lobbyId, String password){
+        Call<PasswordResponse> loginPassReq = lobbyApi.authToLobby(lobbyId,password);
+
+
+    }
+
+    private static <T> void runsetPassIfOk(final Call<PasswordResponse> call) {
+        final Handler handler = new Handler();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    if(call.execute().code() == 200){
+                        EventBus.getDefault().post( new PasswordResponse(true));
+                    }
+                    else if(call.execute().code()== 401){
+                        EventBus.getDefault().post( new PasswordResponse(false));
+                    }
+
+                } catch (final Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+    }
+
+
+    private static <T> void runListtAvailableJunctions(final Call<List<JunctionRestItem>> call) {
+        final Handler handler = new Handler();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    final List<JunctionRestItem> response = call.execute().body();
+                    EventBus.getDefault().post( new JunctionsWrapper(response));
+                } catch (final Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+    }
 
     private static <T> void runListLobbyTask(final Call<List<LobbyRestItem>> call) {
         final Handler handler = new Handler();
@@ -62,19 +111,14 @@ public class LobbyApiInteractor {
             public void run() {
                 try {
                     final List<LobbyRestItem> response = call.execute().body();
-                    Log.e("asdasd",response.get(0).getName());
                     EventBus.getDefault().post( new Lobbies(response));
-
-
                 } catch (final Exception e) {
                     e.printStackTrace();
-
-                    //  EventBus.getDefault().post(new NotFoundEvent());
-
                 }
             }
         }).start();
     }
+
     private static <T> void runCallOnBackgroundThread(final Call<T> call) {
         final Handler handler = new Handler();
         new Thread(new Runnable() {
@@ -82,15 +126,9 @@ public class LobbyApiInteractor {
             public void run() {
                 try {
                     final T response = call.execute().body();
-                    //Log.e("LOBBY", "ASDASDASDASD");
                     EventBus.getDefault().post(response);
-
-
                 } catch (final Exception e) {
                     e.printStackTrace();
-
-                  //  EventBus.getDefault().post(new NotFoundEvent());
-
                 }
             }
         }).start();

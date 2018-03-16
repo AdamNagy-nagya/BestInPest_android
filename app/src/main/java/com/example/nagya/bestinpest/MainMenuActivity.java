@@ -9,7 +9,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.nagya.bestinpest.Junction.item.JunctionsWrapper;
 import com.example.nagya.bestinpest.Lobby.LobbyCreateDialog;
+import com.example.nagya.bestinpest.Lobby.LobbyEntryPassFragment;
 import com.example.nagya.bestinpest.Lobby.LobbyListFragment;
 import com.example.nagya.bestinpest.Lobby.item.Lobbies;
 import com.example.nagya.bestinpest.Lobby.item.LobbyCreatingPOST;
@@ -34,6 +36,7 @@ public class MainMenuActivity extends AppCompatActivity implements LobbyCreateDi
     ImageView MainMenuIconImage;
 
     private LobbyApiInteractor lobbyApiInteractor;
+    private LobbyEntryPassFragment lobbyEntryPassFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +79,12 @@ public class MainMenuActivity extends AppCompatActivity implements LobbyCreateDi
 
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onJunctions(JunctionsWrapper junctionsWrapper) {
+        lobbyEntryPassFragment.setJunctions(junctionsWrapper.junctions);
+
+    }
+
     @Override
     public void createThisLobby(LobbyCreatingPOST lobbyCreatingPOST) {
         lobbyApiInteractor.createLobby(lobbyCreatingPOST);
@@ -86,7 +95,20 @@ public class MainMenuActivity extends AppCompatActivity implements LobbyCreateDi
     public void joinToThisLobby(LobbyRestItem lobbyRestItem) {
 
         Toast.makeText(this, "Joining lobby " + lobbyRestItem.getId(), Toast.LENGTH_LONG).show();
+        if(lobbyRestItem.getPasswordSet()){
+            new LobbyEntryPassFragment().show(this.getSupportFragmentManager(),"PassDialog");
+
+        }
+        else
         new InsideLobbyFragment().setLobby(this,lobbyRestItem).show(this.getSupportFragmentManager(),"LobbyDialog");
+
+    }
+
+    public void sendGPS(Integer lobbyId){
+        lobbyApiInteractor.getAvailableJunctions(lobbyId, 47.0,19.0);
+    }
+
+    private void getInLobby(){
 
     }
 }

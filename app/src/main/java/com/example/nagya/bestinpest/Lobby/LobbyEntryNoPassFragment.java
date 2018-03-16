@@ -5,14 +5,8 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.Spinner;
 
 import com.example.nagya.bestinpest.Junction.item.JunctionRestItem;
 import com.example.nagya.bestinpest.Lobby.item.LobbyRestItem;
@@ -21,18 +15,17 @@ import com.example.nagya.bestinpest.R;
 
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
+/**
+ * Created by nagya on 16/03/2018.
+ */
 
-public class LobbyEntryPassFragment extends DialogFragment {
+public class LobbyEntryNoPassFragment extends DialogFragment {
 
 
     private List<JunctionRestItem> junctionRestItems;
     private ImageButton sendGPSforJunction;
     private MainMenuActivity parent;
     private LobbyRestItem lobby;
-
 
     public void setLobby(LobbyRestItem lobby){this.lobby = lobby;}
 
@@ -42,7 +35,7 @@ public class LobbyEntryPassFragment extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         View view = getActivity().getLayoutInflater().inflate(R.layout.fragment_lobby_entry_pass, null);
 
-        sendGPSforJunction= view.findViewById(R.id.PasswordFrag_GPSButton);
+        sendGPSforJunction = view.findViewById(R.id.PasswordFrag_GPSButton);
         sendGPSforJunction.setImageResource(R.drawable.ic_my_location_black_24dp);
         sendGPSforJunction.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,8 +43,8 @@ public class LobbyEntryPassFragment extends DialogFragment {
                 parent.sendGPS(lobby.getId());
             }
         });
-       // ArrayAdapter<JunctionRestItem> junctionRestItemArrayAdapter = new ArrayAdapter<JunctionRestItem>(getContext(),R.layout.item_pass_junction,junctionRestItems);
-      //  junctionRestItemArrayAdapter.setDropDownViewResource(R.layout.item_pass_junction);
+        // ArrayAdapter<JunctionRestItem> junctionRestItemArrayAdapter = new ArrayAdapter<JunctionRestItem>(getContext(),R.layout.item_pass_junction,junctionRestItems);
+        //  junctionRestItemArrayAdapter.setDropDownViewResource(R.layout.item_pass_junction);
 
         builder.setMessage("Password")
                 .setPositiveButton("Enter", new DialogInterface.OnClickListener() {
@@ -69,11 +62,8 @@ public class LobbyEntryPassFragment extends DialogFragment {
     }
 
 
-
-    public void setJunctions(List<JunctionRestItem> junctions){
-        junctionRestItems= junctions;
+    public void setJunctions(List<JunctionRestItem> junctions) {
+        junctionRestItems = junctions;
     }
-
-
 }
 
