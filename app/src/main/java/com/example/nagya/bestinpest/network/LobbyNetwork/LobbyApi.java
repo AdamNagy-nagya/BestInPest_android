@@ -3,6 +3,7 @@ package com.example.nagya.bestinpest.network.LobbyNetwork;
 import com.example.nagya.bestinpest.Junction.item.JunctionRestItem;
 import com.example.nagya.bestinpest.Lobby.item.LobbyCreatingPOST;
 import com.example.nagya.bestinpest.Lobby.item.LobbyRestItem;
+import com.example.nagya.bestinpest.Lobby.item.Player;
 import com.example.nagya.bestinpest.network.LobbyNetwork.item.DeleteResponse;
 import com.example.nagya.bestinpest.network.LobbyNetwork.item.PasswordResponse;
 
@@ -41,7 +42,20 @@ public interface LobbyApi {
     Call<List<JunctionRestItem>> getFreeJunctionsNearby(@Path("id") Integer lobbyId, @Query("lat") Double lat, @Query("lon") Double lon);
 
     @GET("lobbies/{id}/join/auth")
-    Call<PasswordResponse> authToLobby(@Path("id") Integer lobbyId, @Query("password") String password );
+    Call<LobbyRestItem> authToLobby(@Path("id") Integer lobbyId, @Query("password") String password );
+
+    @GET ("lobbies/available-junctions")
+    Call<List<JunctionRestItem>> getFreeJunctionsNearbyForFirstPlayer(@Query("lat") Double lat, @Query("lon") Double lon);
+
+    @POST ("lobbies/{id}/join")
+    Call<LobbyRestItem> addPlayerToLobby(@Path("id") Integer lobbyId, @Body Player player);
+
+    @DELETE("lobbies/{id}/players/{playerId}")
+    Call<LobbyRestItem> deletePlayer(@Path("id") Integer lobbyId, @Path("playerId") Integer playerId);
+
+
+
+
 
 
 }

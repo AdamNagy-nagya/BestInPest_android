@@ -39,7 +39,9 @@ public class LobbyEntryPassFragment extends DialogFragment {
     private List<JunctionRestItem> junctionRestItems;
     private ImageButton sendGPSforJunction;
     private EditText passwordEditText;
+    private EditText playerNameEditText;
     private ImageView passwordResponseImg;
+    private Spinner junctionSpiner;
 
     public LobbyEntryPassFragment setLobbyParent(LobbyRestItem lobby, MainMenuActivity parent){
         this.lobby = lobby;
@@ -52,7 +54,7 @@ public class LobbyEntryPassFragment extends DialogFragment {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         View view = getActivity().getLayoutInflater().inflate(R.layout.fragment_lobby_entry_pass, null);
-
+        playerNameEditText = view.findViewById(R.id.PasswordFrag_UsernameEditText);
         sendGPSforJunction= view.findViewById(R.id.PasswordFrag_GPSButton);
         sendGPSforJunction.setImageResource(R.drawable.ic_my_location_black_24dp);
         sendGPSforJunction.setOnClickListener(new View.OnClickListener() {
@@ -73,15 +75,14 @@ public class LobbyEntryPassFragment extends DialogFragment {
             }
         });
         passwordResponseImg = view.findViewById(R.id.PasswordFrag_passwordOK_img);
+        junctionSpiner = view.findViewById(R.id.PasswordFrag_StartSpiner);
 
-       // ArrayAdapter<JunctionRestItem> junctionRestItemArrayAdapter = new ArrayAdapter<JunctionRestItem>(getContext(),R.layout.item_pass_junction,junctionRestItems);
-      //  junctionRestItemArrayAdapter.setDropDownViewResource(R.layout.item_pass_junction);
 
         builder.setMessage("Password")
                 .setView(view)
                 .setPositiveButton("Enter", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-
+                        parent.readyToJoinLobby(lobby,(JunctionRestItem) junctionSpiner.getSelectedItem(),playerNameEditText.getText().toString());
                     }
                 })
                 .setNegativeButton("Back", new DialogInterface.OnClickListener() {
@@ -106,6 +107,12 @@ public class LobbyEntryPassFragment extends DialogFragment {
 
     public void setJunctions(List<JunctionRestItem> junctions){
         junctionRestItems= junctions;
+
+         ArrayAdapter<JunctionRestItem> junctionRestItemArrayAdapter = new ArrayAdapter<JunctionRestItem>(getContext(),R.layout.item_pass_junction,junctionRestItems);
+         junctionRestItemArrayAdapter.setDropDownViewResource(R.layout.item_pass_junction);
+         junctionSpiner.setAdapter(junctionRestItemArrayAdapter);
+
+
     }
 
     public void setPasswordValidateOK(PasswordResponse response){

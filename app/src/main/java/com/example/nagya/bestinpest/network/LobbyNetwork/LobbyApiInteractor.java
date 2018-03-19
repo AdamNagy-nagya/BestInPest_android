@@ -9,6 +9,7 @@ import com.example.nagya.bestinpest.Junction.item.JunctionsWrapper;
 import com.example.nagya.bestinpest.Lobby.item.Lobbies;
 import com.example.nagya.bestinpest.Lobby.item.LobbyCreatingPOST;
 import com.example.nagya.bestinpest.Lobby.item.LobbyRestItem;
+import com.example.nagya.bestinpest.Lobby.item.Player;
 import com.example.nagya.bestinpest.network.LobbyNetwork.item.DeleteResponse;
 import com.example.nagya.bestinpest.network.LobbyNetwork.item.PasswordResponse;
 
@@ -67,7 +68,7 @@ public class LobbyApiInteractor {
     }
 
     public void authToLobby(Integer lobbyId, String password){
-        Call<PasswordResponse> loginPassReq = lobbyApi.authToLobby(lobbyId, URLEncoder.encode(password));
+        Call<LobbyRestItem> loginPassReq = lobbyApi.authToLobby(lobbyId, URLEncoder.encode(password));
         Log.e("ASDASDASDSA","MOST MEGy");
 
         runsetPassIfOk(loginPassReq);
@@ -75,17 +76,42 @@ public class LobbyApiInteractor {
 
     }
 
-    private static <T> void runsetPassIfOk(final Call<PasswordResponse> call) {
+    public void loginToLobby(Integer lobbyId, Player player){
+        Call<LobbyRestItem> loginLobby = lobbyApi.addPlayerToLobby(lobbyId,player);
+        wateverResponse(loginLobby);
+
+    }
+
+    public void logoutFromLobby(Integer lobbyId, Integer playerId){
+        Call<LobbyRestItem> logoutlobby = lobbyApi.deletePlayer(lobbyId,playerId);
+        wateverResponse(logoutlobby);
+    }
+
+    private static <T> void wateverResponse(final Call<LobbyRestItem> call) {
         final Handler handler = new Handler();
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    Log.e("RUN","asdasdasd");
+                    call.execute();
+
+                } catch (final Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+    }
+
+    private static <T> void runsetPassIfOk(final Call<LobbyRestItem> call) {
+        final Handler handler = new Handler();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+
                     int codeInt= call.execute().code();
                     PasswordResponse response= new PasswordResponse(codeInt==200);
-                    Log.e("Resoponse code:", ""+codeInt);
-                    Log.e("Response", response.isPasswordOK()? "TRUE": "FALSE");
+
                         EventBus.getDefault().post( response);
 
                 } catch (final Exception e) {

@@ -4,9 +4,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical">
     <EditText
+        android:id="@+id/PasswordFrag_UsernameEditText"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:hint="Csak úgy"/>
+        android:hint="Username"/>
 
     <TextView
         android:layout_width="match_parent"

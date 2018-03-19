@@ -6,7 +6,9 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.example.nagya.bestinpest.Lobby.item.Leader;
 import com.example.nagya.bestinpest.Lobby.item.Player;
@@ -22,7 +24,9 @@ public class LobbyCreateDialog  extends DialogFragment {
 
     EditText lobbyName;
     EditText lobbyPassword;
-    EditText lobbyPlayerNumber;
+    TextView lobbyPlayerNumber;
+    Button plusBtn;
+    Button minusBtn;
     createLobby parent;
 
     public LobbyCreateDialog setParent(MainMenuActivity parent){
@@ -39,6 +43,29 @@ public class LobbyCreateDialog  extends DialogFragment {
         lobbyName = view.findViewById(R.id.CreateLobbyNameEditText);
         lobbyPassword = view.findViewById(R.id.CreateLobbyPasswordEditText);
         lobbyPlayerNumber =view.findViewById(R.id.CreateLobbyPlayerNumber);
+        plusBtn = view.findViewById(R.id.CreateLobbyBtnPlus);
+        minusBtn = view.findViewById(R.id.CreateLobbyBtnMinus);
+
+        plusBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int playerNumber = Integer.parseInt(lobbyPlayerNumber.getText().toString());
+                if(playerNumber<6){
+                    playerNumber++;
+                    lobbyPlayerNumber.setText(playerNumber+"");
+                }
+            }
+        });
+        minusBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int playerNumber = Integer.parseInt(lobbyPlayerNumber.getText().toString());
+                if(playerNumber>3){
+                    playerNumber--;
+                    lobbyPlayerNumber.setText(playerNumber+"");
+                }
+            }
+        });
 
 
 

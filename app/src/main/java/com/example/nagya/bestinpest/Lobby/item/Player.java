@@ -3,6 +3,8 @@ package com.example.nagya.bestinpest.Lobby.item;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.lang.ref.SoftReference;
+
 public class Player {
 
     @SerializedName("id")
@@ -45,5 +47,11 @@ public class Player {
     public Boolean getReady() {        return ready;    }
 
     public void setReady(Boolean ready) {        this.ready = ready;    }
+
+    public Player(String junctionId, String name){
+        this.junctionId= junctionId;
+        this.name= name;
+        ready= false;
+    }
 
 }

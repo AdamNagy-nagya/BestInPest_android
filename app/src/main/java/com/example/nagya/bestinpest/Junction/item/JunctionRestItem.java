@@ -40,4 +40,8 @@ public void setStops(List<Stop> stops) {
 this.stops = stops;
 }
 
+    @Override
+    public String toString() {
+        return name.toString();
+    }
 }

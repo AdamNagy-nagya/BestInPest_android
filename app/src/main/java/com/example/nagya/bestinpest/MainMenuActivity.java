@@ -3,12 +3,14 @@ package com.example.nagya.bestinpest;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.nagya.bestinpest.Junction.item.JunctionRestItem;
 import com.example.nagya.bestinpest.Junction.item.JunctionsWrapper;
 import com.example.nagya.bestinpest.Lobby.LobbyCreateDialog;
 import com.example.nagya.bestinpest.Lobby.LobbyEntryPassFragment;
@@ -16,6 +18,7 @@ import com.example.nagya.bestinpest.Lobby.LobbyListFragment;
 import com.example.nagya.bestinpest.Lobby.item.Lobbies;
 import com.example.nagya.bestinpest.Lobby.item.LobbyCreatingPOST;
 import com.example.nagya.bestinpest.Lobby.item.LobbyRestItem;
+import com.example.nagya.bestinpest.Lobby.item.Player;
 import com.example.nagya.bestinpest.network.LobbyNetwork.LobbyApiInteractor;
 import com.example.nagya.bestinpest.network.LobbyNetwork.item.PasswordResponse;
 
@@ -82,6 +85,8 @@ public class MainMenuActivity extends AppCompatActivity implements LobbyCreateDi
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onJunctions(JunctionsWrapper junctionsWrapper) {
+        Log.e("Junction ", " megjött a lista !");
+        Log.d("Lista első: ", ""+junctionsWrapper.junctions.get(0).getName());
         lobbyEntryPassFragment.setJunctions(junctionsWrapper.junctions);
 
     }
@@ -108,17 +113,20 @@ public class MainMenuActivity extends AppCompatActivity implements LobbyCreateDi
         lobbyEntryPassFragment.setLobbyParent(lobbyRestItem,this).show(this.getSupportFragmentManager(),"PassDialog");
 
 
-        //new InsideLobbyFragment().setLobby(this,lobbyRestItem).show(this.getSupportFragmentManager(),"LobbyDialog");
 
+
+    }
+
+    public void readyToJoinLobby(LobbyRestItem lobby, JunctionRestItem junction, String playerName){
+        new InsideLobbyFragment().setLobby(this,lobby).show(this.getSupportFragmentManager(),"LobbyDialog");
+        lobbyApiInteractor.loginToLobby(lobby.getId(),new Player(junction.getId(), playerName));
     }
 
     public void sendGPS(Integer lobbyId){
         lobbyApiInteractor.getAvailableJunctions(lobbyId, 47.0,19.0);
     }
 
-    private void getInLobby(){
 
-    }
 
     public void validatePassword(String password, LobbyRestItem lobby){
         lobbyApiInteractor.authToLobby(lobby.getId(), password);

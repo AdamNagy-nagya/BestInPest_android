@@ -16,13 +16,31 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="numberPassword"/>
-    <EditText
-        android:id="@+id/CreateLobbyPlayerNumber"
-        android:inputType="number"
-        android:layout_width="match_parent"
+
+    <LinearLayout
         android:layout_height="wrap_content"
-        android:hint="PlayerNumber"
-        />
+        android:layout_width="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="-"
+        android:id="@+id/CreateLobbyBtnMinus"/>
+
+        <TextView
+        android:id="@+id/CreateLobbyPlayerNumber"
+        android:text="3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+        <Button
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="+"
+        android:id="@+id/CreateLobbyBtnPlus"/>
+
+    </LinearLayout>
 
 
 </LinearLayout>
