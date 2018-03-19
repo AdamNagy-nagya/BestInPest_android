@@ -7,7 +7,9 @@ import java.util.List;
  */
 
 public class JunctionsWrapper {
+
     public final List<JunctionRestItem> junctions;
+
     public JunctionsWrapper(List<JunctionRestItem> junctions){
         this.junctions=junctions;
     }

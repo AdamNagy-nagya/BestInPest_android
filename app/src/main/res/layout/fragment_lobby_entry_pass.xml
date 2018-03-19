@@ -2,9 +2,12 @@
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal">
+    android:orientation="vertical">
+    <EditText
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:hint="Csak úgy"/>
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -19,10 +22,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/PasswordFrag_StartSpiner"/>
+<LinearLayout
+    android:id="@+id/PasswordFrag_container"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <ImageView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:id="@+id/PasswordFrag_passwordOK_img"/>
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textPassword"
+        android:hint="Lobby password"
         android:id="@+id/PasswordFrag_password"/>
+</LinearLayout>
+
 </LinearLayout>

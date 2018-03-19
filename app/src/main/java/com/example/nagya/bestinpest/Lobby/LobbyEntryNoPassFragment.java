@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * Created by nagya on 16/03/2018.
  */
-
+/*
 public class LobbyEntryNoPassFragment extends DialogFragment {
 
 
@@ -67,3 +67,4 @@ public class LobbyEntryNoPassFragment extends DialogFragment {
     }
 }
 
+*/

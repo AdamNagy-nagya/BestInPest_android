@@ -14,9 +14,12 @@ import com.example.nagya.bestinpest.network.LobbyNetwork.item.PasswordResponse;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.net.URLEncoder;
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
+import retrofit2.Converter;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -28,6 +31,7 @@ public class LobbyApiInteractor {
     private  final  LobbyApi lobbyApi;
 
     private final Context context;
+
 
     public LobbyApiInteractor(Context context) {
         this.context = context;
@@ -63,7 +67,10 @@ public class LobbyApiInteractor {
     }
 
     public void authToLobby(Integer lobbyId, String password){
-        Call<PasswordResponse> loginPassReq = lobbyApi.authToLobby(lobbyId,password);
+        Call<PasswordResponse> loginPassReq = lobbyApi.authToLobby(lobbyId, URLEncoder.encode(password));
+        Log.e("ASDASDASDSA","MOST MEGy");
+
+        runsetPassIfOk(loginPassReq);
 
 
     }
@@ -74,12 +81,12 @@ public class LobbyApiInteractor {
             @Override
             public void run() {
                 try {
-                    if(call.execute().code() == 200){
-                        EventBus.getDefault().post( new PasswordResponse(true));
-                    }
-                    else if(call.execute().code()== 401){
-                        EventBus.getDefault().post( new PasswordResponse(false));
-                    }
+                    Log.e("RUN","asdasdasd");
+                    int codeInt= call.execute().code();
+                    PasswordResponse response= new PasswordResponse(codeInt==200);
+                    Log.e("Resoponse code:", ""+codeInt);
+                    Log.e("Response", response.isPasswordOK()? "TRUE": "FALSE");
+                        EventBus.getDefault().post( response);
 
                 } catch (final Exception e) {
                     e.printStackTrace();

@@ -40,8 +40,8 @@ public interface LobbyApi {
     @GET("lobbies/{id}/available-junctions")
     Call<List<JunctionRestItem>> getFreeJunctionsNearby(@Path("id") Integer lobbyId, @Query("lat") Double lat, @Query("lon") Double lon);
 
-    @POST("lobbies/{id}/join/auth")
-    Call<PasswordResponse> authToLobby(@Path("id") Integer lobbyId, @Query("password") String password);
+    @GET("lobbies/{id}/join/auth")
+    Call<PasswordResponse> authToLobby(@Path("id") Integer lobbyId, @Query("password") String password );
 
 
 }

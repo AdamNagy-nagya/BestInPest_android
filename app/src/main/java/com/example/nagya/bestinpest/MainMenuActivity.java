@@ -17,6 +17,7 @@ import com.example.nagya.bestinpest.Lobby.item.Lobbies;
 import com.example.nagya.bestinpest.Lobby.item.LobbyCreatingPOST;
 import com.example.nagya.bestinpest.Lobby.item.LobbyRestItem;
 import com.example.nagya.bestinpest.network.LobbyNetwork.LobbyApiInteractor;
+import com.example.nagya.bestinpest.network.LobbyNetwork.item.PasswordResponse;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -85,6 +86,13 @@ public class MainMenuActivity extends AppCompatActivity implements LobbyCreateDi
 
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onPasswordResponse(PasswordResponse passwordResponse) {
+        lobbyEntryPassFragment.setPasswordValidateOK(passwordResponse);
+
+    }
+
+
     @Override
     public void createThisLobby(LobbyCreatingPOST lobbyCreatingPOST) {
         lobbyApiInteractor.createLobby(lobbyCreatingPOST);
@@ -95,12 +103,12 @@ public class MainMenuActivity extends AppCompatActivity implements LobbyCreateDi
     public void joinToThisLobby(LobbyRestItem lobbyRestItem) {
 
         Toast.makeText(this, "Joining lobby " + lobbyRestItem.getId(), Toast.LENGTH_LONG).show();
-        if(lobbyRestItem.getPasswordSet()){
-            new LobbyEntryPassFragment().show(this.getSupportFragmentManager(),"PassDialog");
 
-        }
-        else
-        new InsideLobbyFragment().setLobby(this,lobbyRestItem).show(this.getSupportFragmentManager(),"LobbyDialog");
+        lobbyEntryPassFragment = new LobbyEntryPassFragment();
+        lobbyEntryPassFragment.setLobbyParent(lobbyRestItem,this).show(this.getSupportFragmentManager(),"PassDialog");
+
+
+        //new InsideLobbyFragment().setLobby(this,lobbyRestItem).show(this.getSupportFragmentManager(),"LobbyDialog");
 
     }
 
@@ -111,4 +119,10 @@ public class MainMenuActivity extends AppCompatActivity implements LobbyCreateDi
     private void getInLobby(){
 
     }
+
+    public void validatePassword(String password, LobbyRestItem lobby){
+        lobbyApiInteractor.authToLobby(lobby.getId(), password);
+    }
+
+
 }
