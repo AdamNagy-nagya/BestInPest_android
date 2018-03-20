@@ -78,7 +78,7 @@ public class LobbyApiInteractor {
 
     public void loginToLobby(Integer lobbyId, Player player){
         Call<LobbyRestItem> loginLobby = lobbyApi.addPlayerToLobby(lobbyId,player);
-        wateverResponse(loginLobby);
+        runCallOnBackgroundThread(loginLobby);
 
     }
 
@@ -87,7 +87,12 @@ public class LobbyApiInteractor {
         wateverResponse(logoutlobby);
     }
 
-    private static <T> void wateverResponse(final Call<LobbyRestItem> call) {
+    public void sendImReady(Integer lobbyId, Integer playerId){
+        Call<Player> imReadyReq = lobbyApi.setPlayerReady(lobbyId,playerId);
+        wateverResponse(imReadyReq);
+    }
+
+    private static <T> void wateverResponse(final Call<T> call) {
         final Handler handler = new Handler();
         new Thread(new Runnable() {
             @Override

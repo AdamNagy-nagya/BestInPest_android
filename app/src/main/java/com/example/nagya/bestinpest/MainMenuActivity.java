@@ -98,6 +98,16 @@ public class MainMenuActivity extends AppCompatActivity implements LobbyCreateDi
     }
 
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onLobbyItemToJoin(LobbyRestItem lobbyRestItem) {
+
+        new InsideLobbyFragment().setLobby(this,lobbyRestItem).show(this.getSupportFragmentManager(),"LobbyDialog");
+    }
+
+
+
+
+
     @Override
     public void createThisLobby(LobbyCreatingPOST lobbyCreatingPOST) {
         lobbyApiInteractor.createLobby(lobbyCreatingPOST);
@@ -111,14 +121,10 @@ public class MainMenuActivity extends AppCompatActivity implements LobbyCreateDi
 
         lobbyEntryPassFragment = new LobbyEntryPassFragment();
         lobbyEntryPassFragment.setLobbyParent(lobbyRestItem,this).show(this.getSupportFragmentManager(),"PassDialog");
-
-
-
-
     }
 
     public void readyToJoinLobby(LobbyRestItem lobby, JunctionRestItem junction, String playerName){
-        new InsideLobbyFragment().setLobby(this,lobby).show(this.getSupportFragmentManager(),"LobbyDialog");
+
         lobbyApiInteractor.loginToLobby(lobby.getId(),new Player(junction.getId(), playerName));
     }
 
@@ -126,10 +132,17 @@ public class MainMenuActivity extends AppCompatActivity implements LobbyCreateDi
         lobbyApiInteractor.getAvailableJunctions(lobbyId, 47.0,19.0);
     }
 
-
-
     public void validatePassword(String password, LobbyRestItem lobby){
         lobbyApiInteractor.authToLobby(lobby.getId(), password);
+    }
+
+    public void leaveLobby(LobbyRestItem lobby, Player profile){
+        lobbyApiInteractor.logoutFromLobby(lobby.getId(), profile.getId());
+        Toast.makeText(this,"You left the lobby",Toast.LENGTH_LONG).show();
+    }
+
+    public void setPlayerReady(LobbyRestItem lobbyRestItem, Player profile){
+        lobbyApiInteractor.sendImReady(lobbyRestItem.getId(),profile.getId());
     }
 
 

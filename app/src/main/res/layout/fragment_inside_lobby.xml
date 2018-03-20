@@ -16,12 +16,19 @@
       android:id="@+id/InsideLobby_PlayerListRV"/>
 
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Ready"
+        android:id="@+id/InsideLobby_ReadyBtn"/>
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Leave"
         android:id="@+id/InsideLobby_LeaveBtn"/>
+
+
 
 
 </LinearLayout>

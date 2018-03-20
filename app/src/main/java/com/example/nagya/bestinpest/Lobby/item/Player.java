@@ -20,6 +20,8 @@ public class Player {
     @Expose
     private Boolean ready;
 
+
+
     public Integer getId() {
         return id;
     }

@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -27,7 +29,7 @@ public class LobbyCreateDialog  extends DialogFragment {
     TextView lobbyPlayerNumber;
     Button plusBtn;
     Button minusBtn;
-    createLobby parent;
+    MainMenuActivity parent;
 
     public LobbyCreateDialog setParent(MainMenuActivity parent){
         this.parent= parent;
@@ -41,6 +43,8 @@ public class LobbyCreateDialog  extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         View view = getActivity().getLayoutInflater().inflate(R.layout.fragment_lobbycreate, null);
         lobbyName = view.findViewById(R.id.CreateLobbyNameEditText);
+
+
         lobbyPassword = view.findViewById(R.id.CreateLobbyPasswordEditText);
         lobbyPlayerNumber =view.findViewById(R.id.CreateLobbyPlayerNumber);
         plusBtn = view.findViewById(R.id.CreateLobbyBtnPlus);
@@ -73,6 +77,7 @@ public class LobbyCreateDialog  extends DialogFragment {
                 .setView(view)
                 .setPositiveButton("Create", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
+
                             parent.createThisLobby(new LobbyCreatingPOST(
                                     Integer.parseInt(lobbyPlayerNumber.getText().toString()),
                                     lobbyName.getText().toString(),
@@ -85,6 +90,8 @@ public class LobbyCreateDialog  extends DialogFragment {
 
                     }
                 });
+
+
 
         return builder.create();
     }

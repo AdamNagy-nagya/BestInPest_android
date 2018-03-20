@@ -53,7 +53,8 @@ public interface LobbyApi {
     @DELETE("lobbies/{id}/players/{playerId}")
     Call<LobbyRestItem> deletePlayer(@Path("id") Integer lobbyId, @Path("playerId") Integer playerId);
 
-
+    @POST ("lobbies/{id}/players/{playerId}/ready")
+    Call<Player>setPlayerReady(@Path("id") Integer lobbyId, @Path("playerId") Integer playerId);
 
 
 

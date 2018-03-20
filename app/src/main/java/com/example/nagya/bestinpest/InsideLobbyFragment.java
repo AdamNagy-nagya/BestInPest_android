@@ -33,14 +33,18 @@ import butterknife.Unbinder;
 public class InsideLobbyFragment extends DialogFragment {
 
 
-    private  TextView LobbyLeader;
-    private  Button LeaveBtn;
+    private TextView LobbyLeader;
+    private Button LeaveBtn;
+    private Button ReadyBtn;
     private RecyclerView recyclerView;
 
     private PlayerAdapter recyclerAdapter;
 
+
     private MainMenuActivity parent;
     private LobbyRestItem lobby;
+    private Player myProfile;
+    private boolean isLeaderViewOn;
 
 
     public static InsideLobbyFragment newInstance(int title) {
@@ -55,6 +59,13 @@ public class InsideLobbyFragment extends DialogFragment {
     public InsideLobbyFragment setLobby(MainMenuActivity activity, LobbyRestItem lobby) {
         parent =  activity;
         this.lobby = lobby;
+        myProfile= lobby.getPlayers().get(lobby.getPlayers().size()-1);
+        if(lobby.getLeader().getId() == myProfile.getId()){
+            isLeaderViewOn = true;
+        }
+        else {
+            isLeaderViewOn= false;
+        }
         return this;
 
     }
@@ -71,19 +82,30 @@ public class InsideLobbyFragment extends DialogFragment {
         LobbyLeader = view.findViewById(R.id.InsideLobby_lobbyleader);
         LobbyLeader.setText("Leader is "+lobby.getLeader().getName());
         LeaveBtn = view.findViewById(R.id.InsideLobby_LeaveBtn);
+        ReadyBtn = view.findViewById(R.id.InsideLobby_ReadyBtn);
 
         LeaveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                parent.leaveLobby(lobby,myProfile);
                 getDialog().dismiss();
-                //TODO logout lobby
+
 
             }
         });
+        ReadyBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                parent.setPlayerReady(lobby,myProfile);
+                myProfile.setReady(!myProfile.getReady());
+            }
+        });
+
+
 
         recyclerView.setLayoutManager(new LinearLayoutManager(parent));
         assert recyclerView != null;
-        recyclerAdapter = new PlayerAdapter(lobby.getPlayers(), this);
+        recyclerAdapter = new PlayerAdapter(lobby, this, isLeaderViewOn);
         recyclerView.setAdapter(recyclerAdapter);
         recyclerView.setOverScrollMode(View.OVER_SCROLL_NEVER);
 
@@ -100,12 +122,16 @@ public class InsideLobbyFragment extends DialogFragment {
 
         private final List<Player> mValues;
         private  InsideLobbyFragment parent;
+        private LobbyRestItem lobby;
+        private boolean isLeaderView;
 
 
 
-        public PlayerAdapter(List<Player> mValues, InsideLobbyFragment parent){
-            this.mValues= mValues;
+        public PlayerAdapter(LobbyRestItem lobby, InsideLobbyFragment parent, boolean isLeaderView){
+            this.mValues= lobby.getPlayers();
+            this.lobby= lobby;
             this.parent= parent;
+            this.isLeaderView = isLeaderView;
 
         }
 
@@ -121,7 +147,7 @@ public class InsideLobbyFragment extends DialogFragment {
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
             holder.PlayerName.setText(mValues.get(position).getName());
-           // holder.IsMrX.setText(mValues.get(position).getId());
+            holder.where.setText(mValues.get(position).getJunctionId());
             holder.ReadyImg.setImageResource(R.drawable.ic_done_black_24dp);
             if(mValues.get(position).getReady()){
                 holder.ReadyImg.setVisibility(View.VISIBLE);
@@ -130,6 +156,12 @@ public class InsideLobbyFragment extends DialogFragment {
                 holder.ReadyImg.setVisibility(View.INVISIBLE);
             }
             holder.itemView.setTag(mValues.get(position));
+            if(mValues.get(position).getId()== lobby.getId()){
+            holder.isMrXImg.setImageResource(R.drawable.ic_person_pin_black_24dp);}
+            else{
+                holder.isMrXImg.setImageResource(R.drawable.ic_person_outline_black_24dp);
+            }
+
 
 
         }
@@ -146,18 +178,20 @@ public class InsideLobbyFragment extends DialogFragment {
 
         class ViewHolder extends RecyclerView.ViewHolder {
             final TextView PlayerName;
-            final TextView IsMrX;
             final TextView where;
             final ImageView ReadyImg;
+            final ImageView isMrXImg;
+            final Button setMrXBtn;
 
 
 
             ViewHolder(View view) {
                 super(view);
                 PlayerName = view.findViewById(R.id.InsideLobby_PlayerName);
-                IsMrX= view.findViewById(R.id.InsideLobby_PlayerIsMrX);
                 where = view.findViewById(R.id.InsideLobby_PlayerJunction);
                 ReadyImg = view.findViewById(R.id.InsideLobby_PlayerReady);
+                isMrXImg = view.findViewById(R.id.InsideLobby_isMrXImg);
+                setMrXBtn = view.findViewById(R.id.InsideLobby_setMrXBtn);
 
             }
         }
