@@ -8,7 +8,7 @@ import java.util.List;
 
 public class Lobbies {
 
-    public final List<LobbyRestItem> lobbies;
+    public  List<LobbyRestItem> lobbies;
     public Lobbies(List<LobbyRestItem> lobbies){
         this.lobbies=lobbies;
     }

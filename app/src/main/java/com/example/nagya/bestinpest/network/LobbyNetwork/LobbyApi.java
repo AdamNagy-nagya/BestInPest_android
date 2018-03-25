@@ -6,6 +6,7 @@ import com.example.nagya.bestinpest.Lobby.item.LobbyRestItem;
 import com.example.nagya.bestinpest.Lobby.item.Player;
 import com.example.nagya.bestinpest.network.LobbyNetwork.item.DeleteResponse;
 import com.example.nagya.bestinpest.network.LobbyNetwork.item.PasswordResponse;
+import com.example.nagya.bestinpest.network.LobbyNetwork.item.RabbitServerURIRestResponse;
 
 import java.util.List;
 
@@ -55,6 +56,9 @@ public interface LobbyApi {
 
     @POST ("lobbies/{id}/players/{playerId}/ready")
     Call<Player>setPlayerReady(@Path("id") Integer lobbyId, @Path("playerId") Integer playerId);
+
+    @GET ("rabbitmq-rx-url")
+    Call<RabbitServerURIRestResponse>rabbitqmRxUrl();
 
 
 

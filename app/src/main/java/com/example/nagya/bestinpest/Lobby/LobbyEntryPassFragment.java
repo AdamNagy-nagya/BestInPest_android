@@ -16,6 +16,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.nagya.bestinpest.Junction.item.JunctionRestItem;
 import com.example.nagya.bestinpest.Lobby.item.LobbyRestItem;
@@ -42,6 +43,7 @@ public class LobbyEntryPassFragment extends DialogFragment {
     private EditText playerNameEditText;
     private ImageView passwordResponseImg;
     private Spinner junctionSpiner;
+    private boolean passwordTyedinOk;
 
     public LobbyEntryPassFragment setLobbyParent(LobbyRestItem lobby, MainMenuActivity parent){
         this.lobby = lobby;
@@ -78,11 +80,16 @@ public class LobbyEntryPassFragment extends DialogFragment {
         junctionSpiner = view.findViewById(R.id.PasswordFrag_StartSpiner);
 
 
+
         builder.setMessage("Password")
                 .setView(view)
                 .setPositiveButton("Enter", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
+                        if(passwordTyedinOk){
                         parent.readyToJoinLobby(lobby,(JunctionRestItem) junctionSpiner.getSelectedItem(),playerNameEditText.getText().toString());
+                        }
+                        else{
+                            Toast.makeText(parent.getApplicationContext(),"Invalid password, can't log in!", Toast.LENGTH_LONG);}
                     }
                 })
                 .setNegativeButton("Back", new DialogInterface.OnClickListener() {
@@ -99,9 +106,12 @@ public class LobbyEntryPassFragment extends DialogFragment {
         super.onResume();
         if(lobby.getPasswordSet()){
             passwordContener.setVisibility(View.VISIBLE);
+            passwordTyedinOk= false;
         }
         else if (!lobby.getPasswordSet()){
             passwordContener.setVisibility(View.INVISIBLE);
+            passwordTyedinOk= true;
+
         }
     }
 
@@ -120,9 +130,11 @@ public class LobbyEntryPassFragment extends DialogFragment {
             passwordResponseImg.setImageResource(R.drawable.ic_done_black_24dp);
             passwordEditText.setVisibility(View.INVISIBLE);
             passwordEditText.setEnabled(false);
+            passwordTyedinOk = true;
 
         }
         else {
+            passwordTyedinOk = false;
             passwordEditText.setText(null);
             passwordEditText.setHint("Wrong password");
 

@@ -21,6 +21,10 @@ import com.example.nagya.bestinpest.Lobby.item.LobbyRestItem;
 import com.example.nagya.bestinpest.Lobby.item.Player;
 import com.example.nagya.bestinpest.network.LobbyNetwork.LobbyApiInteractor;
 import com.example.nagya.bestinpest.network.LobbyNetwork.item.PasswordResponse;
+import com.example.nagya.bestinpest.network.LobbyNetwork.item.RabbitServerURIRestResponse;
+import com.example.nagya.bestinpest.network.RabbitMq.InsideLobbyRabbitMq;
+import com.example.nagya.bestinpest.network.RabbitMq.LobbiesRabbitMq;
+import com.example.nagya.bestinpest.network.RabbitMq.item.LobbiesRabbitMqItem;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -41,6 +45,14 @@ public class MainMenuActivity extends AppCompatActivity implements LobbyCreateDi
 
     private LobbyApiInteractor lobbyApiInteractor;
     private LobbyEntryPassFragment lobbyEntryPassFragment;
+    private LobbyListFragment lobbyListFragment;
+    private InsideLobbyFragment insideLobbyFragment;
+
+    private LobbiesRabbitMq lobbiesRabbitMq;
+    private InsideLobbyRabbitMq insideLobbyRabbitMq;
+    private static String RabbitMqURL;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +61,7 @@ public class MainMenuActivity extends AppCompatActivity implements LobbyCreateDi
         ButterKnife.bind(this);
         lobbyApiInteractor = new LobbyApiInteractor(this);
         MainMenuIconImage.setImageResource(R.drawable.ic_timeline_black_48dp);
+        setupRabbitConnection();
     }
 
     @OnClick({R.id.MainMenuFindLobby, R.id.MainMenuCreateLobby})
@@ -79,14 +92,13 @@ public class MainMenuActivity extends AppCompatActivity implements LobbyCreateDi
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onLobbies(Lobbies lobbyRestItem) {
-        new LobbyListFragment().showDialog(this, lobbyRestItem);
+      lobbyListFragment=  new LobbyListFragment();
+      lobbyListFragment.showDialog(this, lobbyRestItem);
 
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onJunctions(JunctionsWrapper junctionsWrapper) {
-        Log.e("Junction ", " megjött a lista !");
-        Log.d("Lista első: ", ""+junctionsWrapper.junctions.get(0).getName());
         lobbyEntryPassFragment.setJunctions(junctionsWrapper.junctions);
 
     }
@@ -100,10 +112,26 @@ public class MainMenuActivity extends AppCompatActivity implements LobbyCreateDi
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onLobbyItemToJoin(LobbyRestItem lobbyRestItem) {
+        insideLobbyRabbitMq = new InsideLobbyRabbitMq(RabbitMqURL,lobbyRestItem.getId());
+        insideLobbyFragment =  new InsideLobbyFragment();
+        insideLobbyFragment.setLobby(this,lobbyRestItem).show(this.getSupportFragmentManager(),"LobbyDialog");
 
-        new InsideLobbyFragment().setLobby(this,lobbyRestItem).show(this.getSupportFragmentManager(),"LobbyDialog");
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onRabbitMqUrl(RabbitServerURIRestResponse rabbitServerURIRestResponse) {
+        RabbitMqURL = rabbitServerURIRestResponse.getUrl();
+        lobbiesRabbitMq = new LobbiesRabbitMq(rabbitServerURIRestResponse.getUrl());
+        Log.d("meggvan az url", ""+rabbitServerURIRestResponse.getUrl());
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onLobbyListChanged(LobbiesRabbitMqItem item) {
+       if(lobbyListFragment!=null){
+           lobbyListFragment.refreshList(item.getObject());
+           Log.d("változott a lista","asd");
+       }
+    }
 
 
 
@@ -112,6 +140,10 @@ public class MainMenuActivity extends AppCompatActivity implements LobbyCreateDi
     public void createThisLobby(LobbyCreatingPOST lobbyCreatingPOST) {
         lobbyApiInteractor.createLobby(lobbyCreatingPOST);
         Toast.makeText(this,"Lobby created",Toast.LENGTH_LONG).show();
+    }
+
+    private void setupRabbitConnection(){
+        lobbyApiInteractor.getRabbitmqRxUrl();
     }
 
     @Override

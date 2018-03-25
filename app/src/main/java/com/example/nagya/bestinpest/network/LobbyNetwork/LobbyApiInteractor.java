@@ -12,6 +12,7 @@ import com.example.nagya.bestinpest.Lobby.item.LobbyRestItem;
 import com.example.nagya.bestinpest.Lobby.item.Player;
 import com.example.nagya.bestinpest.network.LobbyNetwork.item.DeleteResponse;
 import com.example.nagya.bestinpest.network.LobbyNetwork.item.PasswordResponse;
+import com.example.nagya.bestinpest.network.LobbyNetwork.item.RabbitServerURIRestResponse;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -90,6 +91,11 @@ public class LobbyApiInteractor {
     public void sendImReady(Integer lobbyId, Integer playerId){
         Call<Player> imReadyReq = lobbyApi.setPlayerReady(lobbyId,playerId);
         wateverResponse(imReadyReq);
+    }
+
+    public void getRabbitmqRxUrl(){
+        Call<RabbitServerURIRestResponse> rabbitreq = lobbyApi.rabbitqmRxUrl();
+        runCallOnBackgroundThread(rabbitreq);
     }
 
     private static <T> void wateverResponse(final Call<T> call) {
