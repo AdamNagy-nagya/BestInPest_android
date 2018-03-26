@@ -5,6 +5,8 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -67,15 +69,24 @@ public class LobbyEntryPassFragment extends DialogFragment {
         });
         passwordContener = view.findViewById(R.id.PasswordFrag_container);
         passwordEditText = view.findViewById(R.id.PasswordFrag_password);
-        passwordEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        passwordEditText.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onFocusChange(View view, boolean b) {
-                if(!view.hasFocus()){
-                    Log.d("FOCUS", passwordEditText.getText().toString());
-                    parent.validatePassword(passwordEditText.getText().toString(),lobby);
-                }
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                parent.validatePassword(passwordEditText.getText().toString(),lobby);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
             }
         });
+
+
         passwordResponseImg = view.findViewById(R.id.PasswordFrag_passwordOK_img);
         junctionSpiner = view.findViewById(R.id.PasswordFrag_StartSpiner);
 
@@ -89,7 +100,7 @@ public class LobbyEntryPassFragment extends DialogFragment {
                         parent.readyToJoinLobby(lobby,(JunctionRestItem) junctionSpiner.getSelectedItem(),playerNameEditText.getText().toString());
                         }
                         else{
-                            Toast.makeText(parent.getApplicationContext(),"Invalid password, can't log in!", Toast.LENGTH_LONG);}
+                            Toast.makeText(getContext(),"Invalid password, can't log in!", Toast.LENGTH_LONG);}
                     }
                 })
                 .setNegativeButton("Back", new DialogInterface.OnClickListener() {
@@ -128,15 +139,13 @@ public class LobbyEntryPassFragment extends DialogFragment {
     public void setPasswordValidateOK(PasswordResponse response){
         if(response.isPasswordOK()){
             passwordResponseImg.setImageResource(R.drawable.ic_done_black_24dp);
-            passwordEditText.setVisibility(View.INVISIBLE);
-            passwordEditText.setEnabled(false);
             passwordTyedinOk = true;
 
         }
         else {
+            passwordResponseImg.setImageResource((R.drawable.ic_close_black_24dp));
             passwordTyedinOk = false;
-            passwordEditText.setText(null);
-            passwordEditText.setHint("Wrong password");
+
 
         }
     }

@@ -67,6 +67,10 @@ public class LobbyApiInteractor {
         Call<List<JunctionRestItem>> getAvaReq = lobbyApi.getFreeJunctionsNearby(lobbyId,lat,lon);
         runListtAvailableJunctions(getAvaReq);
     }
+    public void getFreeJunctionsNearbyForFirstPlayer(Double lat, Double lon){
+        Call<List<JunctionRestItem>> getFirstreq = lobbyApi.getFreeJunctionsNearbyForFirstPlayer(lat, lon);
+        runListtAvailableJunctions(getFirstreq);
+    }
 
     public void authToLobby(Integer lobbyId, String password){
         Call<LobbyRestItem> loginPassReq = lobbyApi.authToLobby(lobbyId, URLEncoder.encode(password));
@@ -98,12 +102,15 @@ public class LobbyApiInteractor {
         runCallOnBackgroundThread(rabbitreq);
     }
 
+
+
     private static <T> void wateverResponse(final Call<T> call) {
         final Handler handler = new Handler();
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
+
                     call.execute();
 
                 } catch (final Exception e) {

@@ -4,6 +4,22 @@
     android:layout_width="match_parent"
     android:orientation="vertical">
 
+    <EditText
+        android:id="@+id/CreateLobby_UsernameEditText"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:hint="Username"/>
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/CreateLobby_GPSButton"/>
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/CreateLobby_StartSpiner"/>
+
     <android.support.v7.widget.AppCompatEditText
         android:id="@+id/CreateLobbyNameEditText"
         android:hint="Add a name to the lobby"

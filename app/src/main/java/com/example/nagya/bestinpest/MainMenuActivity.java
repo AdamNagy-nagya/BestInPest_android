@@ -47,6 +47,7 @@ public class MainMenuActivity extends AppCompatActivity implements LobbyCreateDi
     private LobbyEntryPassFragment lobbyEntryPassFragment;
     private LobbyListFragment lobbyListFragment;
     private InsideLobbyFragment insideLobbyFragment;
+    private LobbyCreateDialog lobbyCreateDialog;
 
     private LobbiesRabbitMq lobbiesRabbitMq;
     private InsideLobbyRabbitMq insideLobbyRabbitMq;
@@ -73,8 +74,9 @@ public class MainMenuActivity extends AppCompatActivity implements LobbyCreateDi
                 break;
             case R.id.MainMenuCreateLobby:
 
-                new LobbyCreateDialog().setParent(this).show(this.getSupportFragmentManager(), "dialog");
-                break;
+               lobbyCreateDialog =  new LobbyCreateDialog();
+               lobbyCreateDialog.setParent(this).show(this.getSupportFragmentManager(), "dialog");
+               break;
         }
     }
 
@@ -86,8 +88,9 @@ public class MainMenuActivity extends AppCompatActivity implements LobbyCreateDi
 
     @Override
     public void onStop() {
-        super.onStop();
+
         EventBus.getDefault().unregister(this);
+        super.onStop();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -99,8 +102,12 @@ public class MainMenuActivity extends AppCompatActivity implements LobbyCreateDi
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onJunctions(JunctionsWrapper junctionsWrapper) {
-        lobbyEntryPassFragment.setJunctions(junctionsWrapper.junctions);
-
+        if(lobbyEntryPassFragment!= null) {
+            lobbyEntryPassFragment.setJunctions(junctionsWrapper.junctions);
+        }
+        if(lobbyCreateDialog!=null){
+            lobbyCreateDialog.setJunctions(junctionsWrapper.junctions);
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -112,8 +119,12 @@ public class MainMenuActivity extends AppCompatActivity implements LobbyCreateDi
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onLobbyItemToJoin(LobbyRestItem lobbyRestItem) {
-        insideLobbyRabbitMq = new InsideLobbyRabbitMq(RabbitMqURL,lobbyRestItem.getId());
-        insideLobbyFragment =  new InsideLobbyFragment();
+        if(insideLobbyRabbitMq==null) {
+            insideLobbyRabbitMq = new InsideLobbyRabbitMq(RabbitMqURL, lobbyRestItem.getId());
+        }
+        if(insideLobbyFragment==null) {
+            insideLobbyFragment = new InsideLobbyFragment();
+        }
         insideLobbyFragment.setLobby(this,lobbyRestItem).show(this.getSupportFragmentManager(),"LobbyDialog");
 
     }
@@ -160,8 +171,13 @@ public class MainMenuActivity extends AppCompatActivity implements LobbyCreateDi
         lobbyApiInteractor.loginToLobby(lobby.getId(),new Player(junction.getId(), playerName));
     }
 
+    //TODO real GPS DATA!!
+
     public void sendGPS(Integer lobbyId){
         lobbyApiInteractor.getAvailableJunctions(lobbyId, 47.0,19.0);
+    }
+    public void sendGPSFreeAll(){
+        lobbyApiInteractor.getFreeJunctionsNearbyForFirstPlayer(47.0,19.0);
     }
 
     public void validatePassword(String password, LobbyRestItem lobby){

@@ -2,6 +2,7 @@ package com.example.nagya.bestinpest.network.RabbitMq;
 
 import android.util.Log;
 
+import com.example.nagya.bestinpest.network.RabbitMq.item.InsideLobbyRabbitMqItem;
 import com.example.nagya.bestinpest.network.RabbitMq.item.LobbiesRabbitMqItem;
 import com.google.gson.Gson;
 import com.rabbitmq.client.AMQP;
@@ -55,9 +56,9 @@ public class InsideLobbyRabbitMq {
                             String message = new String(body, "UTF-8");
                             Log.d("RabbitMQ ",message);
                             Gson gson = new Gson();
-                           // LobbiesRabbitMqItem lobbiesRabbitMqItem = gson.fromJson(message, LobbiesRabbitMqItem.class);
+                            InsideLobbyRabbitMqItem insideLobbyRabbitMqItem = gson.fromJson(message, InsideLobbyRabbitMqItem.class);
 
-                          //  EventBus.getDefault().post( lobbiesRabbitMqItem);
+                            EventBus.getDefault().post( insideLobbyRabbitMqItem);
 
                         }
                     };

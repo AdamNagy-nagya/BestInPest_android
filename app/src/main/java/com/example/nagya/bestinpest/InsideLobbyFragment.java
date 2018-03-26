@@ -11,6 +11,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,11 @@ import android.widget.TextView;
 
 import com.example.nagya.bestinpest.Lobby.item.LobbyRestItem;
 import com.example.nagya.bestinpest.Lobby.item.Player;
+import com.example.nagya.bestinpest.network.RabbitMq.item.InsideLobbyRabbitMqItem;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
@@ -60,7 +66,8 @@ public class InsideLobbyFragment extends DialogFragment {
         parent =  activity;
         this.lobby = lobby;
         myProfile= lobby.getPlayers().get(lobby.getPlayers().size()-1);
-        if(lobby.getLeader().getId() == myProfile.getId()){
+
+        if(lobby.getLeader().getId().equals( myProfile.getId())){
             isLeaderViewOn = true;
         }
         else {
@@ -87,7 +94,7 @@ public class InsideLobbyFragment extends DialogFragment {
         LeaveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                parent.leaveLobby(lobby,myProfile);
+
                 getDialog().dismiss();
 
 
@@ -117,6 +124,29 @@ public class InsideLobbyFragment extends DialogFragment {
         return builder.create();
     }
 
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+
+        parent.leaveLobby(lobby,myProfile);
+        EventBus.getDefault().unregister(this);
+        super.onStop();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onLobbyItem(InsideLobbyRabbitMqItem insideLobbyRabbitMqItem) {
+       lobby= insideLobbyRabbitMqItem.getObject();
+       Log.e("ideért",insideLobbyRabbitMqItem.getMessage());
+       recyclerAdapter.update(insideLobbyRabbitMqItem.getObject().getPlayers());
+    }
+
+
     public static class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.ViewHolder> {
 
 
@@ -135,6 +165,13 @@ public class InsideLobbyFragment extends DialogFragment {
 
         }
 
+        public void update(List<Player> newValues){
+            mValues.clear();
+            mValues.addAll(newValues);
+            notifyDataSetChanged();
+
+        }
+
 
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -145,22 +182,38 @@ public class InsideLobbyFragment extends DialogFragment {
         }
 
         @Override
-        public void onBindViewHolder(final ViewHolder holder, int position) {
+        public void onBindViewHolder(final ViewHolder holder, final int position) {
             holder.PlayerName.setText(mValues.get(position).getName());
             holder.where.setText(mValues.get(position).getJunctionId());
-            holder.ReadyImg.setImageResource(R.drawable.ic_done_black_24dp);
+
             if(mValues.get(position).getReady()){
+               // Log.e("READY?: ", mValues.get(position).getReady()? "TRUE": "FALSE");
+                holder.ReadyImg.setImageResource(R.drawable.ic_done_black_24dp);
                 holder.ReadyImg.setVisibility(View.VISIBLE);
             }
             else {
                 holder.ReadyImg.setVisibility(View.INVISIBLE);
             }
             holder.itemView.setTag(mValues.get(position));
-            if(mValues.get(position).getId()== lobby.getId()){
+            if(mValues.get(position).getId().equals(lobby.getCriminal())){
             holder.isMrXImg.setImageResource(R.drawable.ic_person_pin_black_24dp);}
             else{
+
                 holder.isMrXImg.setImageResource(R.drawable.ic_person_outline_black_24dp);
             }
+
+            if(isLeaderView){
+                holder.setMrXBtn.setVisibility(View.VISIBLE);
+            }else {
+                holder.setMrXBtn.setVisibility(View.INVISIBLE);
+            }
+
+            holder.setMrXBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mValues.get(position).getId();
+                }
+            });
 
 
 

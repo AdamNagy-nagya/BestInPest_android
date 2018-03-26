@@ -8,15 +8,21 @@ import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.example.nagya.bestinpest.Junction.item.JunctionRestItem;
 import com.example.nagya.bestinpest.Lobby.item.Leader;
 import com.example.nagya.bestinpest.Lobby.item.Player;
 import com.example.nagya.bestinpest.Lobby.item.LobbyCreatingPOST;
 import com.example.nagya.bestinpest.MainMenuActivity;
 import com.example.nagya.bestinpest.R;
+
+import java.util.List;
 
 /**
  * Created by nagya on 27/02/2018.
@@ -29,7 +35,12 @@ public class LobbyCreateDialog  extends DialogFragment {
     TextView lobbyPlayerNumber;
     Button plusBtn;
     Button minusBtn;
+    ImageButton sendGPSforJunction;
     MainMenuActivity parent;
+    Spinner junctionSpiner;
+    EditText usernameEditText;
+
+    List<JunctionRestItem> junctionRestItems;
 
     public LobbyCreateDialog setParent(MainMenuActivity parent){
         this.parent= parent;
@@ -43,13 +54,21 @@ public class LobbyCreateDialog  extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         View view = getActivity().getLayoutInflater().inflate(R.layout.fragment_lobbycreate, null);
         lobbyName = view.findViewById(R.id.CreateLobbyNameEditText);
-
+        sendGPSforJunction= view.findViewById(R.id.CreateLobby_GPSButton);
+        sendGPSforJunction.setImageResource(R.drawable.ic_my_location_black_24dp);
+        sendGPSforJunction.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                parent.sendGPSFreeAll();
+            }
+        });
 
         lobbyPassword = view.findViewById(R.id.CreateLobbyPasswordEditText);
         lobbyPlayerNumber =view.findViewById(R.id.CreateLobbyPlayerNumber);
         plusBtn = view.findViewById(R.id.CreateLobbyBtnPlus);
         minusBtn = view.findViewById(R.id.CreateLobbyBtnMinus);
-
+        junctionSpiner = view.findViewById(R.id.CreateLobby_StartSpiner);
+        usernameEditText = view.findViewById(R.id.CreateLobby_UsernameEditText);
         plusBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -77,12 +96,12 @@ public class LobbyCreateDialog  extends DialogFragment {
                 .setView(view)
                 .setPositiveButton("Create", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-
+                            JunctionRestItem selectedJunction= (JunctionRestItem) junctionSpiner.getSelectedItem();
                             parent.createThisLobby(new LobbyCreatingPOST(
                                     Integer.parseInt(lobbyPlayerNumber.getText().toString()),
                                     lobbyName.getText().toString(),
                                     readPassword(),
-                                    new Leader("BKK_CSF01108","Adam")));
+                                    new Leader( selectedJunction.getId(),usernameEditText.getText().toString())));
                        }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -94,6 +113,16 @@ public class LobbyCreateDialog  extends DialogFragment {
 
 
         return builder.create();
+    }
+
+    public void setJunctions(List<JunctionRestItem> junctions){
+        junctionRestItems= junctions;
+
+        ArrayAdapter<JunctionRestItem> junctionRestItemArrayAdapter = new ArrayAdapter<JunctionRestItem>(getContext(),R.layout.item_pass_junction,junctionRestItems);
+        junctionRestItemArrayAdapter.setDropDownViewResource(R.layout.item_pass_junction);
+        junctionSpiner.setAdapter(junctionRestItemArrayAdapter);
+
+
     }
 
     private String readPassword(){
