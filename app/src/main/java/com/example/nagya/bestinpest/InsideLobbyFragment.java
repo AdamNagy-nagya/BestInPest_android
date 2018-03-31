@@ -133,17 +133,27 @@ public class InsideLobbyFragment extends DialogFragment {
 
     @Override
     public void onStop() {
-
+        if(isLeaderViewOn){
+            parent.deleteLobby(lobby.getId());
+        }
         parent.leaveLobby(lobby,myProfile);
         EventBus.getDefault().unregister(this);
         super.onStop();
     }
 
+
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onLobbyItem(InsideLobbyRabbitMqItem insideLobbyRabbitMqItem) {
+
+        if(insideLobbyRabbitMqItem.getType().equals("lobby-deleted")){
+            getDialog().dismiss();
+
+        }
        lobby= insideLobbyRabbitMqItem.getObject();
        Log.e("ideért",insideLobbyRabbitMqItem.getMessage());
        recyclerAdapter.update(insideLobbyRabbitMqItem.getObject().getPlayers());
+
     }
 
 

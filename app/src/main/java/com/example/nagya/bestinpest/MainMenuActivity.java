@@ -171,6 +171,10 @@ public class MainMenuActivity extends AppCompatActivity implements LobbyCreateDi
         lobbyApiInteractor.loginToLobby(lobby.getId(),new Player(junction.getId(), playerName));
     }
 
+    public void deleteLobby(Integer lobbyId){
+        lobbyApiInteractor.deleteLobby(lobbyId);
+    }
+
     //TODO real GPS DATA!!
 
     public void sendGPS(Integer lobbyId){

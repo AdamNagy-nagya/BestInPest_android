@@ -1,0 +1,21 @@
+<LinearLayout
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:orientation="horizontal"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ActualJunction"
+        android:id="@+id/Game_detectivePlans_listitem_actual"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Junction in plan"
+        android:id="@+id/Game_detectivePlans_listitem_planedJunc"/>
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/Game_detectivePlans_listitem_editThisPlanBtn"/>
+</LinearLayout>
