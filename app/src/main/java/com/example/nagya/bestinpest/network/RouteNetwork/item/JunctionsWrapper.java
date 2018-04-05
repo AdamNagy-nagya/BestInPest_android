@@ -1,4 +1,4 @@
-package com.example.nagya.bestinpest.Junction.item;
+package com.example.nagya.bestinpest.network.RouteNetwork.item;
 
 import java.util.List;
 

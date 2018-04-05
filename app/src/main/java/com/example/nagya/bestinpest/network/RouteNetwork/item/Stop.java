@@ -1,4 +1,4 @@
-package com.example.nagya.bestinpest.Junction.item;
+package com.example.nagya.bestinpest.network.RouteNetwork.item;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

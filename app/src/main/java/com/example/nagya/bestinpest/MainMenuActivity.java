@@ -1,17 +1,15 @@
 package com.example.nagya.bestinpest;
 
 import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.nagya.bestinpest.Junction.item.JunctionRestItem;
-import com.example.nagya.bestinpest.Junction.item.JunctionsWrapper;
+import com.example.nagya.bestinpest.network.RouteNetwork.item.JunctionRestItem;
+import com.example.nagya.bestinpest.network.RouteNetwork.item.JunctionsWrapper;
 import com.example.nagya.bestinpest.Lobby.LobbyCreateDialog;
 import com.example.nagya.bestinpest.Lobby.LobbyEntryPassFragment;
 import com.example.nagya.bestinpest.Lobby.LobbyListFragment;

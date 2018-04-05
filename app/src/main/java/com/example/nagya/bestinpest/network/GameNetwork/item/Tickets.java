@@ -1,4 +1,4 @@
-package com.example.nagya.bestinpest.Game.item;
+package com.example.nagya.bestinpest.network.GameNetwork.item;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

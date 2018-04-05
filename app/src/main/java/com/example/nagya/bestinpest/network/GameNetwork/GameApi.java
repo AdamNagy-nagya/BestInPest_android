@@ -1,6 +1,6 @@
 package com.example.nagya.bestinpest.network.GameNetwork;
 
-import com.example.nagya.bestinpest.Game.item.GameObjectRestItem;
+import com.example.nagya.bestinpest.network.GameNetwork.item.GameObjectRestItem;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -17,6 +17,10 @@ public interface GameApi {
     @GET("games/{id}")
     Call<GameObjectRestItem> getGameById(@Path("id") Integer gameId);
 
+
    // @POST("games/{id}/criminal-step")
+    //Call<>
+
+    // @POST("games/{id}/criminal-step")
    // Call<>
 }

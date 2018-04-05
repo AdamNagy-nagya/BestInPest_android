@@ -1,11 +1,10 @@
 package com.example.nagya.bestinpest.network.LobbyNetwork;
 
-import com.example.nagya.bestinpest.Junction.item.JunctionRestItem;
+import com.example.nagya.bestinpest.network.RouteNetwork.item.JunctionRestItem;
 import com.example.nagya.bestinpest.Lobby.item.LobbyCreatingPOST;
 import com.example.nagya.bestinpest.Lobby.item.LobbyRestItem;
 import com.example.nagya.bestinpest.Lobby.item.Player;
 import com.example.nagya.bestinpest.network.LobbyNetwork.item.DeleteResponse;
-import com.example.nagya.bestinpest.network.LobbyNetwork.item.PasswordResponse;
 import com.example.nagya.bestinpest.network.LobbyNetwork.item.RabbitServerURIRestResponse;
 
 import java.util.List;
