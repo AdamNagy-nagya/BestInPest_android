@@ -24,11 +24,15 @@ public class GameActivity extends AppCompatActivity {
     @BindView(R.id.GameOkayBtn)
     Button GameOkayBtn;
 
+
+    private String state;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
         ButterKnife.bind(this);
+
 
     }
 

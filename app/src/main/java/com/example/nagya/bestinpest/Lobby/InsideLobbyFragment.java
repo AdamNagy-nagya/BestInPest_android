@@ -1,13 +1,8 @@
-package com.example.nagya.bestinpest;
+package com.example.nagya.bestinpest.Lobby;
 
 import android.app.Dialog;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,11 +12,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.nagya.bestinpest.Lobby.item.LobbyRestItem;
 import com.example.nagya.bestinpest.Lobby.item.Player;
+import com.example.nagya.bestinpest.MainMenuActivity;
+import com.example.nagya.bestinpest.R;
 import com.example.nagya.bestinpest.network.RabbitMq.item.InsideLobbyRabbitMqItem;
 
 import org.greenrobot.eventbus.EventBus;
@@ -29,11 +25,6 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-import butterknife.Unbinder;
 
 
 public class InsideLobbyFragment extends DialogFragment {
