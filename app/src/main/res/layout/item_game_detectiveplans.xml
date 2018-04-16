@@ -7,6 +7,11 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:id="@+id/Game_detectivePlans_listitem_playerName"
+        android:text="PlayerName"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="ActualJunction"
         android:id="@+id/Game_detectivePlans_listitem_actual"/>
     <TextView

@@ -3,6 +3,8 @@ package com.example.nagya.bestinpest.Game.item;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.HashMap;
+
 public class Plan {
 
 @SerializedName("id")
@@ -22,7 +24,7 @@ private Integer routeId;
 private Integer playerId;
 @SerializedName("reactions")
 @Expose
-private Reactions reactions;
+private HashMap<Integer, String> reactions;
 
 public Integer getId() {
 return id;
@@ -64,11 +66,11 @@ public void setPlayerId(Integer playerId) {
 this.playerId = playerId;
 }
 
-public Reactions getReactions() {
+public HashMap<Integer, String> getReactions() {
 return reactions;
 }
 
-public void setReactions(Reactions reactions) {
+public void setReactions(HashMap reactions) {
 this.reactions = reactions;
 }
 

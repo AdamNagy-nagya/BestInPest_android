@@ -3,6 +3,8 @@ package com.example.nagya.bestinpest.network.GameNetwork;
 import android.content.Context;
 import android.os.Handler;
 
+import com.example.nagya.bestinpest.Game.item.GameObject;
+
 import org.greenrobot.eventbus.EventBus;
 
 import retrofit2.Call;
@@ -19,6 +21,10 @@ public class GameApiInteractor {
 
     private final Context context;
 
+    public void getGameObjectById(int gameID){
+        Call<GameObject> gameObjectCall = gameApi.getGameById(gameID);
+        runCallOnBackgroundThread(gameObjectCall);
+    }
 
     public GameApiInteractor(Context context) {
         this.context = context;

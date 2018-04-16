@@ -1,5 +1,6 @@
 package com.example.nagya.bestinpest;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -9,8 +10,6 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.nagya.bestinpest.Lobby.InsideLobbyFragment;
-import com.example.nagya.bestinpest.network.RouteNetwork.item.JunctionRestItem;
-import com.example.nagya.bestinpest.network.RouteNetwork.item.JunctionsWrapper;
 import com.example.nagya.bestinpest.Lobby.LobbyCreateDialog;
 import com.example.nagya.bestinpest.Lobby.LobbyEntryPassFragment;
 import com.example.nagya.bestinpest.Lobby.LobbyListFragment;
@@ -24,6 +23,8 @@ import com.example.nagya.bestinpest.network.LobbyNetwork.item.RabbitServerURIRes
 import com.example.nagya.bestinpest.network.RabbitMq.InsideLobbyRabbitMq;
 import com.example.nagya.bestinpest.network.RabbitMq.LobbiesRabbitMq;
 import com.example.nagya.bestinpest.network.RabbitMq.item.LobbiesRabbitMqItem;
+import com.example.nagya.bestinpest.network.RouteNetwork.item.JunctionRestItem;
+import com.example.nagya.bestinpest.network.RouteNetwork.item.JunctionsWrapper;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -41,6 +42,8 @@ public class MainMenuActivity extends AppCompatActivity implements LobbyCreateDi
     Button MainMenuCreateLobby;
     @BindView(R.id.MainMenuIconImage)
     ImageView MainMenuIconImage;
+    @BindView(R.id.MainMenuResumeGame)
+    Button MainMenuResumeGame;
 
     private LobbyApiInteractor lobbyApiInteractor;
     private LobbyEntryPassFragment lobbyEntryPassFragment;
@@ -51,7 +54,6 @@ public class MainMenuActivity extends AppCompatActivity implements LobbyCreateDi
     private LobbiesRabbitMq lobbiesRabbitMq;
     private InsideLobbyRabbitMq insideLobbyRabbitMq;
     private static String RabbitMqURL;
-
 
 
     @Override
@@ -73,9 +75,9 @@ public class MainMenuActivity extends AppCompatActivity implements LobbyCreateDi
                 break;
             case R.id.MainMenuCreateLobby:
 
-               lobbyCreateDialog =  new LobbyCreateDialog();
-               lobbyCreateDialog.setParent(this).show(this.getSupportFragmentManager(), "dialog");
-               break;
+                lobbyCreateDialog = new LobbyCreateDialog();
+                lobbyCreateDialog.setParent(this).show(this.getSupportFragmentManager(), "dialog");
+                break;
         }
     }
 
@@ -94,17 +96,17 @@ public class MainMenuActivity extends AppCompatActivity implements LobbyCreateDi
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onLobbies(Lobbies lobbyRestItem) {
-      lobbyListFragment=  new LobbyListFragment();
-      lobbyListFragment.showDialog(this, lobbyRestItem);
+        lobbyListFragment = new LobbyListFragment();
+        lobbyListFragment.showDialog(this, lobbyRestItem);
 
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onJunctions(JunctionsWrapper junctionsWrapper) {
-        if(lobbyEntryPassFragment!= null) {
+        if (lobbyEntryPassFragment != null) {
             lobbyEntryPassFragment.setJunctions(junctionsWrapper.junctions);
         }
-        if(lobbyCreateDialog!=null){
+        if (lobbyCreateDialog != null) {
             lobbyCreateDialog.setJunctions(junctionsWrapper.junctions);
         }
     }
@@ -118,13 +120,13 @@ public class MainMenuActivity extends AppCompatActivity implements LobbyCreateDi
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onLobbyItemToJoin(LobbyRestItem lobbyRestItem) {
-        if(insideLobbyRabbitMq==null) {
+        if (insideLobbyRabbitMq == null) {
             insideLobbyRabbitMq = new InsideLobbyRabbitMq(RabbitMqURL, lobbyRestItem.getId());
         }
-        if(insideLobbyFragment==null) {
+        if (insideLobbyFragment == null) {
             insideLobbyFragment = new InsideLobbyFragment();
         }
-        insideLobbyFragment.setLobby(this,lobbyRestItem).show(this.getSupportFragmentManager(),"LobbyDialog");
+        insideLobbyFragment.setLobby(this, lobbyRestItem).show(this.getSupportFragmentManager(), "LobbyDialog");
 
     }
 
@@ -132,27 +134,25 @@ public class MainMenuActivity extends AppCompatActivity implements LobbyCreateDi
     public void onRabbitMqUrl(RabbitServerURIRestResponse rabbitServerURIRestResponse) {
         RabbitMqURL = rabbitServerURIRestResponse.getUrl();
         lobbiesRabbitMq = new LobbiesRabbitMq(rabbitServerURIRestResponse.getUrl());
-        Log.d("meggvan az url", ""+rabbitServerURIRestResponse.getUrl());
+        Log.d("meggvan az url", "" + rabbitServerURIRestResponse.getUrl());
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onLobbyListChanged(LobbiesRabbitMqItem item) {
-       if(lobbyListFragment!=null){
-           lobbyListFragment.refreshList(item.getObject());
-           Log.d("változott a lista","asd");
-       }
+        if (lobbyListFragment != null) {
+            lobbyListFragment.refreshList(item.getObject());
+            Log.d("változott a lista", "asd");
+        }
     }
-
-
 
 
     @Override
     public void createThisLobby(LobbyCreatingPOST lobbyCreatingPOST) {
         lobbyApiInteractor.createLobby(lobbyCreatingPOST);
-        Toast.makeText(this,"Lobby created",Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Lobby created", Toast.LENGTH_LONG).show();
     }
 
-    private void setupRabbitConnection(){
+    private void setupRabbitConnection() {
         lobbyApiInteractor.getRabbitmqRxUrl();
     }
 
@@ -162,39 +162,47 @@ public class MainMenuActivity extends AppCompatActivity implements LobbyCreateDi
         Toast.makeText(this, "Joining lobby " + lobbyRestItem.getId(), Toast.LENGTH_LONG).show();
 
         lobbyEntryPassFragment = new LobbyEntryPassFragment();
-        lobbyEntryPassFragment.setLobbyParent(lobbyRestItem,this).show(this.getSupportFragmentManager(),"PassDialog");
+        lobbyEntryPassFragment.setLobbyParent(lobbyRestItem, this).show(this.getSupportFragmentManager(), "PassDialog");
     }
 
-    public void readyToJoinLobby(LobbyRestItem lobby, JunctionRestItem junction, String playerName){
+    public void readyToJoinLobby(LobbyRestItem lobby, JunctionRestItem junction, String playerName) {
 
-        lobbyApiInteractor.loginToLobby(lobby.getId(),new Player(junction.getId(), playerName));
+        lobbyApiInteractor.loginToLobby(lobby.getId(), new Player(junction.getId(), playerName));
     }
 
-    public void deleteLobby(Integer lobbyId){
+    public void deleteLobby(Integer lobbyId) {
         lobbyApiInteractor.deleteLobby(lobbyId);
     }
 
     //TODO real GPS DATA!!
 
-    public void sendGPS(Integer lobbyId){
-        lobbyApiInteractor.getAvailableJunctions(lobbyId, 47.0,19.0);
-    }
-    public void sendGPSFreeAll(){
-        lobbyApiInteractor.getFreeJunctionsNearbyForFirstPlayer(47.0,19.0);
+    public void sendGPS(Integer lobbyId) {
+        lobbyApiInteractor.getAvailableJunctions(lobbyId, 47.0, 19.0);
     }
 
-    public void validatePassword(String password, LobbyRestItem lobby){
+    public void sendGPSFreeAll() {
+        lobbyApiInteractor.getFreeJunctionsNearbyForFirstPlayer(47.0, 19.0);
+    }
+
+    public void validatePassword(String password, LobbyRestItem lobby) {
         lobbyApiInteractor.authToLobby(lobby.getId(), password);
     }
 
-    public void leaveLobby(LobbyRestItem lobby, Player profile){
+    public void leaveLobby(LobbyRestItem lobby, Player profile) {
         lobbyApiInteractor.logoutFromLobby(lobby.getId(), profile.getId());
-        Toast.makeText(this,"You left the lobby",Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "You left the lobby", Toast.LENGTH_LONG).show();
     }
 
-    public void setPlayerReady(LobbyRestItem lobbyRestItem, Player profile){
-        lobbyApiInteractor.sendImReady(lobbyRestItem.getId(),profile.getId());
+    public void setPlayerReady(LobbyRestItem lobbyRestItem, Player profile) {
+        lobbyApiInteractor.sendImReady(lobbyRestItem.getId(), profile.getId());
     }
 
 
+    @OnClick(R.id.MainMenuResumeGame)
+    public void onViewClicked() {
+        Intent intent = new Intent(this, GameActivity.class);
+        intent.putExtra("GameId", 1000);
+        startActivity(intent);
+
+    }
 }

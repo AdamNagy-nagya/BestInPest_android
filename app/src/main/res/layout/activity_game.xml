@@ -2,38 +2,48 @@
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     android:orientation="vertical"
-    xmlns:android="http://schemas.android.com/apk/res/android" >
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:weightSum="5">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_weight="1">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/GameGamestatusTV"
-            android:layout_gravity="left"/>
+            android:layout_gravity="left"
+            android:text="leftTV"/>
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/GameRoundNumberTV"
-            android:layout_gravity="right"/>
+            android:layout_gravity="right"
+            android:gravity="right"
+            android:text="rightTV"/>
 
     </LinearLayout>
 
-        <android.support.v7.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/GameMrXpastSteps"
-            android:orientation="horizontal" />
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/GameMrXpastSteps"
+        android:orientation="horizontal"
+        android:layout_weight="1"/>
 
 
     <FrameLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:id="@+id/GameFrameLayout"/>
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/GameFrameLayout"
+        android:layout_weight="3"/>
 
     <Button
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:id="@+id/GameOkayBtn"/>
+        android:id="@+id/GameOkayBtn"
+        android:text="OKAY BTN"
+        android:layout_weight="1"/>
 </LinearLayout>
