@@ -12,10 +12,14 @@ import android.widget.TextView;
 import com.example.nagya.bestinpest.Game.DetectivePlansFragment;
 import com.example.nagya.bestinpest.Game.item.GameObject;
 import com.example.nagya.bestinpest.network.GameNetwork.GameApiInteractor;
+import com.example.nagya.bestinpest.network.RabbitMq.GameRabbitMq;
+import com.example.nagya.bestinpest.network.RabbitMq.item.GameRabbitMqItem;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+
+import java.io.InvalidClassException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -38,9 +42,12 @@ public class GameActivity extends AppCompatActivity {
     private String state;
     private GameObject gameObject;
     private GameApiInteractor gameApiInteractor;
-    private Integer gameID;
+    protected Integer gameID;
+    protected Integer myPlayerID;
+    private String rabbitMqURL;
 
     private DetectivePlansFragment detectivePlansFragment;
+    private GameRabbitMq gameRabbitMq;
 
 
     @Override
@@ -49,9 +56,21 @@ public class GameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_game);
         ButterKnife.bind(this);
         Intent intent = getIntent();
-        gameID  = intent.getIntExtra("GameId",1000);
+        gameID  = intent.getIntExtra("GameId",-1);
+        myPlayerID = intent.getIntExtra("PlayerId",-1);
+        rabbitMqURL = intent.getStringExtra("RabbitMqURL");
+
+        if (myPlayerID==-1 && gameID==-1){
+            try {
+                throw new InvalidClassException("Nincs meg a playerID!");
+            } catch (InvalidClassException e) {
+                e.printStackTrace();
+            }
+        }
+
         gameApiInteractor = new GameApiInteractor(this);
         detectivePlansFragment= new DetectivePlansFragment();
+        detectivePlansFragment.setUser(myPlayerID);
 
 
 
@@ -62,6 +81,7 @@ public class GameActivity extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
+        gameRabbitMq= new GameRabbitMq(rabbitMqURL, gameID);
         EventBus.getDefault().register(this);
         gameApiInteractor.getGameObjectById(gameID);
     }
@@ -81,9 +101,42 @@ public class GameActivity extends AppCompatActivity {
     }
 
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onRabbitMessage(GameRabbitMqItem gameRabbitMqItem) {
+        this.gameObject=gameRabbitMqItem.getObject();
+        switch (gameRabbitMqItem.getType()){
+            case "turn-changed":setupViewStuff();
+                                break;
+            case "game-ended": break;
+            case "detectives-step": break;
+            case "detective-plan": refreshFragmentData();
+                                    break;
+            case "recommendation-sent": break;
+            case "criminal-step": break;
+            case "plan-approved": break;
+            case "invalid-step": break;
+            case "criminal-caught": break;
+            case "game-removed": break;
+            case "plan-reaction": break;
+            case "recommendation-removed": break;
+            case "player-ready": break;
+
+
+
+
+
+        }
+        setupViewStuff();
+
+    }
+
 
     @OnClick(R.id.GameOkayBtn)
     public void onViewClicked() {
+    }
+
+    private void refreshFragmentData(){
+        detectivePlansFragment.updateGameObject(gameObject);
     }
 
     private void setupViewStuff(){
@@ -98,7 +151,10 @@ public class GameActivity extends AppCompatActivity {
                                     getSupportFragmentManager().beginTransaction()
                                     .add(R.id.GameFrameLayout, detectivePlansFragment).commit();
                                     break;
-                case "detective": break;
+                case "detectives":   detectivePlansFragment.setupGameObject(gameObject);
+                                    getSupportFragmentManager().beginTransaction()
+                                    .add(R.id.GameFrameLayout, detectivePlansFragment).commit();
+                                    break;
             }
         }
     }

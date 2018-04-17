@@ -54,7 +54,7 @@ public class InsideLobbyRabbitMq {
                                 throws IOException {
 
                             String message = new String(body, "UTF-8");
-                            Log.d("RabbitMQ ",message);
+                            Log.d("RabbitMQ inLOBBY ",message);
                             Gson gson = new Gson();
                             InsideLobbyRabbitMqItem insideLobbyRabbitMqItem = gson.fromJson(message, InsideLobbyRabbitMqItem.class);
 

@@ -59,7 +59,7 @@ public class LobbiesRabbitMq {
                                 throws IOException {
 
                                 String message = new String(body, "UTF-8");
-                                Log.d("RabbitMQ ",message);
+                                Log.d("RabbitMQ LOBBIES ",message);
                                 Gson gson = new Gson();
                                 LobbiesRabbitMqItem lobbiesRabbitMqItem = gson.fromJson(message, LobbiesRabbitMqItem.class);
 

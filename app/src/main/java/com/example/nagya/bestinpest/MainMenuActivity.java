@@ -201,7 +201,10 @@ public class MainMenuActivity extends AppCompatActivity implements LobbyCreateDi
     @OnClick(R.id.MainMenuResumeGame)
     public void onViewClicked() {
         Intent intent = new Intent(this, GameActivity.class);
+        //TODO normális értékek átadása!!!
         intent.putExtra("GameId", 1000);
+        intent.putExtra("PlayerId", 193);
+        intent.putExtra("RabbitMqURL",RabbitMqURL );
         startActivity(intent);
 
     }
