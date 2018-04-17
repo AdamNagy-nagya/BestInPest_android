@@ -63,4 +63,10 @@ public void setRelations(List<RouteRelation> relations) {
 this.relations = relations;
 }
 
+
+    @Override
+    public String toString() {
+        return type.toString();
+    }
+
 }

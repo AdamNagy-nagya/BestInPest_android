@@ -21,6 +21,14 @@ public class DetectiveStepPOST {
     @Expose
     private Integer routeId;
 
+
+    public DetectiveStepPOST(String arrivalJunctionId, String departureJunctionId, Integer playerId, Integer routeId){
+        this.arrivalJunctionId = arrivalJunctionId;
+        this.departureJunctionId = departureJunctionId;
+        this.playerId = playerId;
+        this.routeId = routeId;
+    }
+
     public String getArrivalJunctionId() {
     return arrivalJunctionId;
     }

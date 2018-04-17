@@ -4,8 +4,13 @@ import android.content.Context;
 import android.os.Handler;
 
 import com.example.nagya.bestinpest.Game.item.GameObject;
+import com.example.nagya.bestinpest.network.GameNetwork.item.DetectiveStepPOST;
+import com.example.nagya.bestinpest.network.RouteNetwork.item.JunctionRestItem;
+import com.example.nagya.bestinpest.network.RouteNetwork.item.JunctionsWrapper;
 
 import org.greenrobot.eventbus.EventBus;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Retrofit;
@@ -26,6 +31,16 @@ public class GameApiInteractor {
         runCallOnBackgroundThread(gameObjectCall);
     }
 
+    public void getAvailableJunctions(int playerId){
+        Call<List<JunctionRestItem>> getAvailableJunctionsreq= gameApi.getAvailableJunctions(playerId);
+        runListtAvailableJunctions(getAvailableJunctionsreq);
+    }
+
+    public void sendDetectivePlan(int gameId, DetectiveStepPOST detectiveStepPOST){
+        Call<GameObject> sendDetecReq = gameApi.addDetectivePlan(gameId,detectiveStepPOST);
+        runwaterver(sendDetecReq);
+    }
+
     public GameApiInteractor(Context context) {
         this.context = context;
 
@@ -35,6 +50,39 @@ public class GameApiInteractor {
                 .build();
 
         this.gameApi = retrofit.create(GameApi.class);
+    }
+
+
+    private static <T> void runListtAvailableJunctions(final Call<List<JunctionRestItem>> call) {
+        final Handler handler = new Handler();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    final List<JunctionRestItem> response = call.execute().body();
+                    EventBus.getDefault().post( new JunctionsWrapper(response));
+                } catch (final Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+    }
+
+
+
+    private static <T> void runwaterver(final Call<T> call) {
+        final Handler handler = new Handler();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    call.execute();
+
+                } catch (final Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
 
     private static <T> void runCallOnBackgroundThread(final Call<T> call) {

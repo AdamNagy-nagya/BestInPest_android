@@ -31,7 +31,7 @@ public interface GameApi {
     Call<GameObject> addCriminalStep (@Path("id") long gameId, @Body CriminalStepPOST criminalStepPOST);
 
     @POST("games/{id}/detective-plan")
-    Call<GameObject> addDetectivePlan (@Path("id") long gameId, @Body DetectiveStepPOST criminalStep);
+    Call<GameObject> addDetectivePlan (@Path("id") long gameId, @Body DetectiveStepPOST detectiveStepPOST);
 
     @POST("games/{id}/plans/{planId}/react")
     Call<GameObject> approvePlan (@Path("id") long gameId, @Path("planId") long planId, @Query("playerId") long playerId, @Query("reaction") String reaction);

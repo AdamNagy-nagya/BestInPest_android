@@ -4,8 +4,13 @@ import android.content.Context;
 import android.os.Handler;
 
 import com.example.nagya.bestinpest.network.GameNetwork.GameApi;
+import com.example.nagya.bestinpest.network.RouteNetwork.item.JunctionRestItem;
+import com.example.nagya.bestinpest.network.RouteNetwork.item.Route;
+import com.example.nagya.bestinpest.network.RouteNetwork.item.RouteWrapper;
 
 import org.greenrobot.eventbus.EventBus;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Retrofit;
@@ -20,6 +25,17 @@ public class RouteApiInteractor {
     private RouteApi routeApi;
     private final Context context;
 
+
+    public void getRoutesBetween(String departure, String arrival){
+        Call<List<Route>>getRoutesreq =routeApi.getRoutesBetween(departure,arrival);
+        runListRoutes(getRoutesreq);
+    }
+
+    public void getJuncByID(String junctionId){
+        Call<JunctionRestItem>getRoutesreq =routeApi.getJunctionbyId(junctionId);
+        runCallOnBackgroundThread(getRoutesreq);
+    }
+
     public RouteApiInteractor(Context context) {
         this.context = context;
 
@@ -29,6 +45,22 @@ public class RouteApiInteractor {
                 .build();
 
         this.routeApi = retrofit.create(RouteApi.class);
+    }
+
+
+    private static <T> void runListRoutes(final Call<List<Route>> call) {
+        final Handler handler = new Handler();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    final List<Route> response = call.execute().body();
+                    EventBus.getDefault().post( new RouteWrapper(response));
+                } catch (final Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
 
 

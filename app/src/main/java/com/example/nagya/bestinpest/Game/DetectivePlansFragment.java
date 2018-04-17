@@ -20,6 +20,11 @@ import com.example.nagya.bestinpest.Game.item.PlanswithPlayerItem;
 import com.example.nagya.bestinpest.Game.item.Player;
 import com.example.nagya.bestinpest.Lobby.LobbyCreateDialog;
 import com.example.nagya.bestinpest.R;
+import com.example.nagya.bestinpest.network.RouteNetwork.item.JunctionRestItem;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +51,26 @@ public class DetectivePlansFragment extends Fragment {
     public DetectivePlansFragment() {
         // Required empty public constructor
     }
+
+/*
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+
+    }
+
+    @Override
+    public void onStop() {
+        EventBus.getDefault().unregister(this);
+        super.onStop();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onJunction(JunctionRestItem junctionRestItem) {
+
+
+    }*/
 
 
     @Override
