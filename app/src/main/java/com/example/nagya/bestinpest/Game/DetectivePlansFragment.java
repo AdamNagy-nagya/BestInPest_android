@@ -104,18 +104,19 @@ public class DetectivePlansFragment extends Fragment {
     public List<PlanswithPlayerItem> makeListFromHasMap(GameObject gameObject) {
 
         List<PlanswithPlayerItem> planswithPlayerItemList = new ArrayList<>();
-
-        if (!gameObject.getDetectiveSteps().isEmpty()) {
-            List<Plan> planlist = new ArrayList<>(gameObject.getDetectiveSteps().get(gameObject.getRound() - 1).getPlans().values());
-            List<Integer> playerIDlist = new ArrayList<>(gameObject.getDetectiveSteps().get(gameObject.getRound() - 1).getPlans().keySet());
-            int cnt = 0;
-            for (Integer i : playerIDlist) {
-                for (Player player : gameObject.getPlayers()) {
-                    if (i.equals(player.getId())) {
-                        planswithPlayerItemList.add(new PlanswithPlayerItem(player, planlist.get(cnt)));
+        if(gameObject.getDetectiveSteps()!=null) {
+            if (!gameObject.getDetectiveSteps().isEmpty()) {
+                List<Plan> planlist = new ArrayList<>(gameObject.getDetectiveSteps().get(gameObject.getRound() - 1).getPlans().values());
+                List<Integer> playerIDlist = new ArrayList<>(gameObject.getDetectiveSteps().get(gameObject.getRound() - 1).getPlans().keySet());
+                int cnt = 0;
+                for (Integer i : playerIDlist) {
+                    for (Player player : gameObject.getPlayers()) {
+                        if (i.equals(player.getId())) {
+                            planswithPlayerItemList.add(new PlanswithPlayerItem(player, planlist.get(cnt)));
+                        }
                     }
+                    cnt++;
                 }
-                cnt++;
             }
         }
         return planswithPlayerItemList;

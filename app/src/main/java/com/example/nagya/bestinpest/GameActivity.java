@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.example.nagya.bestinpest.Game.CriminalPlanFragment;
 import com.example.nagya.bestinpest.Game.DetectivePlansFragment;
 import com.example.nagya.bestinpest.Game.item.GameObject;
 import com.example.nagya.bestinpest.network.GameNetwork.GameApiInteractor;
@@ -47,6 +48,7 @@ public class GameActivity extends AppCompatActivity {
     private String rabbitMqURL;
 
     private DetectivePlansFragment detectivePlansFragment;
+    private CriminalPlanFragment criminalPlanFragment;
     private GameRabbitMq gameRabbitMq;
 
 
@@ -71,6 +73,9 @@ public class GameActivity extends AppCompatActivity {
         gameApiInteractor = new GameApiInteractor(this);
         detectivePlansFragment= new DetectivePlansFragment();
         detectivePlansFragment.setUser(myPlayerID);
+
+        criminalPlanFragment = new CriminalPlanFragment();
+        criminalPlanFragment.setUser(myPlayerID);
 
 
 
@@ -149,9 +154,9 @@ public class GameActivity extends AppCompatActivity {
             switch (state){
 
                 //TODO!!!
-                case "criminal":    detectivePlansFragment.setupGameObject(gameObject);
+                case "criminal":    criminalPlanFragment.setupGameObject(gameObject);
                                     getSupportFragmentManager().beginTransaction()
-                                    .add(R.id.GameFrameLayout, detectivePlansFragment).commit();
+                                    .add(R.id.GameFrameLayout, criminalPlanFragment).commit();
                                     break;
                 case "detectives":   detectivePlansFragment.setupGameObject(gameObject);
                                     getSupportFragmentManager().beginTransaction()
