@@ -51,6 +51,8 @@ public class GamePlanMakerFragment extends Fragment {
     RouteApiInteractor routeApiInteractor;
     @BindView(R.id.Game_planmaker_routeSpiner)
     Spinner RouteSpiner;
+    @BindView(R.id.Test_Player_plan_spinner)
+    Spinner TestPlayerPlanSpinner;
 
     private GameObject gameObject;
 
@@ -70,8 +72,8 @@ public class GamePlanMakerFragment extends Fragment {
         GamePlanmakerJunctionstoGoSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                JunctionRestItem junctionRestItem=(JunctionRestItem) GamePlanmakerJunctionstoGoSpinner.getSelectedItem();
-                routeApiInteractor.getRoutesBetween(myUser.getJunctionId(),junctionRestItem.getId());
+                JunctionRestItem junctionRestItem = (JunctionRestItem) GamePlanmakerJunctionstoGoSpinner.getSelectedItem();
+                routeApiInteractor.getRoutesBetween(myUser.getJunctionId(), junctionRestItem.getId());
             }
 
             @Override
@@ -84,13 +86,16 @@ public class GamePlanMakerFragment extends Fragment {
     }
 
     public void setupData(GameObject gameObject, Integer playerId) {
-        this.gameObject= gameObject;
+        this.gameObject = gameObject;
         for (Player player : gameObject.getPlayers()) {
             if (playerId.equals(player.getId())) {
                 myUser = player;
             }
         }
-       // GamePlanmakerActualpositionTV.setText(myUser.getJunctionId());
+
+
+
+        // GamePlanmakerActualpositionTV.setText(myUser.getJunctionId());
     }
 
 
@@ -98,7 +103,25 @@ public class GamePlanMakerFragment extends Fragment {
     public void onStart() {
         super.onStart();
         EventBus.getDefault().register(this);
-        gameApiInteractor.getAvailableJunctions(myUser.getId());
+        ArrayAdapter<Player> testPlayer = new ArrayAdapter<Player>(getContext(), R.layout.item_pass_junction, gameObject.getPlayers());
+        testPlayer.setDropDownViewResource(R.layout.item_pass_junction);
+        TestPlayerPlanSpinner.setAdapter(testPlayer);
+        TestPlayerPlanSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                Player seleectedPlayer = (Player) TestPlayerPlanSpinner.getSelectedItem();
+                myUser= seleectedPlayer;
+
+                gameApiInteractor.getAvailableJunctions(myUser.getId());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        //gameApiInteractor.getAvailableJunctions(myUser.getId());
     }
 
     @Override
@@ -132,16 +155,15 @@ public class GamePlanMakerFragment extends Fragment {
 
     @OnClick(R.id.Game_planmaker_sendThisPlanBTN)
     public void onViewClicked() {
-        if(GamePlanmakerJunctionstoGoSpinner.getSelectedItem()!=null && RouteSpiner.getSelectedItem()!=null){
-            JunctionRestItem arrivalJunc= (JunctionRestItem) GamePlanmakerJunctionstoGoSpinner.getSelectedItem();
+        if (GamePlanmakerJunctionstoGoSpinner.getSelectedItem() != null && RouteSpiner.getSelectedItem() != null) {
+            JunctionRestItem arrivalJunc = (JunctionRestItem) GamePlanmakerJunctionstoGoSpinner.getSelectedItem();
             Route planedRoute = (Route) RouteSpiner.getSelectedItem();
-            gameApiInteractor.sendDetectivePlan(gameObject.getId(),new DetectiveStepPOST(arrivalJunc.getId(),myUser.getJunctionId(),myUser.getId(),planedRoute.getId()));
-
+            gameApiInteractor.sendDetectivePlan(gameObject.getId(), new DetectiveStepPOST(arrivalJunc.getId(), myUser.getJunctionId(), myUser.getId(), planedRoute.getId()));
 
 
             //TODO ITT MÉG NEM JÓ VALAMI!!!   :(
 
-            getActivity().getSupportFragmentManager().popBackStackImmediate();
+            getActivity().getSupportFragmentManager().popBackStack();
 
         }
     }

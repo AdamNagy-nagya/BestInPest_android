@@ -16,6 +16,7 @@ import com.rabbitmq.client.Envelope;
 import org.greenrobot.eventbus.EventBus;
 
 import java.io.IOException;
+import java.util.concurrent.TimeoutException;
 
 /**
  * Created by nagya on 17/04/2018.
@@ -32,6 +33,18 @@ public class GameRabbitMq {
             this.gameId= gameId;
             this.RABBIT_URL = RABBIT_URL;
             runLobbiesRabbitMq();
+
+        }
+
+        public void stopGameRabbitMq(){
+            try {
+                channel.close();
+                conn.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (TimeoutException e) {
+                e.printStackTrace();
+            }
 
         }
 

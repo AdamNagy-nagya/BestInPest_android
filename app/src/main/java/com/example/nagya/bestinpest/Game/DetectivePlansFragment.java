@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.nagya.bestinpest.Game.item.GameObject;
 import com.example.nagya.bestinpest.Game.item.Plan;
@@ -20,6 +21,7 @@ import com.example.nagya.bestinpest.Game.item.PlanswithPlayerItem;
 import com.example.nagya.bestinpest.Game.item.Player;
 import com.example.nagya.bestinpest.Lobby.LobbyCreateDialog;
 import com.example.nagya.bestinpest.R;
+import com.example.nagya.bestinpest.network.GameNetwork.GameApiInteractor;
 import com.example.nagya.bestinpest.network.RouteNetwork.item.JunctionRestItem;
 
 import org.greenrobot.eventbus.EventBus;
@@ -47,31 +49,11 @@ public class DetectivePlansFragment extends Fragment {
     private GameObject gameObject;
     private Integer playerId;
 
+    private GameApiInteractor gameApiInteractor;
 
     public DetectivePlansFragment() {
         // Required empty public constructor
     }
-
-/*
-    @Override
-    public void onStart() {
-        super.onStart();
-        EventBus.getDefault().register(this);
-
-    }
-
-    @Override
-    public void onStop() {
-        EventBus.getDefault().unregister(this);
-        super.onStop();
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onJunction(JunctionRestItem junctionRestItem) {
-
-
-    }*/
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -81,6 +63,7 @@ public class DetectivePlansFragment extends Fragment {
         plansRV.setLayoutManager(new LinearLayoutManager(getContext()));
         plansAdapter = new PlanAdapter(this, gameObject, makeListFromHasMap(gameObject));
         plansRV.setAdapter(plansAdapter);
+        gameApiInteractor= new GameApiInteractor(getContext());
         //plansAdapter.update(makeListFromHasMap(gameObject));
 
 
@@ -158,7 +141,6 @@ public class DetectivePlansFragment extends Fragment {
         }
 
         public void update(List newValues) {
-            Log.e("ideért","yee");
             mValues.clear();
             mValues.addAll(newValues);
             notifyDataSetChanged();
@@ -181,6 +163,34 @@ public class DetectivePlansFragment extends Fragment {
             holder.actualJunc.setText(mValues.get(position).plan.getDepartureJunctionId());
             holder.planedJunc.setText(mValues.get(position).plan.getArrivalJunctionId());
             holder.playerName.setText(mValues.get(position).player.getName());
+            holder.okBtn.setImageResource(R.drawable.ic_done_black_24dp);
+            holder.okBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    parent.gameApiInteractor.sendDetectiveStepReact(gameObject.getId(), mValues.get(position).plan.getId(), mValues.get(position).plan.getPlayerId(), "approve");
+                }
+            });
+
+            holder.editBtn.setImageResource(R.drawable.ic_merge_type_black_24dp);
+            holder.editBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(mValues.get(position).player.getId().equals(parent.playerId)){
+                        Toast.makeText(parent.getContext(),"Módosítsd a terved", Toast.LENGTH_LONG).show();
+                    }
+                    else{
+                        DetectiveRecommendationMakeFragment detectiveRecommendationMakeFragment = new DetectiveRecommendationMakeFragment();
+
+                        detectiveRecommendationMakeFragment.setupData(gameObject, mValues.get(position).player.getId(), parent.playerId);
+                        FragmentTransaction transaction = parent.getActivity().getSupportFragmentManager().beginTransaction();
+
+                        transaction.replace(R.id.GameFrameLayout, detectiveRecommendationMakeFragment);
+                        transaction.addToBackStack(null);
+                        transaction.commit();
+                    }
+                }
+            });
+
         }
 
         @Override
@@ -194,6 +204,7 @@ public class DetectivePlansFragment extends Fragment {
             final TextView actualJunc;
             final TextView planedJunc;
             final ImageButton editBtn;
+            final ImageButton okBtn;
 
 
             ViewHolder(View view) {
@@ -202,6 +213,8 @@ public class DetectivePlansFragment extends Fragment {
                 actualJunc = view.findViewById(R.id.Game_detectivePlans_listitem_actual);
                 planedJunc = view.findViewById(R.id.Game_detectivePlans_listitem_planedJunc);
                 editBtn = view.findViewById(R.id.Game_detectivePlans_listitem_editThisPlanBtn);
+                okBtn = view.findViewById(R.id.Game_detectivePlans_listitem_OKBtn);
+
 
 
             }

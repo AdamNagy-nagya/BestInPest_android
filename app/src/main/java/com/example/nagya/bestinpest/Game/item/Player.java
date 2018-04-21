@@ -61,4 +61,8 @@ public void setTickets(Tickets tickets) {
 this.tickets = tickets;
 }
 
+    @Override
+    public String toString() {
+        return name.toString();
+    }
 }

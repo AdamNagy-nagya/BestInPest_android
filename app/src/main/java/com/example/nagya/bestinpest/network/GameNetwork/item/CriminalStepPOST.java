@@ -14,10 +14,14 @@ private String departureJunctionId;
 @SerializedName("routeId")
 @Expose
 private Integer routeId;
-@SerializedName("type")
-@Expose
-private String type;
 
+
+public CriminalStepPOST(String arrivalJunctionId, String departureJunctionId,Integer routeId){
+    this.arrivalJunctionId= arrivalJunctionId;
+    this.departureJunctionId= departureJunctionId;
+    this.routeId= routeId;
+
+}
 
 public String getArrivalJunctionId() {
 return arrivalJunctionId;
@@ -41,14 +45,6 @@ return routeId;
 
 public void setRouteId(Integer routeId) {
 this.routeId = routeId;
-}
-
-public String getType() {
-return type;
-}
-
-public void setType(String type) {
-this.type = type;
 }
 
 }

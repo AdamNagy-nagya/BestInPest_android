@@ -16,7 +16,7 @@ import com.example.nagya.bestinpest.Game.item.GameObject;
 import com.example.nagya.bestinpest.Game.item.Player;
 import com.example.nagya.bestinpest.R;
 import com.example.nagya.bestinpest.network.GameNetwork.GameApiInteractor;
-import com.example.nagya.bestinpest.network.GameNetwork.item.CriminalStepPOST;
+import com.example.nagya.bestinpest.network.GameNetwork.item.StepRecommendation;
 import com.example.nagya.bestinpest.network.RouteNetwork.RouteApiInteractor;
 import com.example.nagya.bestinpest.network.RouteNetwork.item.JunctionRestItem;
 import com.example.nagya.bestinpest.network.RouteNetwork.item.JunctionsWrapper;
@@ -35,26 +35,28 @@ import butterknife.Unbinder;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class CriminalPlanFragment extends Fragment {
+public class DetectiveRecommendationMakeFragment extends Fragment {
 
-    @BindView(R.id.Game_criminal_actualpozTV)
-    TextView ActualpozTV;
-    @BindView(R.id.Game_criminal_junctionstoGoSpinner)
+
+    @BindView(R.id.Game_recommendation_actualpositionTV)
+    TextView ActualpositionTV;
+    @BindView(R.id.Game_recommendation_junctionstoGoSpinner)
     Spinner JunctionstoGoSpinner;
-    @BindView(R.id.Game_criminal_routeSpiner)
+    @BindView(R.id.Game_recommendation_routeSpiner)
     Spinner RouteSpiner;
-    @BindView(R.id.Game_criminal_sendThisPlanBTN)
-    Button SendThisPlanBtn;
+    @BindView(R.id.Game_recommendation_sendThisPlanBTN)
+    Button SendThisBtn;
     Unbinder unbinder;
-    private GameObject gameObject;
-    private Integer playerId;
+
 
     Player myUser;
+    Integer myRealPlayerId;
     GameApiInteractor gameApiInteractor;
     RouteApiInteractor routeApiInteractor;
+    private GameObject gameObject;
 
 
-    public CriminalPlanFragment() {
+    public DetectiveRecommendationMakeFragment() {
         // Required empty public constructor
     }
 
@@ -63,21 +65,16 @@ public class CriminalPlanFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_criminal_plan, container, false);
-        gameApiInteractor = new GameApiInteractor(getContext());
-        routeApiInteractor = new RouteApiInteractor(getContext());
+        View view = inflater.inflate(R.layout.fragment_detective_recommendation_make, container, false);
         unbinder = ButterKnife.bind(this, view);
 
+        gameApiInteractor = new GameApiInteractor(getContext());
+        routeApiInteractor = new RouteApiInteractor(getContext());
         JunctionstoGoSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                JunctionRestItem junctionRestItem=(JunctionRestItem) JunctionstoGoSpinner.getSelectedItem();
-
-
-                //TODO !!! ITT IS MÁSIK ID KELL!!!
-                routeApiInteractor.getRoutesBetween("BKK_CSF01108",junctionRestItem.getId());
-
-
+                JunctionRestItem junctionRestItem = (JunctionRestItem) JunctionstoGoSpinner.getSelectedItem();
+                routeApiInteractor.getRoutesBetween(myUser.getJunctionId(), junctionRestItem.getId());
             }
 
             @Override
@@ -85,34 +82,20 @@ public class CriminalPlanFragment extends Fragment {
 
             }
         });
+
+
         return view;
     }
 
-    public void setupGameObject(GameObject gameObject) {
+    public void setupData(GameObject gameObject, Integer playertoId, Integer myPlayerId) {
         this.gameObject = gameObject;
-
-    }
-
-    public void updateGameObject(GameObject gameObject) {
-        this.gameObject = gameObject;
-
-    }
-
-    public void setUser(Integer myUserId) {
-        playerId = myUserId;
-
-        //TODO Test miatt itt nem valós az ID!!!
-        for (Player player: gameObject.getPlayers()){
-            if(gameObject.getCriminalId().equals(player.getId())){
-                myUser= player;
+        for (Player player : gameObject.getPlayers()) {
+            if (playertoId.equals(player.getId())) {
+                myUser = player;
             }
         }
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
+        myRealPlayerId = myPlayerId;
+         // GamePlanmakerActualpositionTV.setText(myUser.getJunctionId());
     }
 
 
@@ -120,11 +103,17 @@ public class CriminalPlanFragment extends Fragment {
     public void onStart() {
         super.onStart();
         EventBus.getDefault().register(this);
-
-        //TODO !!!! ITT NEM EZ AZ ID VAN!!! csak a test miatt!!!
-        gameApiInteractor.getAvailableJunctions(gameObject.getCriminalId());
-        //!!!!!
+        gameApiInteractor.getAvailableJunctions(myUser.getId());
     }
+
+
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+    }
+
 
     @Override
     public void onStop() {
@@ -148,20 +137,18 @@ public class CriminalPlanFragment extends Fragment {
         RouteSpiner.setAdapter(junctionRestItemArrayAdapter);
     }
 
-    @OnClick(R.id.Game_criminal_sendThisPlanBTN)
+    @OnClick(R.id.Game_recommendation_sendThisPlanBTN)
     public void onViewClicked() {
-        if(JunctionstoGoSpinner.getSelectedItem()!=null && RouteSpiner.getSelectedItem()!=null){
-            JunctionRestItem arrivalJunc= (JunctionRestItem) JunctionstoGoSpinner.getSelectedItem();
+
+        if (JunctionstoGoSpinner.getSelectedItem() != null && RouteSpiner.getSelectedItem() != null) {
+            JunctionRestItem arrivalJunc = (JunctionRestItem) JunctionstoGoSpinner.getSelectedItem();
             Route planedRoute = (Route) RouteSpiner.getSelectedItem();
-            gameApiInteractor.sendCriminalStep(gameObject.getId(),new CriminalStepPOST(arrivalJunc.getId(),myUser.getJunctionId(),planedRoute.getId()));
+            gameApiInteractor.sendDetectiveRecommedation(gameObject.getId(),
+                    new StepRecommendation(arrivalJunc.getId(), myUser.getJunctionId(), myUser.getId(),myRealPlayerId));
 
 
 
-            //TODO ITT MÉG NEM JÓ VALAMI!!!   :(
-
-           // getActivity().getSupportFragmentManager().popBackStackImmediate();
-
+            getActivity().getSupportFragmentManager().popBackStack();
         }
-
     }
 }

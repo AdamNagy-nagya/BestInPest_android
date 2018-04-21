@@ -19,6 +19,15 @@ public class StepRecommendation {
     @Expose
     private Integer senderPlayerId;
 
+
+    public StepRecommendation(String arrivalJunctionId,String departureJunctionId,
+                              Integer receiverPlayerId, Integer senderPlayerId){
+        this.arrivalJunctionId = arrivalJunctionId;
+        this.departureJunctionId = departureJunctionId;
+        this.receiverPlayerId = receiverPlayerId;
+        this.senderPlayerId = senderPlayerId;
+    }
+
     public String getArrivalJunctionId() {
     return arrivalJunctionId;
     }

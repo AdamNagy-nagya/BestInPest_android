@@ -4,7 +4,9 @@ import android.content.Context;
 import android.os.Handler;
 
 import com.example.nagya.bestinpest.Game.item.GameObject;
+import com.example.nagya.bestinpest.network.GameNetwork.item.CriminalStepPOST;
 import com.example.nagya.bestinpest.network.GameNetwork.item.DetectiveStepPOST;
+import com.example.nagya.bestinpest.network.GameNetwork.item.StepRecommendation;
 import com.example.nagya.bestinpest.network.RouteNetwork.item.JunctionRestItem;
 import com.example.nagya.bestinpest.network.RouteNetwork.item.JunctionsWrapper;
 
@@ -40,6 +42,24 @@ public class GameApiInteractor {
         Call<GameObject> sendDetecReq = gameApi.addDetectivePlan(gameId,detectiveStepPOST);
         runwaterver(sendDetecReq);
     }
+
+    public void sendCriminalStep(int gameId, CriminalStepPOST criminalStepPOST){
+        Call<GameObject> sendCriminalStep = gameApi.addCriminalStep(gameId,criminalStepPOST);
+        runwaterver(sendCriminalStep);
+    }
+
+    public void sendDetectiveStepReact(int gameId, int planId, int playerId, String reactString){
+        Call<GameObject> sendReactReq = gameApi.approvePlan(gameId,planId,playerId,reactString);
+        runwaterver(sendReactReq);
+    }
+
+    public void sendDetectiveRecommedation(int gameId, StepRecommendation stepRecommendation){
+        Call<GameObject> sendRecreq = gameApi.addRecommendation(gameId,stepRecommendation);
+        runwaterver(sendRecreq);
+    }
+
+
+
 
     public GameApiInteractor(Context context) {
         this.context = context;
