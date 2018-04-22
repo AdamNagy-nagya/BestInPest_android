@@ -7,71 +7,96 @@ import java.util.HashMap;
 
 public class Plan {
 
-@SerializedName("id")
-@Expose
-private Integer id;
-@SerializedName("departureJunctionId")
-@Expose
-private String departureJunctionId;
-@SerializedName("arrivalJunctionId")
-@Expose
-private String arrivalJunctionId;
-@SerializedName("routeId")
-@Expose
-private Integer routeId;
-@SerializedName("playerId")
-@Expose
-private Integer playerId;
-@SerializedName("reactions")
-@Expose
-private HashMap<Integer, String> reactions;
+    @SerializedName("id")
+    @Expose
+    private Integer id;
 
-public Integer getId() {
-return id;
-}
+    @SerializedName("arrivalJunctionId")
+    @Expose
+    private String arrivalJunctionId;
 
-public void setId(Integer id) {
-this.id = id;
-}
+    @SerializedName("arrivalJunctionName")
+    @Expose
+    private String arrivalJunctionName;
 
-public String getDepartureJunctionId() {
-return departureJunctionId;
-}
+    @SerializedName("departureJunctionId")
+    @Expose
+    private String departureJunctionId;
+    @SerializedName("departureJunctionName")
+    @Expose
+    private String departureJunctionName;
 
-public void setDepartureJunctionId(String departureJunctionId) {
-this.departureJunctionId = departureJunctionId;
-}
+    @SerializedName("routeId")
+    @Expose
+    private Integer routeId;
+    @SerializedName("playerId")
+    @Expose
+    private Integer playerId;
+    @SerializedName("reactions")
+    @Expose
+    private HashMap<Integer, String> reactions;
 
-public String getArrivalJunctionId() {
-return arrivalJunctionId;
-}
+    public Integer getId() {
+    return id;
+    }
 
-public void setArrivalJunctionId(String arrivalJunctionId) {
-this.arrivalJunctionId = arrivalJunctionId;
-}
+    public void setId(Integer id) {
+    this.id = id;
+    }
 
-public Integer getRouteId() {
-return routeId;
-}
+    public String getDepartureJunctionId() {
+    return departureJunctionId;
+    }
 
-public void setRouteId(Integer routeId) {
-this.routeId = routeId;
-}
+    public void setDepartureJunctionId(String departureJunctionId) {
+    this.departureJunctionId = departureJunctionId;
+    }
 
-public Integer getPlayerId() {
-return playerId;
-}
+    public String getArrivalJunctionId() {
+    return arrivalJunctionId;
+    }
 
-public void setPlayerId(Integer playerId) {
-this.playerId = playerId;
-}
+    public void setArrivalJunctionId(String arrivalJunctionId) {
+    this.arrivalJunctionId = arrivalJunctionId;
+    }
 
-public HashMap<Integer, String> getReactions() {
-return reactions;
-}
+    public Integer getRouteId() {
+    return routeId;
+    }
 
-public void setReactions(HashMap reactions) {
-this.reactions = reactions;
-}
+    public void setRouteId(Integer routeId) {
+    this.routeId = routeId;
+    }
 
+    public Integer getPlayerId() {
+    return playerId;
+    }
+
+    public void setPlayerId(Integer playerId) {
+    this.playerId = playerId;
+    }
+
+    public HashMap<Integer, String> getReactions() {
+    return reactions;
+    }
+
+    public void setReactions(HashMap reactions) {
+    this.reactions = reactions;
+    }
+
+    public String getArrivalJunctionName() {
+        return arrivalJunctionName;
+    }
+
+    public void setArrivalJunctionName(String arrivalJunctionName) {
+        this.arrivalJunctionName = arrivalJunctionName;
+    }
+
+    public String getDepartureJunctionName() {
+        return departureJunctionName;
+    }
+
+    public void setDepartureJunctionName(String departureJunctionName) {
+        this.departureJunctionName = departureJunctionName;
+    }
 }

@@ -160,14 +160,14 @@ public class DetectivePlansFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(final ViewHolder holder, final int position) {
-            holder.actualJunc.setText(mValues.get(position).plan.getDepartureJunctionId());
-            holder.planedJunc.setText(mValues.get(position).plan.getArrivalJunctionId());
+            holder.actualJunc.setText(mValues.get(position).plan.getDepartureJunctionName());
+            holder.planedJunc.setText(mValues.get(position).plan.getArrivalJunctionName());
             holder.playerName.setText(mValues.get(position).player.getName());
             holder.okBtn.setImageResource(R.drawable.ic_done_black_24dp);
             holder.okBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    parent.gameApiInteractor.sendDetectiveStepReact(gameObject.getId(), mValues.get(position).plan.getId(), mValues.get(position).plan.getPlayerId(), "approve");
+                    parent.gameApiInteractor.sendDetectiveStepReact(gameObject.getId(), mValues.get(position).plan.getId(), parent.playerId, "approve");
                 }
             });
 

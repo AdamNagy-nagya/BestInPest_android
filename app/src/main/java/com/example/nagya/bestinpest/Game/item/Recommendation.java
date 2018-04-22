@@ -5,60 +5,83 @@ import com.google.gson.annotations.SerializedName;
 
 public class Recommendation {
 
-@SerializedName("arrivalJunctionId")
-@Expose
-private String arrivalJunctionId;
-@SerializedName("departureJunctionId")
-@Expose
-private String departureJunctionId;
-@SerializedName("id")
-@Expose
-private Integer id;
-@SerializedName("receiverPlayerId")
-@Expose
-private Integer receiverPlayerId;
-@SerializedName("senderPlayerId")
-@Expose
-private Integer senderPlayerId;
+    @SerializedName("arrivalJunctionId")
+    @Expose
+    private String arrivalJunctionId;
 
-public String getArrivalJunctionId() {
-return arrivalJunctionId;
-}
+    @SerializedName("arrivalJunctionName")
+    @Expose
+    private String arrivalJunctionName;
 
-public void setArrivalJunctionId(String arrivalJunctionId) {
-this.arrivalJunctionId = arrivalJunctionId;
-}
+    @SerializedName("departureJunctionId")
+    @Expose
+    private String departureJunctionId;
+    @SerializedName("departureJunctionName")
+    @Expose
+    private String departureJunctionName;
+    @SerializedName("id")
+    @Expose
+    private Integer id;
+    @SerializedName("receiverPlayerId")
+    @Expose
+    private Integer receiverPlayerId;
+    @SerializedName("senderPlayerId")
+    @Expose
+    private Integer senderPlayerId;
 
-public String getDepartureJunctionId() {
-return departureJunctionId;
-}
+    public String getArrivalJunctionId() {
+    return arrivalJunctionId;
+    }
 
-public void setDepartureJunctionId(String departureJunctionId) {
-this.departureJunctionId = departureJunctionId;
-}
+    public void setArrivalJunctionId(String arrivalJunctionId) {
+    this.arrivalJunctionId = arrivalJunctionId;
+    }
 
-public Integer getId() {
-return id;
-}
+    public String getDepartureJunctionId() {
+    return departureJunctionId;
+    }
 
-public void setId(Integer id) {
-this.id = id;
-}
+    public void setDepartureJunctionId(String departureJunctionId) {
+    this.departureJunctionId = departureJunctionId;
+    }
 
-public Integer getReceiverPlayerId() {
-return receiverPlayerId;
-}
+    public Integer getId() {
+    return id;
+    }
 
-public void setReceiverPlayerId(Integer receiverPlayerId) {
-this.receiverPlayerId = receiverPlayerId;
-}
+    public void setId(Integer id) {
+    this.id = id;
+    }
 
-public Integer getSenderPlayerId() {
-return senderPlayerId;
-}
+    public Integer getReceiverPlayerId() {
+    return receiverPlayerId;
+    }
 
-public void setSenderPlayerId(Integer senderPlayerId) {
-this.senderPlayerId = senderPlayerId;
-}
+    public void setReceiverPlayerId(Integer receiverPlayerId) {
+    this.receiverPlayerId = receiverPlayerId;
+    }
 
+    public Integer getSenderPlayerId() {
+    return senderPlayerId;
+    }
+
+    public void setSenderPlayerId(Integer senderPlayerId) {
+    this.senderPlayerId = senderPlayerId;
+    }
+
+    public String getArrivalJunctionName() {
+        return arrivalJunctionName;
+    }
+
+    public void setArrivalJunctionName(String arrivalJunctionName) {
+        this.arrivalJunctionName = arrivalJunctionName;
+    }
+
+    public String getDepartureJunctionName() {
+        return departureJunctionName;
+    }
+
+    public void setDepartureJunctionName(String departureJunctionName) {
+        this.departureJunctionName = departureJunctionName;
+    }
 }

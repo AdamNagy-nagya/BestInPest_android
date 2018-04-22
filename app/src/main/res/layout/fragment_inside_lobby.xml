@@ -4,6 +4,12 @@
     android:layout_width="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Start game"
+        android:id="@+id/InsideLobby_StartGameBtn"/>
+
     <TextView
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
@@ -11,7 +17,7 @@
         android:text="LobbyLeader"/>
 
   <android.support.v7.widget.RecyclerView
-      android:layout_width="wrap_content"
+      android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:id="@+id/InsideLobby_PlayerListRV"/>
 

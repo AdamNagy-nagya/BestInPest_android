@@ -34,6 +34,7 @@ public class InsideLobbyFragment extends DialogFragment {
     private Button LeaveBtn;
     private Button ReadyBtn;
     private RecyclerView recyclerView;
+    private Button StartGameBtn;
 
     private PlayerAdapter recyclerAdapter;
 
@@ -81,6 +82,7 @@ public class InsideLobbyFragment extends DialogFragment {
         LobbyLeader.setText("Leader is "+lobby.getLeader().getName());
         LeaveBtn = view.findViewById(R.id.InsideLobby_LeaveBtn);
         ReadyBtn = view.findViewById(R.id.InsideLobby_ReadyBtn);
+        StartGameBtn = view.findViewById(R.id.InsideLobby_StartGameBtn);
 
         LeaveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,6 +100,28 @@ public class InsideLobbyFragment extends DialogFragment {
                 myProfile.setReady(!myProfile.getReady());
             }
         });
+
+        if(!isLeaderViewOn){
+            StartGameBtn.setVisibility(View.INVISIBLE);
+        }
+        else{
+            StartGameBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    boolean allReady = true;
+                    Log.e("gomb megnyomva","START");
+                    for(Player player: lobby.getPlayers()){
+                        if(!player.getReady()){
+                            allReady=false;
+                        }
+                    }
+                    if(lobby.getPlayers().size()>2 && allReady){
+                        parent.startGameSend(lobby.getId());
+                        Log.e("oké", "mehet");
+                    }
+                }
+            });
+        }
 
 
 
@@ -143,7 +167,7 @@ public class InsideLobbyFragment extends DialogFragment {
         }
        lobby= insideLobbyRabbitMqItem.getObject();
        Log.e("ideért",insideLobbyRabbitMqItem.getMessage());
-       recyclerAdapter.update(insideLobbyRabbitMqItem.getObject().getPlayers());
+       recyclerAdapter.update(insideLobbyRabbitMqItem.getObject());
 
     }
 
@@ -166,10 +190,12 @@ public class InsideLobbyFragment extends DialogFragment {
 
         }
 
-        public void update(List<Player> newValues){
+        public void update(LobbyRestItem lobbyRestItem){
+            this.lobby = lobbyRestItem;
             mValues.clear();
-            mValues.addAll(newValues);
+            mValues.addAll(lobbyRestItem.getPlayers());
             notifyDataSetChanged();
+
 
         }
 
@@ -195,26 +221,39 @@ public class InsideLobbyFragment extends DialogFragment {
             else {
                 holder.ReadyImg.setVisibility(View.INVISIBLE);
             }
-            holder.itemView.setTag(mValues.get(position));
-            if(mValues.get(position).getId().equals(lobby.getCriminal())){
-            holder.isMrXImg.setImageResource(R.drawable.ic_person_pin_black_24dp);}
-            else{
 
+            holder.itemView.setTag(mValues.get(position));
+
+
+
+            if(mValues.get(position).getId().equals(lobby.getCriminal())){
+               // holder.isMrXImg.setVisibility(View.VISIBLE);
+              //  holder.isNotMrXImg.setVisibility(View.INVISIBLE);
+                holder.isMrXImg.setImageResource(R.drawable.ic_person_pin_black_24dp);
+
+            }
+            else{
                 holder.isMrXImg.setImageResource(R.drawable.ic_person_outline_black_24dp);
+                //holder.isMrXImg.setVisibility(View.INVISIBLE);
+               // holder.isNotMrXImg.setVisibility(View.VISIBLE);
+
             }
 
             if(isLeaderView){
+
                 holder.setMrXBtn.setVisibility(View.VISIBLE);
+                holder.setMrXBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        parent.parent.setPlayerCriminal(lobby,mValues.get(position));
+                    }
+                });
+
+
             }else {
+
                 holder.setMrXBtn.setVisibility(View.INVISIBLE);
             }
-
-            holder.setMrXBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    mValues.get(position).getId();
-                }
-            });
 
 
 
@@ -235,7 +274,9 @@ public class InsideLobbyFragment extends DialogFragment {
             final TextView where;
             final ImageView ReadyImg;
             final ImageView isMrXImg;
+            final ImageView isNotMrXImg;
             final Button setMrXBtn;
+
 
 
 
@@ -245,7 +286,10 @@ public class InsideLobbyFragment extends DialogFragment {
                 where = view.findViewById(R.id.InsideLobby_PlayerJunction);
                 ReadyImg = view.findViewById(R.id.InsideLobby_PlayerReady);
                 isMrXImg = view.findViewById(R.id.InsideLobby_isMrXImg);
+                isNotMrXImg = view.findViewById(R.id.InsideLobby_isNotMrXImg);
                 setMrXBtn = view.findViewById(R.id.InsideLobby_setMrXBtn);
+
+
 
             }
         }

@@ -49,6 +49,8 @@ public class CriminalPlanFragment extends Fragment {
     private GameObject gameObject;
     private Integer playerId;
 
+    private Player criminal;
+
     Player myUser;
     GameApiInteractor gameApiInteractor;
     RouteApiInteractor routeApiInteractor;
@@ -75,7 +77,7 @@ public class CriminalPlanFragment extends Fragment {
 
 
                 //TODO !!! ITT IS MÁSIK ID KELL!!!
-                routeApiInteractor.getRoutesBetween("BKK_CSF01108",junctionRestItem.getId());
+                routeApiInteractor.getRoutesBetween(myUser.getJunctionId(),junctionRestItem.getId());
 
 
             }
@@ -120,7 +122,6 @@ public class CriminalPlanFragment extends Fragment {
     public void onStart() {
         super.onStart();
         EventBus.getDefault().register(this);
-
         //TODO !!!! ITT NEM EZ AZ ID VAN!!! csak a test miatt!!!
         gameApiInteractor.getAvailableJunctions(gameObject.getCriminalId());
         //!!!!!
@@ -154,11 +155,6 @@ public class CriminalPlanFragment extends Fragment {
             JunctionRestItem arrivalJunc= (JunctionRestItem) JunctionstoGoSpinner.getSelectedItem();
             Route planedRoute = (Route) RouteSpiner.getSelectedItem();
             gameApiInteractor.sendCriminalStep(gameObject.getId(),new CriminalStepPOST(arrivalJunc.getId(),myUser.getJunctionId(),planedRoute.getId()));
-
-
-
-            //TODO ITT MÉG NEM JÓ VALAMI!!!   :(
-
            // getActivity().getSupportFragmentManager().popBackStackImmediate();
 
         }

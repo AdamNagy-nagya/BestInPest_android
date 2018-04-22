@@ -4,6 +4,8 @@ import android.content.Context;
 import android.os.Handler;
 import android.util.Log;
 
+import com.example.nagya.bestinpest.Game.item.GameObject;
+import com.example.nagya.bestinpest.network.LobbyNetwork.item.CriminalSelectPOST;
 import com.example.nagya.bestinpest.network.RouteNetwork.item.JunctionRestItem;
 import com.example.nagya.bestinpest.network.RouteNetwork.item.JunctionsWrapper;
 import com.example.nagya.bestinpest.Lobby.item.Lobbies;
@@ -72,11 +74,12 @@ public class LobbyApiInteractor {
 
     public void authToLobby(Integer lobbyId, String password){
         Call<LobbyRestItem> loginPassReq = lobbyApi.authToLobby(lobbyId, URLEncoder.encode(password));
-        Log.e("ASDASDASDSA","MOST MEGy");
-
         runsetPassIfOk(loginPassReq);
+    }
 
-
+    public void startGame(Integer lobbyId){
+        Call<GameObject> startGameReq = lobbyApi.startGame(lobbyId);
+        runCallOnBackgroundThread(startGameReq);
     }
 
     public void loginToLobby(Integer lobbyId, Player player){
@@ -95,10 +98,18 @@ public class LobbyApiInteractor {
         wateverResponse(imReadyReq);
     }
 
+
+    public void setCriminal(Integer lobbyId, CriminalSelectPOST criminal){
+        Call<LobbyRestItem> setCriminalReq = lobbyApi.setCriminal(lobbyId,criminal);
+        wateverResponse(setCriminalReq);
+    }
+
     public void getRabbitmqRxUrl(){
         Call<RabbitServerURIRestResponse> rabbitreq = lobbyApi.rabbitqmRxUrl();
         runCallOnBackgroundThread(rabbitreq);
     }
+
+
 
 
 

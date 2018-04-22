@@ -190,8 +190,6 @@ public class GameActivity extends AppCompatActivity {
             state=gameObject.getTurn();
 
             switch (state){
-
-                //TODO!!!
                 case "criminal":    //getSupportFragmentManager().beginTransaction().remove(detectivePlansFragment);
 
                                     criminalPlanFragment.setupGameObject(gameObject);

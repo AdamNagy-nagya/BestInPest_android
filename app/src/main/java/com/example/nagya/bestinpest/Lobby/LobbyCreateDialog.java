@@ -12,12 +12,18 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.nagya.bestinpest.network.RouteNetwork.item.JunctionRestItem;
 import com.example.nagya.bestinpest.Lobby.item.Leader;
 import com.example.nagya.bestinpest.Lobby.item.LobbyCreatingPOST;
 import com.example.nagya.bestinpest.MainMenuActivity;
 import com.example.nagya.bestinpest.R;
+import com.example.nagya.bestinpest.network.RouteNetwork.item.JunctionsWrapper;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
@@ -93,12 +99,17 @@ public class LobbyCreateDialog  extends DialogFragment {
                 .setView(view)
                 .setPositiveButton("Create", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                            JunctionRestItem selectedJunction= (JunctionRestItem) junctionSpiner.getSelectedItem();
+                        if(junctionSpiner.getSelectedItem()!=null && lobbyName.getText()!=null && usernameEditText.getText()!=null) {
+                            JunctionRestItem selectedJunction = (JunctionRestItem) junctionSpiner.getSelectedItem();
                             parent.createThisLobby(new LobbyCreatingPOST(
                                     Integer.parseInt(lobbyPlayerNumber.getText().toString()),
                                     lobbyName.getText().toString(),
                                     readPassword(),
-                                    new Leader( selectedJunction.getId(),usernameEditText.getText().toString())));
+                                    new Leader(selectedJunction.getId(), usernameEditText.getText().toString())));
+                        }
+                        else {
+                            Toast.makeText(getContext(),"Set everything first!", Toast.LENGTH_LONG).show();
+                        }
                        }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -112,13 +123,33 @@ public class LobbyCreateDialog  extends DialogFragment {
         return builder.create();
     }
 
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+
+        EventBus.getDefault().unregister(this);
+        super.onStop();
+    }
+
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onJunctions(JunctionsWrapper junctionsWrapper) {
+        setJunctions(junctionsWrapper.junctions);
+    }
+
     public void setJunctions(List<JunctionRestItem> junctions){
         junctionRestItems= junctions;
-
-        ArrayAdapter<JunctionRestItem> junctionRestItemArrayAdapter = new ArrayAdapter<JunctionRestItem>(getContext(),R.layout.item_pass_junction,junctionRestItems);
-        junctionRestItemArrayAdapter.setDropDownViewResource(R.layout.item_pass_junction);
-        junctionSpiner.setAdapter(junctionRestItemArrayAdapter);
-
+        if(junctionSpiner!=null) {
+            ArrayAdapter<JunctionRestItem> junctionRestItemArrayAdapter = new ArrayAdapter<JunctionRestItem>(getContext(), R.layout.item_pass_junction, junctionRestItems);
+            junctionRestItemArrayAdapter.setDropDownViewResource(R.layout.item_pass_junction);
+            junctionSpiner.setAdapter(junctionRestItemArrayAdapter);
+        }
 
     }
 

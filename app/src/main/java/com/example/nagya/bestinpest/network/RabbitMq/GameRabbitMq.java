@@ -38,7 +38,9 @@ public class GameRabbitMq {
 
         public void stopGameRabbitMq(){
             try {
+                if(channel.isOpen())
                 channel.close();
+                if(conn.isOpen())
                 conn.close();
             } catch (IOException e) {
                 e.printStackTrace();

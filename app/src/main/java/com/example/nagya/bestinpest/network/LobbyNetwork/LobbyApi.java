@@ -1,5 +1,7 @@
 package com.example.nagya.bestinpest.network.LobbyNetwork;
 
+import com.example.nagya.bestinpest.Game.item.GameObject;
+import com.example.nagya.bestinpest.network.LobbyNetwork.item.CriminalSelectPOST;
 import com.example.nagya.bestinpest.network.RouteNetwork.item.JunctionRestItem;
 import com.example.nagya.bestinpest.Lobby.item.LobbyCreatingPOST;
 import com.example.nagya.bestinpest.Lobby.item.LobbyRestItem;
@@ -55,6 +57,14 @@ public interface LobbyApi {
 
     @POST ("lobbies/{id}/players/{playerId}/ready")
     Call<Player>setPlayerReady(@Path("id") Integer lobbyId, @Path("playerId") Integer playerId);
+
+    @POST ("lobbies/{id}/criminal")
+    Call<LobbyRestItem> setCriminal(@Path("id") Integer lobbyId, @Body CriminalSelectPOST player);
+
+    @POST ("lobbies/{id}/start-game")
+    Call<GameObject> startGame(@Path("id") Integer lobbyId);
+
+
 
     @GET ("rabbitmq-rx-url")
     Call<RabbitServerURIRestResponse>rabbitqmRxUrl();

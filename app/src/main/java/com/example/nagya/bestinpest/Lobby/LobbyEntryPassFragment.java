@@ -21,6 +21,11 @@ import com.example.nagya.bestinpest.Lobby.item.LobbyRestItem;
 import com.example.nagya.bestinpest.MainMenuActivity;
 import com.example.nagya.bestinpest.R;
 import com.example.nagya.bestinpest.network.LobbyNetwork.item.PasswordResponse;
+import com.example.nagya.bestinpest.network.RouteNetwork.item.JunctionsWrapper;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
@@ -118,13 +123,33 @@ public class LobbyEntryPassFragment extends DialogFragment {
         }
     }
 
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+
+        EventBus.getDefault().unregister(this);
+        super.onStop();
+    }
+
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onJunctions(JunctionsWrapper junctionsWrapper) {
+        setJunctions(junctionsWrapper.junctions);
+    }
+
     public void setJunctions(List<JunctionRestItem> junctions){
         junctionRestItems= junctions;
-
-         ArrayAdapter<JunctionRestItem> junctionRestItemArrayAdapter = new ArrayAdapter<JunctionRestItem>(getContext(),R.layout.item_pass_junction,junctionRestItems);
-         junctionRestItemArrayAdapter.setDropDownViewResource(R.layout.item_pass_junction);
-         junctionSpiner.setAdapter(junctionRestItemArrayAdapter);
-
+        if(junctionSpiner!=null) {
+            ArrayAdapter<JunctionRestItem> junctionRestItemArrayAdapter = new ArrayAdapter<JunctionRestItem>(getContext(), R.layout.item_pass_junction, junctionRestItems);
+            junctionRestItemArrayAdapter.setDropDownViewResource(R.layout.item_pass_junction);
+            junctionSpiner.setAdapter(junctionRestItemArrayAdapter);
+        }
 
     }
 

@@ -159,10 +159,6 @@ public class GamePlanMakerFragment extends Fragment {
             JunctionRestItem arrivalJunc = (JunctionRestItem) GamePlanmakerJunctionstoGoSpinner.getSelectedItem();
             Route planedRoute = (Route) RouteSpiner.getSelectedItem();
             gameApiInteractor.sendDetectivePlan(gameObject.getId(), new DetectiveStepPOST(arrivalJunc.getId(), myUser.getJunctionId(), myUser.getId(), planedRoute.getId()));
-
-
-            //TODO ITT MÉG NEM JÓ VALAMI!!!   :(
-
             getActivity().getSupportFragmentManager().popBackStack();
 
         }

@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.nagya.bestinpest.Game.item.GameObject;
 import com.example.nagya.bestinpest.Lobby.InsideLobbyFragment;
 import com.example.nagya.bestinpest.Lobby.LobbyCreateDialog;
 import com.example.nagya.bestinpest.Lobby.LobbyEntryPassFragment;
@@ -18,6 +19,7 @@ import com.example.nagya.bestinpest.Lobby.item.LobbyCreatingPOST;
 import com.example.nagya.bestinpest.Lobby.item.LobbyRestItem;
 import com.example.nagya.bestinpest.Lobby.item.Player;
 import com.example.nagya.bestinpest.network.LobbyNetwork.LobbyApiInteractor;
+import com.example.nagya.bestinpest.network.LobbyNetwork.item.CriminalSelectPOST;
 import com.example.nagya.bestinpest.network.LobbyNetwork.item.PasswordResponse;
 import com.example.nagya.bestinpest.network.LobbyNetwork.item.RabbitServerURIRestResponse;
 import com.example.nagya.bestinpest.network.RabbitMq.InsideLobbyRabbitMq;
@@ -101,15 +103,7 @@ public class MainMenuActivity extends AppCompatActivity implements LobbyCreateDi
 
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onJunctions(JunctionsWrapper junctionsWrapper) {
-        if (lobbyEntryPassFragment != null) {
-            lobbyEntryPassFragment.setJunctions(junctionsWrapper.junctions);
-        }
-        if (lobbyCreateDialog != null) {
-            lobbyCreateDialog.setJunctions(junctionsWrapper.junctions);
-        }
-    }
+
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onPasswordResponse(PasswordResponse passwordResponse) {
@@ -120,8 +114,12 @@ public class MainMenuActivity extends AppCompatActivity implements LobbyCreateDi
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onLobbyItemToJoin(LobbyRestItem lobbyRestItem) {
+
         if (insideLobbyRabbitMq == null) {
             insideLobbyRabbitMq = new InsideLobbyRabbitMq(RabbitMqURL, lobbyRestItem.getId());
+        }
+        else {
+            insideLobbyRabbitMq.changeLobby(lobbyRestItem.getId());
         }
         if (insideLobbyFragment == null) {
             insideLobbyFragment = new InsideLobbyFragment();
@@ -141,8 +139,18 @@ public class MainMenuActivity extends AppCompatActivity implements LobbyCreateDi
     public void onLobbyListChanged(LobbiesRabbitMqItem item) {
         if (lobbyListFragment != null) {
             lobbyListFragment.refreshList(item.getObject());
-            Log.d("változott a lista", "asd");
         }
+    }
+
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onGameObject(GameObject gameObject) {
+
+        Intent intent = new Intent(this, GameActivity.class);
+        intent.putExtra("GameId", gameObject.getId());
+        intent.putExtra("PlayerId", gameObject.getCriminalId());
+        intent.putExtra("RabbitMqURL",RabbitMqURL );
+        startActivity(intent);
     }
 
 
@@ -196,6 +204,17 @@ public class MainMenuActivity extends AppCompatActivity implements LobbyCreateDi
     public void setPlayerReady(LobbyRestItem lobbyRestItem, Player profile) {
         lobbyApiInteractor.sendImReady(lobbyRestItem.getId(), profile.getId());
     }
+
+    public void setPlayerCriminal(LobbyRestItem lobbyRestItem, Player player){
+        lobbyApiInteractor.setCriminal(lobbyRestItem.getId(),new CriminalSelectPOST(player.getId()));
+    }
+
+
+    public void startGameSend(Integer lobbyId){
+        lobbyApiInteractor.startGame(lobbyId);
+    }
+
+
 
 
     @OnClick(R.id.MainMenuResumeGame)

@@ -29,6 +29,8 @@ private Integer round;
 @Expose
 private String turn;
 
+
+
 public Integer getCriminalId() {
 return criminalId;
 }
