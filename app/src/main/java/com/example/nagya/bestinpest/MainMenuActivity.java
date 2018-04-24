@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -26,7 +27,6 @@ import com.example.nagya.bestinpest.network.RabbitMq.InsideLobbyRabbitMq;
 import com.example.nagya.bestinpest.network.RabbitMq.LobbiesRabbitMq;
 import com.example.nagya.bestinpest.network.RabbitMq.item.LobbiesRabbitMqItem;
 import com.example.nagya.bestinpest.network.RouteNetwork.item.JunctionRestItem;
-import com.example.nagya.bestinpest.network.RouteNetwork.item.JunctionsWrapper;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -38,14 +38,15 @@ import butterknife.OnClick;
 
 public class MainMenuActivity extends AppCompatActivity implements LobbyCreateDialog.createLobby, LobbyListFragment.joinLobbyInterface {
 
-    @BindView(R.id.MainMenuFindLobby)
-    Button MainMenuFindLobby;
-    @BindView(R.id.MainMenuCreateLobby)
-    Button MainMenuCreateLobby;
+
     @BindView(R.id.MainMenuIconImage)
     ImageView MainMenuIconImage;
     @BindView(R.id.MainMenuResumeGame)
     Button MainMenuResumeGame;
+    @BindView(R.id.MainMenuFindLobby)
+    ImageButton MainMenuFindLobby;
+    @BindView(R.id.MainMenuCreateLobby)
+    ImageButton MainMenuCreateLobby;
 
     private LobbyApiInteractor lobbyApiInteractor;
     private LobbyEntryPassFragment lobbyEntryPassFragment;
@@ -64,7 +65,10 @@ public class MainMenuActivity extends AppCompatActivity implements LobbyCreateDi
         setContentView(R.layout.activity_main_menu);
         ButterKnife.bind(this);
         lobbyApiInteractor = new LobbyApiInteractor(this);
-        MainMenuIconImage.setImageResource(R.drawable.ic_timeline_black_48dp);
+        MainMenuIconImage.setImageResource(R.drawable.logo_bestinpest);
+        MainMenuIconImage.getRootView().setBackgroundColor(getResources().getColor(R.color.asphaltGray));
+        MainMenuCreateLobby.setImageResource(R.drawable.newgame_logo);
+        MainMenuFindLobby.setImageResource(R.drawable.joingame_logo);
         setupRabbitConnection();
     }
 
@@ -104,7 +108,6 @@ public class MainMenuActivity extends AppCompatActivity implements LobbyCreateDi
     }
 
 
-
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onPasswordResponse(PasswordResponse passwordResponse) {
         lobbyEntryPassFragment.setPasswordValidateOK(passwordResponse);
@@ -117,8 +120,7 @@ public class MainMenuActivity extends AppCompatActivity implements LobbyCreateDi
 
         if (insideLobbyRabbitMq == null) {
             insideLobbyRabbitMq = new InsideLobbyRabbitMq(RabbitMqURL, lobbyRestItem.getId());
-        }
-        else {
+        } else {
             insideLobbyRabbitMq.changeLobby(lobbyRestItem.getId());
         }
         if (insideLobbyFragment == null) {
@@ -149,7 +151,7 @@ public class MainMenuActivity extends AppCompatActivity implements LobbyCreateDi
         Intent intent = new Intent(this, GameActivity.class);
         intent.putExtra("GameId", gameObject.getId());
         intent.putExtra("PlayerId", gameObject.getCriminalId());
-        intent.putExtra("RabbitMqURL",RabbitMqURL );
+        intent.putExtra("RabbitMqURL", RabbitMqURL);
         startActivity(intent);
     }
 
@@ -205,16 +207,14 @@ public class MainMenuActivity extends AppCompatActivity implements LobbyCreateDi
         lobbyApiInteractor.sendImReady(lobbyRestItem.getId(), profile.getId());
     }
 
-    public void setPlayerCriminal(LobbyRestItem lobbyRestItem, Player player){
-        lobbyApiInteractor.setCriminal(lobbyRestItem.getId(),new CriminalSelectPOST(player.getId()));
+    public void setPlayerCriminal(LobbyRestItem lobbyRestItem, Player player) {
+        lobbyApiInteractor.setCriminal(lobbyRestItem.getId(), new CriminalSelectPOST(player.getId()));
     }
 
 
-    public void startGameSend(Integer lobbyId){
+    public void startGameSend(Integer lobbyId) {
         lobbyApiInteractor.startGame(lobbyId);
     }
-
-
 
 
     @OnClick(R.id.MainMenuResumeGame)
@@ -223,7 +223,7 @@ public class MainMenuActivity extends AppCompatActivity implements LobbyCreateDi
         //TODO normális értékek átadása!!!
         intent.putExtra("GameId", 1000);
         intent.putExtra("PlayerId", 193);
-        intent.putExtra("RabbitMqURL",RabbitMqURL );
+        intent.putExtra("RabbitMqURL", RabbitMqURL);
         startActivity(intent);
 
     }

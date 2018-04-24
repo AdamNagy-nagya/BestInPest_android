@@ -53,7 +53,7 @@ public class LobbyEntryPassFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(),R.style.MyAlertDialogStyle);
         View view = getActivity().getLayoutInflater().inflate(R.layout.fragment_lobby_entry_pass, null);
         playerNameEditText = view.findViewById(R.id.PasswordFrag_UsernameEditText);
         sendGPSforJunction= view.findViewById(R.id.PasswordFrag_GPSButton);
@@ -89,18 +89,18 @@ public class LobbyEntryPassFragment extends DialogFragment {
 
 
 
-        builder.setMessage("Password")
+        builder.setTitle(R.string.login_title)
                 .setView(view)
-                .setPositiveButton("Enter", new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.loginBtn_logni, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         if(passwordTyedinOk){
                         parent.readyToJoinLobby(lobby,(JunctionRestItem) junctionSpiner.getSelectedItem(),playerNameEditText.getText().toString());
                         }
                         else{
-                            Toast.makeText(getContext(),"Invalid password, can't log in!", Toast.LENGTH_LONG);}
+                            Toast.makeText(getContext(), R.string.toast_invalidPassword, Toast.LENGTH_LONG);}
                     }
                 })
-                .setNegativeButton("Back", new DialogInterface.OnClickListener() {
+                .setNegativeButton(R.string.cancelBtn_text, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
 
                     }

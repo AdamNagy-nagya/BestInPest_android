@@ -3,7 +3,9 @@
     android:layout_height="wrap_content"
     android:layout_width="match_parent"
     android:orientation="horizontal"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@drawable/blank_tape_short"
+    >
 
     <ImageView
         android:layout_width="wrap_content"

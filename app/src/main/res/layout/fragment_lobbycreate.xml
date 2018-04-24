@@ -8,7 +8,7 @@
         android:id="@+id/CreateLobby_UsernameEditText"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:hint="Username"/>
+        android:hint="@string/hint_username"/>
 
     <ImageButton
         android:layout_width="wrap_content"
@@ -18,25 +18,28 @@
     <Spinner
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/CreateLobby_StartSpiner"/>
+        android:id="@+id/CreateLobby_StartSpiner"
+       />
 
     <android.support.v7.widget.AppCompatEditText
         android:id="@+id/CreateLobbyNameEditText"
-        android:hint="Add a name to the lobby"
+        android:hint="@string/hint_lobbyname"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <android.support.v7.widget.AppCompatEditText
         android:id="@+id/CreateLobbyPasswordEditText"
-        android:hint="Lobby password"
+        android:hint="@string/hint_lobbypassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="numberPassword"/>
+        android:inputType="textPassword"/>
 
     <LinearLayout
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal"
+        >
 
         <Button
         android:layout_height="wrap_content"

@@ -1,4 +1,17 @@
 <resources>
     <string name="app_name">BestInPest</string>
+    <string name="active_lobbies_title">Aktív játékszobák</string>
+    <string name="joinBtn_text">Belépés</string>
+    <string name="create_lobby_title">Új szoba létrehozása</string>
+    <string name="hint_username">Felhasználónév</string>
+    <string name="hint_lobbyname">Add meg a szoba nevét</string>
+    <string name="hint_lobbypassword">Szoba jelszó</string>
+    <string name="createBtn_text">Létrehozás</string>
+    <string name="cancelBtn_text">Mégse</string>
+    <string name="toast_addallFirst">Adj meg mindent először!</string>
+    <string name="toast_invalidPassword">Helytelen jelszó!</string>
+    <string name="login_title">Belépés</string>
+    <string name="loginBtn_logni">Belépés</string>
+
 
 </resources>

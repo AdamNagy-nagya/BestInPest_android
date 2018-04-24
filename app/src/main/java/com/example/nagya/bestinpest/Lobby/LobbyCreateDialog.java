@@ -54,7 +54,7 @@ public class LobbyCreateDialog  extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(),R.style.MyAlertDialogStyle);
         View view = getActivity().getLayoutInflater().inflate(R.layout.fragment_lobbycreate, null);
         lobbyName = view.findViewById(R.id.CreateLobbyNameEditText);
         sendGPSforJunction= view.findViewById(R.id.CreateLobby_GPSButton);
@@ -95,9 +95,9 @@ public class LobbyCreateDialog  extends DialogFragment {
 
 
 
-        builder.setMessage("Create a new lobby")
+        builder.setTitle(R.string.create_lobby_title)
                 .setView(view)
-                .setPositiveButton("Create", new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.createBtn_text, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         if(junctionSpiner.getSelectedItem()!=null && lobbyName.getText()!=null && usernameEditText.getText()!=null) {
                             JunctionRestItem selectedJunction = (JunctionRestItem) junctionSpiner.getSelectedItem();
@@ -112,7 +112,7 @@ public class LobbyCreateDialog  extends DialogFragment {
                         }
                        }
                 })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                .setNegativeButton(R.string.cancelBtn_text, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
 
                     }

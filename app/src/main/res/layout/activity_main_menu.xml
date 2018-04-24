@@ -7,22 +7,31 @@
     android:orientation="vertical">
 
     <ImageView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/MainMenuIconImage"
+        android:adjustViewBounds="true"
+        android:scaleType="centerInside"
         android:layout_gravity="center_horizontal"
-        android:layout_margin="20dp"/>
+        />
 
-    <Button
+    <ImageButton
         android:id="@+id/MainMenuFindLobby"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Find lobby"/>
-    <Button
+        android:adjustViewBounds="true"
+        android:scaleType="centerInside"
+        android:background="@null"
+       />
+
+    <ImageButton
         android:id="@+id/MainMenuCreateLobby"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Create lobby"/>
+        android:adjustViewBounds="true"
+        android:scaleType="centerInside"
+        android:background="@null"
+       />
 
     <Button
         android:layout_width="match_parent"

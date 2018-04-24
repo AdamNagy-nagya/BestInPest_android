@@ -54,7 +54,7 @@ public class LobbyListFragment extends DialogFragment{
 
 
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(),R.style.MyAlertDialogStyle);
 
         View view = getActivity().getLayoutInflater().inflate(R.layout.fragment_lobby_list, null);
         recyclerView =  view.findViewById(R.id.LobbyListRV);
@@ -64,7 +64,7 @@ public class LobbyListFragment extends DialogFragment{
         recyclerView.setAdapter(recyclerAdapter);
         registerForContextMenu(recyclerView);
 
-        builder.setView(view).setTitle("Active lobbies");
+        builder.setView(view).setTitle(R.string.active_lobbies_title);
 
 
         return builder.create();
