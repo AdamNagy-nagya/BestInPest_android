@@ -6,7 +6,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,14 +18,11 @@ import com.example.nagya.bestinpest.Game.item.GameObject;
 import com.example.nagya.bestinpest.Game.item.Plan;
 import com.example.nagya.bestinpest.Game.item.PlanswithPlayerItem;
 import com.example.nagya.bestinpest.Game.item.Player;
-import com.example.nagya.bestinpest.Lobby.LobbyCreateDialog;
+import com.example.nagya.bestinpest.Game.view.BudapestMap;
 import com.example.nagya.bestinpest.R;
 import com.example.nagya.bestinpest.network.GameNetwork.GameApiInteractor;
-import com.example.nagya.bestinpest.network.RouteNetwork.item.JunctionRestItem;
 
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
+import org.osmdroid.views.MapView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +40,8 @@ public class DetectivePlansFragment extends Fragment {
     @BindView(R.id.Game_detectivePlans_makePlanBtn)
     Button PlansMakePlanBtn;
     Unbinder unbinder;
+    @BindView(R.id.Game_detectivePlans_map)
+    BudapestMap Map;
     private RecyclerView plansRV;
     private PlanAdapter plansAdapter;
     private GameObject gameObject;
@@ -63,7 +61,7 @@ public class DetectivePlansFragment extends Fragment {
         plansRV.setLayoutManager(new LinearLayoutManager(getContext()));
         plansAdapter = new PlanAdapter(this, gameObject, makeListFromHasMap(gameObject));
         plansRV.setAdapter(plansAdapter);
-        gameApiInteractor= new GameApiInteractor(getContext());
+        gameApiInteractor = new GameApiInteractor(getContext());
         //plansAdapter.update(makeListFromHasMap(gameObject));
 
 
@@ -75,19 +73,20 @@ public class DetectivePlansFragment extends Fragment {
         this.gameObject = gameObject;
 
     }
-    public void updateGameObject(GameObject gameObject){
-        this.gameObject= gameObject;
+
+    public void updateGameObject(GameObject gameObject) {
+        this.gameObject = gameObject;
         plansAdapter.update(makeListFromHasMap(gameObject));
     }
 
-    public  void setUser(Integer myUserId){
-        playerId=myUserId;
+    public void setUser(Integer myUserId) {
+        playerId = myUserId;
     }
 
     public List<PlanswithPlayerItem> makeListFromHasMap(GameObject gameObject) {
 
         List<PlanswithPlayerItem> planswithPlayerItemList = new ArrayList<>();
-        if(gameObject.getDetectiveSteps()!=null) {
+        if (gameObject.getDetectiveSteps() != null) {
             if (!gameObject.getDetectiveSteps().isEmpty()) {
                 List<Plan> planlist = new ArrayList<>(gameObject.getDetectiveSteps().get(gameObject.getRound() - 1).getPlans().values());
                 List<Integer> playerIDlist = new ArrayList<>(gameObject.getDetectiveSteps().get(gameObject.getRound() - 1).getPlans().keySet());
@@ -118,7 +117,7 @@ public class DetectivePlansFragment extends Fragment {
         gamePlanMakerFragment.setupData(gameObject, playerId);
         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
 
-        transaction.replace(R.id.GameFrameLayout,gamePlanMakerFragment);
+        transaction.replace(R.id.GameFrameLayout, gamePlanMakerFragment);
         transaction.addToBackStack(null);
         transaction.commit();
 
@@ -148,8 +147,6 @@ public class DetectivePlansFragment extends Fragment {
         }
 
 
-
-
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext())
@@ -175,10 +172,9 @@ public class DetectivePlansFragment extends Fragment {
             holder.editBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(mValues.get(position).player.getId().equals(parent.playerId)){
-                        Toast.makeText(parent.getContext(),"Módosítsd a terved", Toast.LENGTH_LONG).show();
-                    }
-                    else{
+                    if (mValues.get(position).player.getId().equals(parent.playerId)) {
+                        Toast.makeText(parent.getContext(), "Módosítsd a terved", Toast.LENGTH_LONG).show();
+                    } else {
                         DetectiveRecommendationMakeFragment detectiveRecommendationMakeFragment = new DetectiveRecommendationMakeFragment();
 
                         detectiveRecommendationMakeFragment.setupData(gameObject, mValues.get(position).player.getId(), parent.playerId);
@@ -214,7 +210,6 @@ public class DetectivePlansFragment extends Fragment {
                 planedJunc = view.findViewById(R.id.Game_detectivePlans_listitem_planedJunc);
                 editBtn = view.findViewById(R.id.Game_detectivePlans_listitem_editThisPlanBtn);
                 okBtn = view.findViewById(R.id.Game_detectivePlans_listitem_OKBtn);
-
 
 
             }

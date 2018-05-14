@@ -2,6 +2,7 @@ package com.example.nagya.bestinpest.network.GameNetwork;
 
 import android.content.Context;
 import android.os.Handler;
+import android.util.Log;
 
 import com.example.nagya.bestinpest.Game.item.GameObject;
 import com.example.nagya.bestinpest.network.GameNetwork.item.CriminalStepPOST;
@@ -30,6 +31,7 @@ public class GameApiInteractor {
 
     public void getGameObjectById(int gameID){
         Call<GameObject> gameObjectCall = gameApi.getGameById(gameID);
+        Log.e("E","E"+gameID);
         runCallOnBackgroundThread(gameObjectCall);
     }
 

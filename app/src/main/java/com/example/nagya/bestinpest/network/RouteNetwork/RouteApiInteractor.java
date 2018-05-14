@@ -5,6 +5,7 @@ import android.os.Handler;
 
 import com.example.nagya.bestinpest.network.GameNetwork.GameApi;
 import com.example.nagya.bestinpest.network.RouteNetwork.item.JunctionRestItem;
+import com.example.nagya.bestinpest.network.RouteNetwork.item.JunctionsWrapper;
 import com.example.nagya.bestinpest.network.RouteNetwork.item.Route;
 import com.example.nagya.bestinpest.network.RouteNetwork.item.RouteWrapper;
 
@@ -19,6 +20,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 /**
  * Created by nagya on 05/04/2018.
  */
+
 
 public class RouteApiInteractor {
 
@@ -36,6 +38,15 @@ public class RouteApiInteractor {
         runCallOnBackgroundThread(getRoutesreq);
     }
 
+    public void getJunctoins(){
+        Call<List<JunctionRestItem>>req = routeApi.getAllJunctions();
+        runListJunctions(req);
+    }
+
+    public void getRoutes(){
+        Call<List<Route>>req = routeApi.getAllRoutes();
+        runListRoutes(req);
+    }
     public RouteApiInteractor(Context context) {
         this.context = context;
 
@@ -56,6 +67,22 @@ public class RouteApiInteractor {
                 try {
                     final List<Route> response = call.execute().body();
                     EventBus.getDefault().post( new RouteWrapper(response));
+                } catch (final Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+    }
+
+
+    private static <T> void runListJunctions(final Call<List<JunctionRestItem>> call) {
+        final Handler handler = new Handler();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    final List<JunctionRestItem> response = call.execute().body();
+                    EventBus.getDefault().post( new JunctionsWrapper(response));
                 } catch (final Exception e) {
                     e.printStackTrace();
                 }

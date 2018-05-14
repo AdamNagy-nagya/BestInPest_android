@@ -7,6 +7,7 @@
     <color name="colorBUS">#009FE3</color>
     <color name="colorTRAM">#FFD800</color>
     <color name="colorSUBWAY">#E41F18</color>
+    <color name="colorWALK">#228B22</color>
 
     <color name="asphaltGray">#6F6E63</color>
     <color name="asphaltDarkGray">#313328</color>

@@ -44,15 +44,16 @@ public class InsideLobbyRabbitMq {
     }
 
     public void stopGameRabbitMq(){
-        try {
-            channel.close();
-            conn.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (TimeoutException e) {
-            e.printStackTrace();
+        if(channel != null && conn != null) {
+            try {
+                channel.close();
+                conn.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (TimeoutException e) {
+                e.printStackTrace();
+            }
         }
-
     }
 
     public void runLobbiesRabbitMq() {

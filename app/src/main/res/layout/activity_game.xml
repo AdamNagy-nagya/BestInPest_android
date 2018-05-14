@@ -7,26 +7,28 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="45dp"
         android:orientation="horizontal"
-        android:layout_weight="1">
+        android:background="@drawable/header"
+        android:layout_weight="1"
+        android:padding="10dp">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/GameGamestatusTV"
             android:layout_gravity="left"
-            android:text="leftTV"/>
+            android:textSize="24dp"
+            android:textColor="@color/white"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/GameRoundNumberTV"
             android:layout_gravity="right"
             android:gravity="right"
-            android:text="rightTV"/>
-        <View
-            android:layout_width="1dp"
-            android:layout_height="fill_parent"
-            android:background="#FF0000FF" />
+            android:textColor="@color/white"
+            android:textSize="36dp"
+            android:padding="16dp"/>
+
     </LinearLayout>
 
 
@@ -36,7 +38,6 @@
         android:id="@+id/GameMrXpastSteps"
         android:orientation="horizontal"
         android:layout_weight="1"/>
-
 
 
     <FrameLayout
@@ -50,7 +51,7 @@
     <Button
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:id="@+id/GameOkayBtn"
-        android:text="OKAY BTN"
+        android:id="@+id/ShowMapBtn"
+        android:text="Map"
         android:layout_weight="1"/>
 </LinearLayout>

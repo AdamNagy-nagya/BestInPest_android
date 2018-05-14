@@ -19,6 +19,7 @@ import com.example.nagya.bestinpest.Lobby.item.Player;
 import com.example.nagya.bestinpest.MainMenuActivity;
 import com.example.nagya.bestinpest.R;
 import com.example.nagya.bestinpest.network.RabbitMq.item.InsideLobbyRabbitMqItem;
+import com.example.nagya.bestinpest.spdb.SharedPreferencesHandler;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -58,9 +59,12 @@ public class InsideLobbyFragment extends DialogFragment {
         parent =  activity;
         this.lobby = lobby;
         myProfile= lobby.getPlayers().get(lobby.getPlayers().size()-1);
+        SharedPreferencesHandler sharedPreferencesHandler = new SharedPreferencesHandler(activity);
+        sharedPreferencesHandler.savePlayerID(myProfile.getId());
 
         if(lobby.getLeader().getId().equals( myProfile.getId())){
             isLeaderViewOn = true;
+
         }
         else {
             isLeaderViewOn= false;
@@ -165,10 +169,14 @@ public class InsideLobbyFragment extends DialogFragment {
             getDialog().dismiss();
 
         }
+
        lobby= insideLobbyRabbitMqItem.getObject();
        Log.e("ideért",insideLobbyRabbitMqItem.getMessage());
        recyclerAdapter.update(insideLobbyRabbitMqItem.getObject());
 
+        if(insideLobbyRabbitMqItem.getType().equals("game-started")){
+            parent.startGame(lobby.getId());
+        }
     }
 
 

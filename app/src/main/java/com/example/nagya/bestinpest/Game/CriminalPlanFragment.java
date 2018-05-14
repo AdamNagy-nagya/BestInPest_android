@@ -124,6 +124,7 @@ public class CriminalPlanFragment extends Fragment {
         EventBus.getDefault().register(this);
         //TODO !!!! ITT NEM EZ AZ ID VAN!!! csak a test miatt!!!
         gameApiInteractor.getAvailableJunctions(gameObject.getCriminalId());
+        ActualpozTV.setText(myUser.getJunctionId());
         //!!!!!
     }
 

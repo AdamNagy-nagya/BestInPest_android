@@ -27,6 +27,7 @@ import com.example.nagya.bestinpest.network.RabbitMq.InsideLobbyRabbitMq;
 import com.example.nagya.bestinpest.network.RabbitMq.LobbiesRabbitMq;
 import com.example.nagya.bestinpest.network.RabbitMq.item.LobbiesRabbitMqItem;
 import com.example.nagya.bestinpest.network.RouteNetwork.item.JunctionRestItem;
+import com.example.nagya.bestinpest.spdb.SharedPreferencesHandler;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -58,6 +59,8 @@ public class MainMenuActivity extends AppCompatActivity implements LobbyCreateDi
     private InsideLobbyRabbitMq insideLobbyRabbitMq;
     private static String RabbitMqURL;
 
+    SharedPreferencesHandler spHandler;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +73,7 @@ public class MainMenuActivity extends AppCompatActivity implements LobbyCreateDi
         MainMenuCreateLobby.setImageResource(R.drawable.newgame_logo);
         MainMenuFindLobby.setImageResource(R.drawable.joingame_logo);
         setupRabbitConnection();
+        spHandler = new SharedPreferencesHandler(this);
     }
 
     @OnClick({R.id.MainMenuFindLobby, R.id.MainMenuCreateLobby})
@@ -91,6 +95,9 @@ public class MainMenuActivity extends AppCompatActivity implements LobbyCreateDi
     public void onStart() {
         super.onStart();
         EventBus.getDefault().register(this);
+        if(spHandler.loadGameID()!=-1){
+         //   startGame();
+        }
     }
 
     @Override
@@ -132,8 +139,11 @@ public class MainMenuActivity extends AppCompatActivity implements LobbyCreateDi
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onRabbitMqUrl(RabbitServerURIRestResponse rabbitServerURIRestResponse) {
+
+
         RabbitMqURL = rabbitServerURIRestResponse.getUrl();
         lobbiesRabbitMq = new LobbiesRabbitMq(rabbitServerURIRestResponse.getUrl());
+        spHandler.saveRabbitMqUrl(RabbitMqURL);
         Log.d("meggvan az url", "" + rabbitServerURIRestResponse.getUrl());
     }
 
@@ -148,10 +158,14 @@ public class MainMenuActivity extends AppCompatActivity implements LobbyCreateDi
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onGameObject(GameObject gameObject) {
 
+        spHandler.saveGameID(gameObject.getId());
+        startGame(gameObject.getId());
+
+    }
+
+    public void startGame(Integer gameId){
+        spHandler.saveGameID(gameId);
         Intent intent = new Intent(this, GameActivity.class);
-        intent.putExtra("GameId", gameObject.getId());
-        intent.putExtra("PlayerId", gameObject.getCriminalId());
-        intent.putExtra("RabbitMqURL", RabbitMqURL);
         startActivity(intent);
     }
 
@@ -176,7 +190,9 @@ public class MainMenuActivity extends AppCompatActivity implements LobbyCreateDi
     }
 
     public void readyToJoinLobby(LobbyRestItem lobby, JunctionRestItem junction, String playerName) {
-
+        if (junction == null){
+            Toast.makeText(this, R.string.toast_addallFirst,Toast.LENGTH_LONG).show();
+        }else
         lobbyApiInteractor.loginToLobby(lobby.getId(), new Player(junction.getId(), playerName));
     }
 
@@ -221,6 +237,10 @@ public class MainMenuActivity extends AppCompatActivity implements LobbyCreateDi
     public void onViewClicked() {
         Intent intent = new Intent(this, GameActivity.class);
         //TODO normális értékek átadása!!!
+        spHandler.savePlayerID(193);
+        spHandler.saveGameID(1000);
+        spHandler.saveRabbitMqUrl(RabbitMqURL);
+
         intent.putExtra("GameId", 1000);
         intent.putExtra("PlayerId", 193);
         intent.putExtra("RabbitMqURL", RabbitMqURL);
