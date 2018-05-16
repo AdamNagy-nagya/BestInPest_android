@@ -14,41 +14,49 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class GameLoadBlankFragment extends Fragment {
 
 
-    @BindView(R.id.Game_BlankFrag_TV)
+
     TextView GameBlankFragTV;
-    Unbinder unbinder;
+    String actualText;
 
     public GameLoadBlankFragment() {
-        // Required empty public constructor
     }
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_game_load_blank, container, false);
-        unbinder = ButterKnife.bind(this, view);
+        GameBlankFragTV= view.findViewById(R.id.Game_BlankFrag_TV);
+
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        GameBlankFragTV.setText(actualText);
+    }
+
     public void setGameEndDetectiveWins(){
-        GameBlankFragTV.setText("A bűnözőt elkapták GAME OVER");
+        actualText= getResources().getString(R.string.DetectiveWins);
+        //GameBlankFragTV.setText(R.string.DetectiveWins);
     }
 
     public void setGameEndCriminalWins(){
-        GameBlankFragTV.setText("A bűnöző elmenekült GAME OVER");
+        actualText= getResources().getString(R.string.CriminalWins);
+        //GameBlankFragTV.setText(R.string.CriminalWins);
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
+    public void setWaitingForCriminal(){
+        actualText= getResources().getString(R.string.WaitForCriminal);
+        //GameBlankFragTV.setText(R.string.WaitForCriminal);
     }
+    public void setWaitingForDetectives(){
+        actualText= getResources().getString(R.string.WaitForDetectives);
+        //GameBlankFragTV.setText(R.string.WaitForDetectives);
+    }
+
 }

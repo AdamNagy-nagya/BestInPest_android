@@ -200,12 +200,15 @@ public class GameActivity extends AppCompatActivity {
 
             switch (state) {
                 case "criminal":    //getSupportFragmentManager().beginTransaction().remove(detectivePlansFragment);
+                    if(myPlayerID.equals(gameObject.getCriminalId())){
+                        criminalPlanFragment.setupGameObject(gameObject);
+                        criminalPlanFragment.setUser(myPlayerID);
+                        getSupportFragmentManager().beginTransaction().replace(R.id.GameFrameLayout, criminalPlanFragment).commit();
+                    }else {
+                        blankFragment.setWaitingForCriminal();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.GameFrameLayout, blankFragment).commit();
+                    }
 
-                    criminalPlanFragment.setupGameObject(gameObject);
-                    criminalPlanFragment.setUser(myPlayerID);
-                    getSupportFragmentManager().beginTransaction().replace(R.id.GameFrameLayout, criminalPlanFragment).commit();
-                                    /*getSupportFragmentManager().beginTransaction()
-                                    .add(R.id.GameFrameLayout, criminalPlanFragment).commit();*/
                     break;
                 case "detectives":  //getSupportFragmentManager().beginTransaction().remove(criminalPlanFragment);
                     detectivePlansFragment.setupGameObject(gameObject);

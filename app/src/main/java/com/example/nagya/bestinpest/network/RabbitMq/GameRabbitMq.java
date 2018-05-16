@@ -37,17 +37,18 @@ public class GameRabbitMq {
         }
 
         public void stopGameRabbitMq(){
-            try {
-                if(channel.isOpen())
-                channel.close();
-                if(conn.isOpen())
-                conn.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (TimeoutException e) {
-                e.printStackTrace();
+            if(channel != null && conn != null) {
+                try {
+                    if (channel.isOpen())
+                        channel.close();
+                    if (conn.isOpen())
+                        conn.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (TimeoutException e) {
+                    e.printStackTrace();
+                }
             }
-
         }
 
         public void runLobbiesRabbitMq() {
