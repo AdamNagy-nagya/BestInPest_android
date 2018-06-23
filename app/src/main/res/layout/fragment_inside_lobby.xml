@@ -7,14 +7,19 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Start game"
-        android:id="@+id/InsideLobby_StartGameBtn"/>
+        android:text="Játék indítása"
+        android:id="@+id/InsideLobby_StartGameBtn"
+        android:backgroundTint="@color/tapeYellow"
+        android:textColor="@color/asphaltDarkGray"/>
 
     <TextView
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:id="@+id/InsideLobby_lobbyleader"
-        android:text="LobbyLeader"/>
+        android:text="LobbyLeader"
+        android:textColor="@color/white"
+        android:layout_gravity="center_horizontal"
+        android:textSize="16dp"/>
 
   <android.support.v7.widget.RecyclerView
       android:layout_width="match_parent"
@@ -25,14 +30,18 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Ready"
-        android:id="@+id/InsideLobby_ReadyBtn"/>
+        android:text="Kész"
+        android:id="@+id/InsideLobby_ReadyBtn"
+        android:backgroundTint="@color/tapeYellow"
+        android:textColor="@color/asphaltDarkGray"/>
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Leave"
-        android:id="@+id/InsideLobby_LeaveBtn"/>
+        android:text="Kilépés"
+        android:id="@+id/InsideLobby_LeaveBtn"
+        android:backgroundTint="@color/tapeYellow"
+        android:textColor="@color/asphaltDarkGray"/>
 
 
 

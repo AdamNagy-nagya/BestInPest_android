@@ -18,13 +18,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/InsideLobby_PlayerName"
-        android:text="PlayerName"/>
+        android:text="PlayerName"
+        android:textColor="@color/white"
+        android:paddingHorizontal="10dp"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/InsideLobby_PlayerJunction"
-        android:text="TestJuntion"/>
+        android:text="TestJuntion"
+        android:visibility="invisible"/>
 
 
     <ImageView
@@ -37,7 +40,8 @@
         android:layout_height="wrap_content"
         android:id="@+id/InsideLobby_setMrXBtn"
         android:layout_gravity="right"
-
-        android:text="Set Criminal"/>
+        android:text="kiválaszt"
+        android:backgroundTint="@color/tapeYellow"
+        android:textColor="@color/asphaltDarkGray"/>
 
 </LinearLayout>

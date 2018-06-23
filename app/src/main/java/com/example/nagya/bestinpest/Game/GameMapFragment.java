@@ -240,6 +240,8 @@ public class GameMapFragment extends Fragment {
             @Override
             public void onClick(SimpleFastPointOverlay.PointAdapter points, Integer point) {
                 Toast.makeText(map.getContext()
+
+                        
                         , "You clicked " + ((LabelledGeoPoint) points.get(point)).getLabel()
                         , Toast.LENGTH_SHORT).show();
             }

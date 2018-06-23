@@ -37,7 +37,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/MainMenuResumeGame"
-        android:text="GAME"/>
+        android:text="GAME"
+        android:visibility="invisible"/>
 
 
 

@@ -78,7 +78,7 @@ public class InsideLobbyFragment extends DialogFragment {
 
 
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(),R.style.MyAlertDialogStyle);
 
         View view = getActivity().getLayoutInflater().inflate(R.layout.fragment_inside_lobby, null);
         recyclerView =  view.findViewById(R.id.InsideLobby_PlayerListRV);
